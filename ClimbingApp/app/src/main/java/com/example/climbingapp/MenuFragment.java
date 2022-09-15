@@ -1,16 +1,16 @@
 package com.example.climbingapp;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.example.climbingapp.recyclerview.BoulderCardAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ public class MenuFragment extends Fragment {
         l.add(new BoulderCardItem("3","nome user",10,"7A",5,true,false));
         l.add(new BoulderCardItem("4","nome user",10,"7A",5,true,true));
 
-        adapter = new BoulderCardAdapter(l);
+        adapter = new BoulderCardAdapter(l,this);
         recyclerView.setAdapter(adapter);
     }
 }

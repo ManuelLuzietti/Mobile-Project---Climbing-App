@@ -1,28 +1,39 @@
-package com.example.climbingapp;
+package com.example.climbingapp.recyclerview;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.climbingapp.BoulderCardItem;
+import com.example.climbingapp.BoulderViewFragment;
+import com.example.climbingapp.R;
+import com.example.climbingapp.SelectedBoulderViewModel;
+import com.example.climbingapp.Utils;
 
 import java.util.List;
 
 public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHolder> {
-    private List< BoulderCardItem> list ;
-    public BoulderCardAdapter(List<BoulderCardItem> list){
+    private List<BoulderCardItem> list ;
+    private View layoutView;
+    private Fragment fragment;
+    private SelectedBoulderViewModel model;
+
+    public BoulderCardAdapter(List<BoulderCardItem> list, Fragment fragment){
         this.list = list;
+        this.fragment = fragment;
+        model = new ViewModelProvider(fragment).get(SelectedBoulderViewModel.class);
     }
     @NonNull
     @Override
     public BoulderCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card,parent,false);
-        layoutView.setOnClickListener(ev-> {
-            Log.d("pressed","bho");
-        });
+        layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card,parent,false);
+
         return new BoulderCardViewHolder(layoutView);
     }
 
@@ -40,6 +51,10 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         if(!item.isOfficial()){
             holder.officialBoulderImage.setVisibility(View.INVISIBLE);
         }
+        layoutView.setOnClickListener(ev -> {
+            model.select(item);
+            Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null);
+        });
     }
 
     @Override
