@@ -2,38 +2,71 @@ package com.example.climbingapp.database;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.climbingapp.Boulder;
+import com.example.climbingapp.BoulderAndTracciatura;
 import com.example.climbingapp.Comment;
-import com.example.climbingapp.CompletamentoBoulderAndBoulder;
-import com.example.climbingapp.CompletamentoBoulderAndCommento;
+import com.example.climbingapp.CompletamentoBoulder;
 import com.example.climbingapp.TracciaturaBoulder;
 import com.example.climbingapp.User;
-import com.example.climbingapp.UserAndCompletamentoBoulder;
+import com.example.climbingapp.UserAndComment;
 
 import java.util.List;
 
 @Dao
 public interface ClimbingDAO {
-    @Query("SELECT * FROM user where id == :id")
-    List<Comment> getUserComments(int id);
+    @Query("SELECT * FROM USER where id == :id")
+    List<UserAndComment> getUserComments(int id);
 
-    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE user_id == :user_id AND boulder_id == :boulder_id")
-    List<CompletamentoBoulderAndCommento> getComment(int user_id,int boulder_id);
-
-    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE user_id == :id")
-    List<UserAndCompletamentoBoulder> getUserCompletedBoulders(int id);
-
-    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE boulder_id == :id")
-    List<CompletamentoBoulderAndBoulder> getAllCompletionOfBoulder(int id);
-
-    @Query("SELECT * FROM BOULDER WHERE tracciatore_id == :id")
-    List<TracciaturaBoulder> getBouldersByTracciatore(int id);
-
+//    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE user_id == :user_id AND boulder_id == :boulder_id")
+//    List<CompletamentoBoulderAndCommento> getComment(int user_id,int boulder_id);
+//
+//    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE user_id == :id")
+//    List<UserAndCompletamentoBoulder> getUserCompletedBoulders(int id);
+//
+//    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE boulder_id == :id")
+//    List<CompletamentoBoulderAndBoulder> getAllCompletionOfBoulder(int id);
+//
+//    @Query("SELECT * FROM BOULDER WHERE tracciatore_id == :id")
+//    List<TracciaturaBoulder> getBouldersByTracciatore(int id);
+//
     @Query("SELECT * FROM USER")
     List<User> getUsers();
 
-    @Insert
+    @Query("SELECT * FROM COMMENT")
+    List<Comment> getComments();
+
+    @Query("SELECT * FROM COMPLETAMENTO_BOULDER")
+    List<CompletamentoBoulder> getCompletedBoulders();
+
+    @Query("SELECT * FROM BOULDER")
+    List<Boulder> getBoulders();
+
+    @Query("SELECT * FROM TRACCIATURA_BOULDER")
+    List<TracciaturaBoulder> getTracciature();
+
+//insert:
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertUser(User user);
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertComment(Comment comment);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertCompletamentoBoulder(CompletamentoBoulder compBoulder);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertBoulder(Boulder boulder);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertTracciatura(TracciaturaBoulder tracciaturaBoulder);
+
+    @Query("select * from boulder ")
+    List<BoulderAndTracciatura> getBoulderAndTracciatura();
+
+    @Query("select a.* from User a join tracciatura_boulder b on(a.id == b.user_id) " +
+            "join boulder c on (b.boulder_id == c.id)")
+    List<User> prova();
 }

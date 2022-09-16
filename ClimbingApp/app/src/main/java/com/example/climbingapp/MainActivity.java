@@ -1,8 +1,8 @@
 package com.example.climbingapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,4 +11,60 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+
+//    public void test1(){
+//        ClimbingDAO dao = ClimbingRoomDatabase.getDatabase(this).getDao();
+//        ClimbingRoomDatabase.databaseWriteExecutor.execute(()->{
+//            dao.insertUser(new User("username","M","L"));
+//            dao.insertBoulder(new Boulder("bho",1,"7a",new Date(),true,"dataImg1"));
+//            dao.insertTracciatura(new TracciaturaBoulder(1,1));
+//            List<User> users = dao.getUsers();
+//            List<Boulder> boulders = dao.getBoulders();
+//            List<TracciaturaBoulder> tracciature = dao.getTracciature();
+//            System.out.println("users");
+//            for(User u : users){
+//                System.out.println(u.id);
+//            }
+//            System.out.println("boulders");
+//            for(Boulder b: boulders){
+//                System.out.println(b.id);
+//            }
+//            System.out.println("tracciature");
+//            for(TracciaturaBoulder t: tracciature){
+//                System.out.println(t.idTracciatura);
+//            }
+//            List<BoulderAndTracciatura> bat = dao.getBoulderAndTracciatura();
+//            System.out.println("boulder and tracciatura");
+//            for(BoulderAndTracciatura bbb: bat){
+//                System.out.print(bbb.boulder.id);
+//                System.out.print(bbb.tracciaturaBoulder.idTracciatura);
+//                System.out.println("ok");
+//            }
+//
+//        });
+//    }
+//    public void test2(){
+//        ClimbingDAO  dao = ClimbingRoomDatabase.getDatabase(this).getDao();
+//        ClimbingRoomDatabase.databaseWriteExecutor.execute(()-> {
+//            List<User> l = dao.prova();
+//            for(User u: l){
+//                System.out.println(u.id);
+//            }
+//        });
+//    }
+//
+//    public void test3(){
+//        ClimbingDAO  dao = ClimbingRoomDatabase.getDatabase(this).getDao();
+//        ClimbingRoomDatabase.databaseWriteExecutor.execute(()-> {
+//            dao.insertComment(new Comment("testo commento",3,"7b",1));
+//            dao.insertCompletamentoBoulder(new CompletamentoBoulder(1,1,new Date(),1));
+//            List<CompletamentoBoulder>  l = dao.getCompletedBoulders();
+//            System.out.println("Completamento boulders");
+//            for(CompletamentoBoulder c : l){
+//                System.out.println(c.commentId);
+//            }
+//        });
+//    }
+
 }

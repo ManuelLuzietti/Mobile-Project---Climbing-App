@@ -8,12 +8,13 @@ import androidx.room.Room;
 import com.example.climbingapp.Boulder;
 import com.example.climbingapp.Comment;
 import com.example.climbingapp.CompletamentoBoulder;
+import com.example.climbingapp.TracciaturaBoulder;
 import com.example.climbingapp.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Boulder.class, Comment.class, User.class, CompletamentoBoulder.class},version = 1)
+@Database(entities = {Boulder.class, Comment.class, User.class, CompletamentoBoulder.class, TracciaturaBoulder.class},version = 1)
 public abstract class ClimbingRoomDatabase extends androidx.room.RoomDatabase {
 
     public abstract ClimbingDAO getDao();

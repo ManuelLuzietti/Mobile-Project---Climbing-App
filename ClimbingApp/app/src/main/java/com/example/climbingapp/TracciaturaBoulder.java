@@ -1,13 +1,31 @@
 package com.example.climbingapp;
 
-import androidx.room.Embedded;
-import androidx.room.Relation;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
-import java.util.List;
-
+@Entity(tableName = "tracciatura_boulder",
+indices = {@Index(value={"user_id","boulder_id"},unique = true)},
+foreignKeys = {@ForeignKey(entity = User.class,parentColumns = "id",childColumns = "user_id",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE),
+        @ForeignKey(entity = Boulder.class,parentColumns = "id",childColumns = "boulder_id",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE)})
 public class TracciaturaBoulder {
-    @Embedded User user;
-    @Relation( parentColumn = "id",
-    entityColumn = "tracciatore_id")
-    public List<Boulder> boulder;
+
+
+    public TracciaturaBoulder(int userId, int boulderId) {
+        this.userId = userId;
+        this.boulderId = boulderId;
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id_tracciatura")
+    public int idTracciatura;
+
+    @ColumnInfo(name = "user_id")
+    public int userId;
+
+    @ColumnInfo(name = "boulder_id")
+    public int boulderId;
+
 }
