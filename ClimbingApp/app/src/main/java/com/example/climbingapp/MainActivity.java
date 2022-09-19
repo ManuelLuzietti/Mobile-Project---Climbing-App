@@ -1,5 +1,6 @@
 package com.example.climbingapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,6 +83,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void test5(){
+        SharedPreferences pref = this.getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("username","Lux");
+        editor.putInt("id",1);
+        editor.apply();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -98,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        test4();
+        //test4();
+        test5();
     }
 }

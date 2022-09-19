@@ -2,6 +2,8 @@ package com.example.climbingapp;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,7 +28,7 @@ import java.util.concurrent.Executors;
 public class ClimbingAppRepository {
 
     private ClimbingDAO dao;
-    private final String url = "http://192.168.1.134/climbingAppWebServer/";
+    private final String url = "http://192.168.133.203/climbingAppWebServer/";
     private Application application;
     private final ExecutorService executor = Executors.newFixedThreadPool(1);
     private List<String> tableNames = new ArrayList<>();
@@ -184,4 +186,19 @@ public class ClimbingAppRepository {
         });
     }
 
+    public LiveData<List<Boulder>> getBoulders(){
+        return dao.getBoulders();
+    }
+
+    public String getTracciatoreFromBoulder(int id){
+        return dao.getTracciatoreFromBoulder(id).username;
+    }
+
+    public int getRepeatsNumberOfBoulder(int id){
+        return dao.getCompletionsOfBoulder(id).size();
+    }
+
+    public boolean isBoulderCompletedByUser(int id_user,int id_boulder){
+        return dao.isBoulderCompletedByUser(id_user,id_boulder).size() == 1;
+    }
 }
