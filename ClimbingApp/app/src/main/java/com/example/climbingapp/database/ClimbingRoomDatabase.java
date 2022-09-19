@@ -5,16 +5,16 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 
-import com.example.climbingapp.Boulder;
-import com.example.climbingapp.Comment;
-import com.example.climbingapp.CompletamentoBoulder;
-import com.example.climbingapp.TracciaturaBoulder;
-import com.example.climbingapp.User;
+import com.example.climbingapp.database.entities.Boulder;
+import com.example.climbingapp.database.entities.Comment;
+import com.example.climbingapp.database.entities.CompletedBoulder;
+import com.example.climbingapp.database.entities.TracciaturaBoulder;
+import com.example.climbingapp.database.entities.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Boulder.class, Comment.class, User.class, CompletamentoBoulder.class, TracciaturaBoulder.class},version = 1)
+@Database(entities = {Boulder.class, Comment.class, User.class, CompletedBoulder.class, TracciaturaBoulder.class},version = 1)
 public abstract class ClimbingRoomDatabase extends androidx.room.RoomDatabase {
 
     public abstract ClimbingDAO getDao();
@@ -32,4 +32,16 @@ public abstract class ClimbingRoomDatabase extends androidx.room.RoomDatabase {
         return INSTANCE;
     }
 
+    public static void disableForeignKeysConstraints(Context context){
+        databaseWriteExecutor.execute(() -> {
+                    ClimbingRoomDatabase.getDatabase(context).compileStatement("PRAGMA foreign_keys = OFF");
+                }
+        );
+    }
+    public static void enableForeignKeysConstraints(Context context){
+        databaseWriteExecutor.execute(() -> {
+                    ClimbingRoomDatabase.getDatabase(context).compileStatement("PRAGMA foreign_keys = ON");
+                }
+        );
+    }
 }

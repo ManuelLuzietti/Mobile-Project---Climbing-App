@@ -1,6 +1,7 @@
-package com.example.climbingapp;
+package com.example.climbingapp.database.entities;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -10,7 +11,8 @@ import java.util.Date;
 
 @Entity(tableName = "boulder",indices = {@Index(value={"name"},unique = true),@Index(value = {"img"},unique = true)})
 public class Boulder {
-    public Boulder(  String name, int rating, @NonNull String grade, @NonNull Date date, boolean isOfficial, @NonNull String img) {
+    public Boulder( int id, String name, int rating, @NonNull String grade, @NonNull Date date, boolean isOfficial, @NonNull String img) {
+        this.id = id;
         this.name = name;
         this.rating = rating;
         this.grade = grade;
@@ -19,7 +21,7 @@ public class Boulder {
         this.img = img;
     }
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int id;
 
 
@@ -30,6 +32,7 @@ public class Boulder {
     @NonNull
     @TypeConverters(com.example.climbingapp.database.TypeConverters.class)
     public Date date;
+    @ColumnInfo(name = "is_official")
     public boolean isOfficial;
     @NonNull
     public String img;

@@ -6,13 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private  InternetManager internetManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        internetManager = new InternetManager(this,findViewById(R.id.main_activity_layout));
+
+
+        //test1();
     }
 
-
+//
 //    public void test1(){
 //        ClimbingDAO dao = ClimbingRoomDatabase.getDatabase(this).getDao();
 //        ClimbingRoomDatabase.databaseWriteExecutor.execute(()->{
@@ -67,4 +73,31 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //    }
 
+    public void test4() {
+        ClimbingAppRepository repo = new ClimbingAppRepository(getApplication());
+        if(internetManager.isNetworkConnected()){
+            repo.updateDB();
+        } else {
+            internetManager.getSnackbar().show();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        internetManager.registerNetworkCallback(this);
+    }
+
+    @Override
+    protected void onStop() {
+        //TODO: STOPPPARE RICHIESTE VOLLEY CON TAG
+        super.onStop();
+        internetManager.unregisterNetworkCallback();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        test4();
+    }
 }

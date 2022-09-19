@@ -8,6 +8,9 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.climbingapp.database.ClimbingDAO;
 import com.example.climbingapp.database.ClimbingRoomDatabase;
+import com.example.climbingapp.database.entities.Boulder;
+import com.example.climbingapp.database.entities.TracciaturaBoulder;
+import com.example.climbingapp.database.entities.User;
 
 import org.junit.Before;
 import org.junit.Test;

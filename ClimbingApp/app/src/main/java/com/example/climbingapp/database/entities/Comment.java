@@ -1,4 +1,4 @@
-package com.example.climbingapp;
+package com.example.climbingapp.database.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -8,10 +8,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "comment",
 foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id",childColumns = "user_id",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE)})
 public class Comment {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int id;
 
-    public Comment(String text, int rating, String grade, int userId) {
+    public Comment(int id,String text, int rating, String grade, int userId) {
+        this.id = id;
         this.text = text;
         this.rating = rating;
         this.grade = grade;

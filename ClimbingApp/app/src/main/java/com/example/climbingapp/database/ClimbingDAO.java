@@ -5,13 +5,13 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.climbingapp.Boulder;
-import com.example.climbingapp.BoulderAndTracciatura;
-import com.example.climbingapp.Comment;
-import com.example.climbingapp.CompletamentoBoulder;
-import com.example.climbingapp.TracciaturaBoulder;
-import com.example.climbingapp.User;
-import com.example.climbingapp.UserAndComment;
+import com.example.climbingapp.database.entities.Boulder;
+import com.example.climbingapp.database.relationships.BoulderAndTracciatura;
+import com.example.climbingapp.database.entities.Comment;
+import com.example.climbingapp.database.entities.CompletedBoulder;
+import com.example.climbingapp.database.entities.TracciaturaBoulder;
+import com.example.climbingapp.database.entities.User;
+import com.example.climbingapp.database.relationships.UserAndComment;
 
 import java.util.List;
 
@@ -38,8 +38,8 @@ public interface ClimbingDAO {
     @Query("SELECT * FROM COMMENT")
     List<Comment> getComments();
 
-    @Query("SELECT * FROM COMPLETAMENTO_BOULDER")
-    List<CompletamentoBoulder> getCompletedBoulders();
+    @Query("SELECT * FROM completed_boulder")
+    List<CompletedBoulder> getCompletedBoulders();
 
     @Query("SELECT * FROM BOULDER")
     List<Boulder> getBoulders();
@@ -55,7 +55,7 @@ public interface ClimbingDAO {
     void insertComment(Comment comment);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertCompletamentoBoulder(CompletamentoBoulder compBoulder);
+    void insertCompletedBoulder(CompletedBoulder compBoulder);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertBoulder(Boulder boulder);

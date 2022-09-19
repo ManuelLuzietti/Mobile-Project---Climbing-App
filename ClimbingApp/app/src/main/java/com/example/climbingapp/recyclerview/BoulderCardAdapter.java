@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.climbingapp.BoulderCardItem;
 import com.example.climbingapp.BoulderViewFragment;
 import com.example.climbingapp.R;
-import com.example.climbingapp.SelectedBoulderViewModel;
+import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 import com.example.climbingapp.Utils;
 
 import java.util.List;
