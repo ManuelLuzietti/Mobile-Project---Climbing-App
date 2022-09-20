@@ -67,25 +67,29 @@ public interface ClimbingDAO {
     @Query("select * from boulder ")
     List<BoulderAndTracciatura> getBoulderAndTracciatura();
 
-    @Query("select a.* from User a join tracciatura_boulder b on(a.id == b.user_id) " +
-            "join boulder c on (b.boulder_id == c.id)")
-    List<User> prova();
+//    @Query("select a.* from User a join tracciatura_boulder b on(a.id == b.user_id) " +
+//            "join boulder c on (b.boulder_id == c.id)")
+//    List<User> prova();
 
     @Query("select u.* " +
             "from User u join tracciatura_boulder t on(t.user_id == u.id)" +
             "join boulder b on (b.id == t.boulder_id) " +
             "where b.id == :id " +
             "limit 1")
-    User getTracciatoreFromBoulder(int id);
+    LiveData<User> getTracciatoreFromBoulder(int id);
 
     @Query("select * " +
             "from boulder b join completed_boulder c on (b.id == c.boulder_id)" +
             " where boulder_id == :id")
-    List<CompletedBoulder> getCompletionsOfBoulder(int id);
+    LiveData<List<CompletedBoulder>> getCompletionsOfBoulder(int id);
 
     @Query("select b.* from boulder b join completed_boulder c on (b.id == c.boulder_id)" +
             "join user u on (c.user_id == c.user_id)" +
             "where u.id == :user_id " +
             "and b.id == :boulder_id")
-    List<Boulder> isBoulderCompletedByUser(int user_id,int boulder_id);
+    LiveData<List<Boulder>> isBoulderCompletedByUser(int user_id,int boulder_id);
+
+    @Query("select * from comment c join completed_boulder cb on (c.id == cb.comment_id) " +
+            "where cb.boulder_id == :boulder_id")
+    LiveData<List<Comment>> getCommentsOnBoulder(int boulder_id);
 }

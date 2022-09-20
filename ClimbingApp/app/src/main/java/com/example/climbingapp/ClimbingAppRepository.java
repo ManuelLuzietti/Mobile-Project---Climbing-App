@@ -28,10 +28,11 @@ import java.util.concurrent.Executors;
 public class ClimbingAppRepository {
 
     private ClimbingDAO dao;
-    private final String url = "http://192.168.133.203/climbingAppWebServer/";
+    private final String url = "http://192.168.1.134/climbingAppWebServer/";
     private Application application;
     private final ExecutorService executor = Executors.newFixedThreadPool(1);
     private List<String> tableNames = new ArrayList<>();
+    private LiveData<List<Boulder>> boulders;
 
     public ClimbingAppRepository(Application application) {
         this.application = application;
@@ -41,6 +42,8 @@ public class ClimbingAppRepository {
         tableNames.add("completed_boulder");
         tableNames.add("tracciatura_boulder");
         tableNames.add("user");
+        boulders = dao.getBoulders();
+
     }
 
     public void updateDB() {
@@ -79,7 +82,6 @@ public class ClimbingAppRepository {
                                 try {
                                     dao.insertBoulder(new Boulder(object.getInt("id"),
                                             object.getString("name"),
-                                            object.getInt("rating"),
                                             object.getString("grade"),
                                             Utils.stringToDate((String) object.get("date")),
                                             object.getInt("is_official") == 1,
@@ -187,18 +189,22 @@ public class ClimbingAppRepository {
     }
 
     public LiveData<List<Boulder>> getBoulders(){
-        return dao.getBoulders();
+        return boulders;
     }
 
-    public String getTracciatoreFromBoulder(int id){
-        return dao.getTracciatoreFromBoulder(id).username;
+    public  LiveData<User> getTracciatoreFromBoulder(int id){
+        return dao.getTracciatoreFromBoulder(id);
     }
 
-    public int getRepeatsNumberOfBoulder(int id){
-        return dao.getCompletionsOfBoulder(id).size();
+    public LiveData<List<CompletedBoulder>> getCompletionsOfBoulder(int id){
+        return dao.getCompletionsOfBoulder(id);
     }
 
-    public boolean isBoulderCompletedByUser(int id_user,int id_boulder){
-        return dao.isBoulderCompletedByUser(id_user,id_boulder).size() == 1;
+    public LiveData<List<Boulder>> getBoulderIfCompletedByUser(int id_user, int id_boulder){
+        return dao.isBoulderCompletedByUser(id_user,id_boulder);
+    }
+
+    public LiveData<List<Comment>> getCommentsOnBoulder(int boulder_id){
+        return dao.getCommentsOnBoulder(boulder_id);
     }
 }

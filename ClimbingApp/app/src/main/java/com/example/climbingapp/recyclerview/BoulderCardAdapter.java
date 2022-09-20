@@ -8,24 +8,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.climbingapp.BoulderCardItem;
 import com.example.climbingapp.BoulderViewFragment;
 import com.example.climbingapp.R;
-import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 import com.example.climbingapp.Utils;
+import com.example.climbingapp.database.BoulderCardDiffCallback;
+import com.example.climbingapp.database.entities.Boulder;
+import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHolder> {
-    private List<BoulderCardItem> list ;
+    private List<Boulder> list  ;
     private View layoutView;
     private Fragment fragment;
     private SelectedBoulderViewModel model;
 
-    public BoulderCardAdapter(List<BoulderCardItem> list, Fragment fragment){
-        this.list = list;
+    public BoulderCardAdapter( Fragment fragment){
+        list = new ArrayList<>();
         this.fragment = fragment;
         model = new ViewModelProvider(fragment).get(SelectedBoulderViewModel.class);
     }
@@ -33,13 +36,12 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     @Override
     public BoulderCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card,parent,false);
-
         return new BoulderCardViewHolder(layoutView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BoulderCardViewHolder holder, int position) {
-        BoulderCardItem item = list.get(position);
+        Boulder item = list.get(position);
         holder.place_boulder_name_textview.setText(item.getPlaceName());
         holder.place_user_textview.setText(item.getPlaceUser());
         holder.place_repeats_textview.setText(String.valueOf(item.getPlaceRepeats()));
@@ -61,4 +63,20 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     public int getItemCount() {
         return this.list.size();
     }
+
+//    public void updateCardListItems(List<Boulder> list) {
+//        setData(list);
+//    }
+
+    public void setData(List<Boulder> list){
+        final BoulderCardDiffCallback diffCallback =
+                new BoulderCardDiffCallback(this.list, list);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+
+        this.list = new ArrayList<>(list);
+
+        diffResult.dispatchUpdatesTo(this);
+    }
+
+
 }

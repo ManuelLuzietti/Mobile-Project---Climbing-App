@@ -1,6 +1,5 @@
 package com.example.climbingapp;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.recyclerview.BoulderCardAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,7 +53,8 @@ public class MenuFragment extends Fragment {
 
     public void setRecyclerView(View view){
         recyclerView = view.findViewById(R.id.boulders_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        adapter = new BoulderCardAdapter(fragment);
+        recyclerView.setAdapter(adapter);
         populateBoulderList();
 //        List<BoulderCardItem> l = populateBoulderList();
 //        l.add(new BoulderCardItem("1","nome user",10,"7A",5,false,false));
@@ -71,30 +70,27 @@ public class MenuFragment extends Fragment {
 
     //todo: finire di sistemare problema con ricevere dati da db e popolare la gui senza bloccare main thread.
     private void populateBoulderList(){
-        int id_user = getActivity().getPreferences(Context.MODE_PRIVATE).getInt("id",-1);
 
-        List<BoulderCardItem> list = new ArrayList<>();
 //        List<Boulder> boulders = repository.getBoulders();
         repository.getBoulders().observe(this, new Observer<List<Boulder>>() {
             @Override
             public void onChanged(List<Boulder> boulders) {
                 for(Boulder b: boulders){
-                    String tracciatore = repository.getTracciatoreFromBoulder(b.id);
-                    int repeats = repository.getRepeatsNumberOfBoulder(b.id);
-                    boolean checked;
-                    if(id_user != -1){
-                        checked = repository.isBoulderCompletedByUser(id_user,b.id);
-                    } else {
-                        checked = false;
-                    }
-                    BoulderCardItem cardItem = new BoulderCardItem(b.name,tracciatore,repeats,b.grade,b.rating,b.isOfficial,checked);
-                    list.add(cardItem);
+                    b.updateValues(getActivity().getApplication(), fragment,adapter,boulders.indexOf(b));
                 }
-                adapter = new BoulderCardAdapter(list,fragment);
-                recyclerView.setAdapter(adapter);
+                adapter.setData(boulders);
+                adapter.notifyDataSetChanged();
             }
         });
 
-
     }
+
+//    private void updateBoulderCardValues(BoulderCardItem card,Boulder b){
+//        repository.getTracciatoreFromBoulder(b.id).observe(this,(User u) ->{
+//            if(u != null){
+//                card.setPlaceUser(u.username);
+//            }
+//        });
+//
+//    }
 }

@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.climbingapp.database.entities.Boulder;
+
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private  InternetManager internetManager;
@@ -84,13 +88,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test5(){
+
         SharedPreferences pref = this.getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("username","Lux");
         editor.putInt("id",1);
         editor.apply();
     }
-
+    public  void test6(){
+        new ClimbingAppRepository(getApplication()).insertBoulder(new Boulder(2,"Space trip","7B",new Date(),false,"immagine3.jpeg"));
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -109,5 +116,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         //test4();
         test5();
+        test6();
     }
 }
