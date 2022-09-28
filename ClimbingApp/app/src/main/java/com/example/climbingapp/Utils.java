@@ -1,5 +1,8 @@
 package com.example.climbingapp;
 
+import android.app.Activity;
+import android.content.Context;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,9 +14,9 @@ import java.util.Date;
 public class Utils {
 
 
-    public static void insertFragment(AppCompatActivity activity, Fragment fragment, String tag){
+    public static void insertFragment(AppCompatActivity activity, Fragment fragment, String tag,int fragmentContainer){
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerView,fragment,tag);
+        transaction.replace(fragmentContainer,fragment,tag);
         if(!(fragment instanceof MenuFragment)){
             transaction.addToBackStack(tag);
         }
@@ -45,4 +48,13 @@ public class Utils {
         }
     }
 
+    public static boolean isUserLoggedIn(Activity activity) {
+        int id = activity.getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId",-1);
+        return id != -1;
+    }
+
+    public static void logOutUser(Activity activity){
+        activity.getSharedPreferences("global_pref",Context.MODE_PRIVATE).edit().remove("userId").commit();
+
+    }
 }

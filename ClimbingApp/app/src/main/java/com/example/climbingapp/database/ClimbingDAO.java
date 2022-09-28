@@ -99,4 +99,7 @@ public interface ClimbingDAO {
 
     @Query("select * from user where id == :id")
     LiveData<User> getUserFromId(int id);
+
+    @Query("select * from user where username = :username")
+    LiveData<List<User>> getUserFromUsername(String username);
 }

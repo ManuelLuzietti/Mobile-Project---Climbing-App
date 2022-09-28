@@ -119,6 +119,13 @@ public class MainActivity extends AppCompatActivity {
         test4();
         test5();
         test4();
+        test8();
         //test6();
     }
+
+    private void test8() {
+        getSharedPreferences("global_pref",MODE_PRIVATE).edit().remove("userId").commit();
+        System.out.println(getSharedPreferences("global_pref",MODE_PRIVATE).getInt("userId",-1));
+    }
+
 }

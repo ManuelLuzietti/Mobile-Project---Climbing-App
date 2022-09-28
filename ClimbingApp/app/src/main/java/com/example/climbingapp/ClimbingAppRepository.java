@@ -222,4 +222,9 @@ public class ClimbingAppRepository {
     public LiveData<User> getUserFromId(int id){
         return dao.getUserFromId(id);
     }
+
+
+    public LiveData<List<User>> getUserFromUsername(String username) {
+        return dao.getUserFromUsername(username);
+    }
 }
