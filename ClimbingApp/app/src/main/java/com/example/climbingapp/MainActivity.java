@@ -96,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
     public  void test6(){
-        new ClimbingAppRepository(getApplication()).insertBoulder(new Boulder(2,"Space trip","7B",new Date(),false,"immagine3.jpeg"));
+        new ClimbingAppRepository(getApplication()).insertBoulder(new Boulder(4,"long journey","7B",new Date(),false,"cato.jpeg"));
     }
+
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -114,8 +116,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //test4();
+        test4();
         test5();
-        test6();
+        test4();
+        //test6();
     }
 }

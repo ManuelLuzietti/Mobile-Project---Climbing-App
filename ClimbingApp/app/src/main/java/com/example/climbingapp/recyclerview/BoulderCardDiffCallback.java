@@ -1,4 +1,4 @@
-package com.example.climbingapp.database;
+package com.example.climbingapp.recyclerview;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;

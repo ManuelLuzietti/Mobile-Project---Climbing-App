@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.climbingapp.BoulderViewFragment;
 import com.example.climbingapp.R;
 import com.example.climbingapp.Utils;
-import com.example.climbingapp.database.BoulderCardDiffCallback;
 import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
@@ -30,7 +29,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     public BoulderCardAdapter( Fragment fragment){
         list = new ArrayList<>();
         this.fragment = fragment;
-        model = new ViewModelProvider(fragment).get(SelectedBoulderViewModel.class);
+        model = new ViewModelProvider(fragment.getActivity()).get(SelectedBoulderViewModel.class);
     }
     @NonNull
     @Override

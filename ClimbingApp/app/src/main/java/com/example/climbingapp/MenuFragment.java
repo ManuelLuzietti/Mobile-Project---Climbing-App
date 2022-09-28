@@ -56,22 +56,11 @@ public class MenuFragment extends Fragment {
         adapter = new BoulderCardAdapter(fragment);
         recyclerView.setAdapter(adapter);
         populateBoulderList();
-//        List<BoulderCardItem> l = populateBoulderList();
-//        l.add(new BoulderCardItem("1","nome user",10,"7A",5,false,false));
-//        l.add(new BoulderCardItem("2","nome user",10,"7A",5,false,true));
-//        l.add(new BoulderCardItem("3","nome user",10,"7A",5,true,false));
-//        l.add(new BoulderCardItem("4","nome user",10,"7A",5,true,true));
-
-
-//        adapter = new BoulderCardAdapter(l,this);
-//        recyclerView.setAdapter(adapter);
     }
 
 
-    //todo: finire di sistemare problema con ricevere dati da db e popolare la gui senza bloccare main thread.
     private void populateBoulderList(){
 
-//        List<Boulder> boulders = repository.getBoulders();
         repository.getBoulders().observe(this, new Observer<List<Boulder>>() {
             @Override
             public void onChanged(List<Boulder> boulders) {
@@ -85,12 +74,5 @@ public class MenuFragment extends Fragment {
 
     }
 
-//    private void updateBoulderCardValues(BoulderCardItem card,Boulder b){
-//        repository.getTracciatoreFromBoulder(b.id).observe(this,(User u) ->{
-//            if(u != null){
-//                card.setPlaceUser(u.username);
-//            }
-//        });
-//
-//    }
+
 }

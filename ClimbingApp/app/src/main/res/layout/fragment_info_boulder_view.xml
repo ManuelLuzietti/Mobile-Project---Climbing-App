@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InfoBoulderViewFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name_boulder_info_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="name:"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/name_tracciatore_info_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="set by:"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/grade_boulder_info_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="grade:"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/repeats_boulder_info_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="repeats:"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/benchmark_boulder_info_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="benchmark"
+                android:textAlignment="center" />
+
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="?android:attr/listDivider" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rating:"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RatingBar
+                    android:id="@+id/rating_bar1"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:rating="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                <EditText
+                    android:id="@+id/rating_counter1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:text="0"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@+id/rating_bar1"
+                    app:layout_constraintStart_toEndOf="@+id/rating_bar1"
+                    app:layout_constraintTop_toTopOf="@+id/rating_bar1" />
+
+                <RatingBar
+                    android:id="@+id/rating_bar2"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:rating="2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rating_bar1" />
+
+                <EditText
+                    android:id="@+id/rating_counter2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:text="0"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@+id/rating_bar2"
+                    app:layout_constraintStart_toEndOf="@+id/rating_bar2"
+                    app:layout_constraintTop_toTopOf="@+id/rating_bar2" />
+
+                <RatingBar
+                    android:id="@+id/rating_bar3"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:rating="3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rating_bar2" />
+
+                <EditText
+                    android:id="@+id/rating_counter3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:text="0"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@+id/rating_bar3"
+                    app:layout_constraintStart_toEndOf="@+id/rating_bar3"
+                    app:layout_constraintTop_toTopOf="@+id/rating_bar3" />
+
+                <RatingBar
+                    android:id="@+id/rating_bar4"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:rating="4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rating_bar3" />
+
+                <EditText
+                    android:id="@+id/rating_counter4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:text="0"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@+id/rating_bar4"
+                    app:layout_constraintStart_toEndOf="@+id/rating_bar4"
+                    app:layout_constraintTop_toTopOf="@+id/rating_bar4" />
+
+                <RatingBar
+                    android:id="@+id/rating_bar5"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:rating="5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rating_bar4" />
+
+                <EditText
+                    android:id="@+id/rating_counter5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:text="0"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="@+id/rating_bar5"
+                    app:layout_constraintStart_toEndOf="@+id/rating_bar5"
+                    app:layout_constraintTop_toTopOf="@+id/rating_bar5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/pie_chart_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/cartesian_chart_progess_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.anychart.AnyChartView
+                android:id="@+id/pie_chart_info_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+            </com.anychart.AnyChartView>
+
+            <com.anychart.AnyChartView
+                android:id="@+id/cartesian_chart_grades_info_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

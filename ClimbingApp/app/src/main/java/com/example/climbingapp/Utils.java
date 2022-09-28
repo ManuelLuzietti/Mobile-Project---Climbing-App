@@ -30,4 +30,19 @@ public class Utils {
         return null;
     }
 
+    public static int numOfTriesConversion(String tries){
+        switch (tries) {
+            case "flash":
+                return 1;
+            case "second attempt":
+                return 2;
+            case "third attempt":
+                return 3;
+            case "more than three":
+                return 4;
+            default:
+                throw new RuntimeException();
+        }
+    }
+
 }

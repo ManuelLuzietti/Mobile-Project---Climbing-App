@@ -24,11 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class ClimbingAppRepository {
 
     private ClimbingDAO dao;
-    private final String url = "http://192.168.1.134/climbingAppWebServer/";
     private Application application;
     private final ExecutorService executor = Executors.newFixedThreadPool(1);
     private List<String> tableNames = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ClimbingAppRepository {
 
     public void updateDB() {
 
-        StringRequest request = new StringRequest(Request.Method.GET, url + "?method=dump", new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, InternetManager.URL + "?method=dump", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -115,8 +115,8 @@ public class ClimbingAppRepository {
                                             object.getInt("user_id"),
                                             object.getInt("boulder_id"),
                                             Utils.stringToDate(object.getString("date")),
-                                            object.getInt("comment_id")
-
+                                            object.getInt("comment_id"),
+                                            object.getInt("number_of_tries")
                                             ));
                                 }catch (Exception exception){
                                     exception.printStackTrace();
@@ -158,33 +158,36 @@ public class ClimbingAppRepository {
         ClimbingRoomDatabase.enableForeignKeysConstraints(application.getApplicationContext());
     }
 
-    public void insertBoulder(Boulder boulder) {
-        ClimbingRoomDatabase.databaseWriteExecutor.execute(() -> {
-            dao.insertBoulder(boulder);
+    public Future<Long> insertBoulder(Boulder boulder) {
+        return ClimbingRoomDatabase.databaseWriteExecutor.submit(()->{
+            return dao.insertBoulder(boulder);
+        });
+//        ClimbingRoomDatabase.databaseWriteExecutor.execute(() -> {
+//            dao.insertBoulder(boulder);
+//        });
+    }
+
+    public Future<Long> insertUser(User user) {
+        return ClimbingRoomDatabase.databaseWriteExecutor.submit(() -> {
+            return dao.insertUser(user);
         });
     }
 
-    public void insertUser(User user) {
-        ClimbingRoomDatabase.databaseWriteExecutor.execute(() -> {
-            dao.insertUser(user);
+    public Future<Long> insertComment(Comment comment) {
+        return ClimbingRoomDatabase.databaseWriteExecutor.submit(() -> {
+           return dao.insertComment(comment);
         });
     }
 
-    public void insertComment(Comment comment) {
-        ClimbingRoomDatabase.databaseWriteExecutor.execute(() -> {
-            dao.insertComment(comment);
+    public Future<Long> insertCompletedBoulder(CompletedBoulder completedBoulder) {
+        return ClimbingRoomDatabase.databaseWriteExecutor.submit(() -> {
+            return dao.insertCompletedBoulder(completedBoulder);
         });
     }
 
-    public void insertCompletedBoulder(CompletedBoulder completedBoulder) {
-        ClimbingRoomDatabase.databaseWriteExecutor.execute(() -> {
-            dao.insertCompletedBoulder(completedBoulder);
-        });
-    }
-
-    public void insertTracciaturaBoulder(TracciaturaBoulder tracciaturaBoulder) {
-        ClimbingRoomDatabase.databaseWriteExecutor.execute(() -> {
-            dao.insertTracciatura(tracciaturaBoulder);
+    public Future<Long> insertTracciaturaBoulder(TracciaturaBoulder tracciaturaBoulder) {
+        return ClimbingRoomDatabase.databaseWriteExecutor.submit(() -> {
+            return dao.insertTracciatura(tracciaturaBoulder);
         });
     }
 
@@ -206,5 +209,17 @@ public class ClimbingAppRepository {
 
     public LiveData<List<Comment>> getCommentsOnBoulder(int boulder_id){
         return dao.getCommentsOnBoulder(boulder_id);
+    }
+
+    public LiveData<List<Comment>> getComments() {
+        return dao.getComments();
+    }
+
+    public LiveData<CompletedBoulder>  getCompletionOfBoulderFromComment(int commentId){
+        return dao.getCompletionOfBoulderFromComment(commentId);
+    }
+
+    public LiveData<User> getUserFromId(int id){
+        return dao.getUserFromId(id);
     }
 }

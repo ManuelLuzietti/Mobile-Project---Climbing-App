@@ -3,6 +3,7 @@ package com.example.climbingapp.database.entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -10,6 +11,7 @@ import androidx.room.PrimaryKey;
 indices = @Index(value = {"username"},unique = true))
 public class User {
 
+    @Ignore
     public User( int id,String username, String firstName, String lastName) {
         this.id = id;
         this.username = username;
@@ -17,7 +19,16 @@ public class User {
         this.lastName = lastName;
     }
 
-    @PrimaryKey
+    public User(String username, String firstName, String lastName) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+
+
+
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     @ColumnInfo(name="username")

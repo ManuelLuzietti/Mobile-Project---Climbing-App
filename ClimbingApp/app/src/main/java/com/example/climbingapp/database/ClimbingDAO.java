@@ -37,7 +37,7 @@ public interface ClimbingDAO {
     List<User> getUsers();
 
     @Query("SELECT * FROM COMMENT")
-    List<Comment> getComments();
+    LiveData<List<Comment>> getComments();
 
     @Query("SELECT * FROM completed_boulder")
     List<CompletedBoulder> getCompletedBoulders();
@@ -50,19 +50,19 @@ public interface ClimbingDAO {
 
 //insert:
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertUser(User user);
+    long insertUser(User user);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertComment(Comment comment);
+    long insertComment(Comment comment);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertCompletedBoulder(CompletedBoulder compBoulder);
+    long insertCompletedBoulder(CompletedBoulder compBoulder);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertBoulder(Boulder boulder);
+    long insertBoulder(Boulder boulder);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertTracciatura(TracciaturaBoulder tracciaturaBoulder);
+    long insertTracciatura(TracciaturaBoulder tracciaturaBoulder);
 
     @Query("select * from boulder ")
     List<BoulderAndTracciatura> getBoulderAndTracciatura();
@@ -84,7 +84,7 @@ public interface ClimbingDAO {
     LiveData<List<CompletedBoulder>> getCompletionsOfBoulder(int id);
 
     @Query("select b.* from boulder b join completed_boulder c on (b.id == c.boulder_id)" +
-            "join user u on (c.user_id == c.user_id)" +
+            "join user u on (c.user_id == u.id)" +
             "where u.id == :user_id " +
             "and b.id == :boulder_id")
     LiveData<List<Boulder>> isBoulderCompletedByUser(int user_id,int boulder_id);
@@ -92,4 +92,11 @@ public interface ClimbingDAO {
     @Query("select * from comment c join completed_boulder cb on (c.id == cb.comment_id) " +
             "where cb.boulder_id == :boulder_id")
     LiveData<List<Comment>> getCommentsOnBoulder(int boulder_id);
+
+    @Query("select * from comment c join completed_boulder cb on (c.id == cb.comment_id) " +
+            "where c.id == :id")
+    LiveData<CompletedBoulder> getCompletionOfBoulderFromComment(int id);
+
+    @Query("select * from user where id == :id")
+    LiveData<User> getUserFromId(int id);
 }

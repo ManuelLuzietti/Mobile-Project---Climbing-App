@@ -3,6 +3,7 @@ package com.example.climbingapp.database.entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -12,14 +13,18 @@ foreignKeys = {@ForeignKey(entity = User.class,parentColumns = "id",childColumns
         @ForeignKey(entity = Boulder.class,parentColumns = "id",childColumns = "boulder_id",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE)})
 public class TracciaturaBoulder {
 
-
+    @Ignore
     public TracciaturaBoulder(int idTracciatura,int userId, int boulderId) {
         this.idTracciatura = idTracciatura;
         this.userId = userId;
         this.boulderId = boulderId;
     }
+    public TracciaturaBoulder(int userId, int boulderId) {
+        this.userId = userId;
+        this.boulderId = boulderId;
+    }
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_tracciatura")
     public int idTracciatura;
 

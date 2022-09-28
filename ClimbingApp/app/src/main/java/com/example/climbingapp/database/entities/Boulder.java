@@ -18,9 +18,11 @@ import com.example.climbingapp.recyclerview.BoulderCardViewHolder;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(tableName = "boulder", indices = {@Index(value = {"name"}, unique = true), @Index(value = {"img"}, unique = true)})
 public class Boulder {
+    @Ignore
     public Boulder(int id, String name, @NonNull String grade, @NonNull Date date, boolean isOfficial, @NonNull String img) {
         this.id = id;
         this.name = name;
@@ -30,8 +32,16 @@ public class Boulder {
         this.img = img;
     }
 
-    @PrimaryKey
-    public int id;
+    public Boulder(String name, @NonNull String grade, @NonNull Date date, boolean isOfficial, @NonNull String img) {
+        this.name = name;
+        this.grade = grade;
+        this.date = date;
+        this.isOfficial = isOfficial;
+        this.img = img;
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    public int id ;
     public String name;
     @NonNull
     public String grade;
@@ -40,6 +50,8 @@ public class Boulder {
     public Date date;
     @ColumnInfo(name = "is_official")
     public boolean isOfficial;
+
+
     @NonNull
     public String img;
 
@@ -76,6 +88,11 @@ public class Boulder {
         return rating;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+
     public boolean isChecked() {
         return checked;
     }
@@ -106,6 +123,10 @@ public class Boulder {
         this.rating = rating;
     }
 
+    public void setImg( String img) {
+        this.img = img;
+    }
+
     public void setOfficial(boolean official) {
         isOfficial = official;
     }
@@ -126,19 +147,17 @@ public class Boulder {
             setPlaceRepeats(l.size());
             adapter.notifyItemChanged(pos);
         });
-        int id_user = fragment.getActivity().getPreferences(Context.MODE_PRIVATE).getInt("id", -1);
-        if (id_user != -1) {
-            repository.getBoulderIfCompletedByUser(id_user, id).observe(fragment,(List<Boulder> b)->{
-                if (b.size()!=0){
-                    checked = true;
-                } else{
-                    checked = false;
-                }
-                adapter.notifyItemChanged(pos);
-            });
-        } else {
-            checked = false;
-        }
+        int id_user = Objects.requireNonNull(fragment.getActivity()).getPreferences(Context.MODE_PRIVATE).getInt("id", -1);
+        repository.getBoulderIfCompletedByUser(id_user, id).observe(fragment,(List<Boulder> b)->{
+            if (b.size()!=0){
+                checked = true;
+            } else{
+                checked = false;
+            }
+            adapter.notifyItemChanged(pos);
+
+        });
+
         repository.getCommentsOnBoulder( id).observe(fragment,(List<Comment> lc) ->{
             double media = 0;
             for (Comment c: lc){

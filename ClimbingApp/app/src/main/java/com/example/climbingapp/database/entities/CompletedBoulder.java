@@ -3,6 +3,7 @@ package com.example.climbingapp.database.entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -16,24 +17,34 @@ import java.util.Date;
     @ForeignKey(entity = Comment.class,parentColumns = "id",childColumns = "comment_id",onUpdate = ForeignKey.CASCADE,onDelete = ForeignKey.SET_NULL)})
 public class CompletedBoulder {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
     @ColumnInfo(name = "comment_id")
-    public int commentId;
+    public Integer   commentId;
     @TypeConverters(com.example.climbingapp.database.TypeConverters.class)
     public Date date;
     @ColumnInfo(name = "user_id")
     public int userId;
     @ColumnInfo(name = "boulder_id")
     public int boulderId;
+    @ColumnInfo(name = "number_of_tries")
+    public int numberOfTries;
 
-
-    public CompletedBoulder(int id,int userId, int boulderId, Date date, int commentId) {
+    @Ignore
+    public CompletedBoulder(int id,int userId, int boulderId, Date date, Integer commentId,int numberOfTries) {
         this.id = id;
         this.userId = userId;
         this.boulderId = boulderId;
         this.date = date;
         this.commentId = commentId;
+        this.numberOfTries = numberOfTries;
+    }
+    public CompletedBoulder(int userId, int boulderId, Date date, Integer commentId,int numberOfTries) {
+        this.userId = userId;
+        this.boulderId = boulderId;
+        this.date = date;
+        this.commentId = commentId;
+        this.numberOfTries = numberOfTries;
     }
 
 
