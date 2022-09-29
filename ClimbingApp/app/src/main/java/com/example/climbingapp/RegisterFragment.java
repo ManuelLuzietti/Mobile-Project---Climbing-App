@@ -1,5 +1,6 @@
 package com.example.climbingapp;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -72,10 +74,17 @@ public class RegisterFragment extends Fragment {
 
     private void registerUser(String username, String password, String firstname, String lastname) {
 
-        String url = InternetManager.URL + "?method=register&username=" + username +"&password="+password+"&firstname="+firstname+"&lastname="+lastname;
+        String url = InternetManager.URL + "?method=registration&username=" + username +"&password="+password+"&firstname="+firstname+"&lastname="+lastname;
+        System.out.println(url);
         StringRequest registerRequest = new StringRequest(Request.Method.GET,url,response -> {
-            System.out.println(response);
-            //todo:finire richiesta di registrazione volley
+            if(response.equals("registration success")){
+                Toast.makeText(getContext(),"registration success",Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
+            } else if(response.equals("registration failed")) {
+                new AlertDialog.Builder(getContext()).setMessage("Username already taken").setTitle("Error").show();
+            }else {
+                    new AlertDialog.Builder(getContext()).setMessage("Something went wrong..").setTitle("Error").show();
+                }
 
         }, error -> {
             error.printStackTrace();

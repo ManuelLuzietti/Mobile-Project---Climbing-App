@@ -72,9 +72,9 @@ public class LoginFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+//                    System.out.println(response.toString());
                     if (response.getString("status").equals("login success")) {
-                        String userId;
-                            userId = response.getString("id");
+                        String userId = response.getString("id");
                         getContext().getSharedPreferences("global_pref",Context.MODE_PRIVATE).edit().putInt("userId",Integer.parseInt(userId)).commit();
 //                        System.out.println(getContext().getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId",-1));
                         startMainPane();

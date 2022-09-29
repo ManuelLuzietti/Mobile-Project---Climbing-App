@@ -20,8 +20,8 @@ public class InternetManager {
     private Snackbar snackbar;
     private boolean isNetworkConnected;
     private Activity activity;
-    //public final static String URL = "http://192.168.1.134/climbingAppWebServer/";
-    public final static String URL = "http://10.60.15.218/climbingAppWebServer/";
+    public final static String URL = "http://192.168.1.134/climbingAppWebServer/";
+//    public final static String URL = "http://10.60.15.218/climbingAppWebServer/";
 
     public  InternetManager(Activity activity,View view){
         this.activity = activity;
