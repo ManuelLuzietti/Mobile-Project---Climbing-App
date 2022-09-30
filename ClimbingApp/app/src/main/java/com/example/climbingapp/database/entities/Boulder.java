@@ -147,7 +147,7 @@ public class Boulder {
             setPlaceRepeats(l.size());
             adapter.notifyItemChanged(pos);
         });
-        int id_user = Objects.requireNonNull(fragment.getActivity()).getPreferences(Context.MODE_PRIVATE).getInt("id", -1);
+        int id_user = Objects.requireNonNull(fragment.getActivity()).getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId", -1);
         repository.getBoulderIfCompletedByUser(id_user, id).observe(fragment,(List<Boulder> b)->{
             if (b.size()!=0){
                 checked = true;

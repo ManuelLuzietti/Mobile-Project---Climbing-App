@@ -41,7 +41,7 @@ public class AddViewFragment extends Fragment {
 
 
     private boolean checkUserLoggedIn() {
-        user_id = Objects.requireNonNull(this.getActivity()).getPreferences(Context.MODE_PRIVATE).getInt("id",-1);
+        user_id = Objects.requireNonNull(this.getActivity()).getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId",-1);
         if(user_id == -1) {
             TextView warning_message = ((TextView)getView().findViewById(R.id.warning_massage_addview));
             warning_message.setText("User not logged in");
