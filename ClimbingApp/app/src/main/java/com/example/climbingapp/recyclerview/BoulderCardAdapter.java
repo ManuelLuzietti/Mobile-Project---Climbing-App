@@ -54,7 +54,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         }
         layoutView.setOnClickListener(ev -> {
             model.select(item);
-            Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null,R.id.fragmentContainerView);
+            Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null,R.id.nav_host_fragment_menu);
         });
     }
 

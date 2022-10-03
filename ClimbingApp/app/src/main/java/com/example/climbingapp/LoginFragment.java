@@ -28,7 +28,7 @@ public class LoginFragment extends Fragment {
         super.onCreate(savedInstanceState);
         repo = new ClimbingAppRepository(getActivity().getApplication());
         if(Utils.isUserLoggedIn(getActivity())){
-            Intent intent = new Intent(getContext(),MainActivity.class);
+            Intent intent = new Intent(getContext(),MainMenuActivity.class);
             startActivity(intent);
             getActivity().finish();
         }

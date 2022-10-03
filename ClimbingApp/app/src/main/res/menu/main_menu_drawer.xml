@@ -3,10 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/boulders_menu_item"
+            android:id="@+id/menuFragment"
             android:title="Boulders" />
         <item
-            android:id="@+id/account_menu_item"
+            android:id="@+id/account_page_fragment"
             android:title="Account" />
     </group>
 </menu>

@@ -64,13 +64,13 @@ public class BoulderViewFragment extends Fragment {
         ((NavigationBarView)view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.bottomnav_add:
-                    Utils.insertFragment((AppCompatActivity) getActivity(),new AddViewFragment(),this.getClass().getSimpleName(),R.id.fragmentContainerView);
+                    Utils.insertFragment((AppCompatActivity) getActivity(),new AddViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
                     break;
                 case R.id.bottomnav_comments:
-                    Utils.insertFragment((AppCompatActivity) getActivity(),new CommentsBoulderViewFragment(),this.getClass().getSimpleName(),R.id.fragmentContainerView);
+                    Utils.insertFragment((AppCompatActivity) getActivity(),new CommentsBoulderViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
                     break;
                 case  R.id.bottomnav_info:
-                    Utils.insertFragment((AppCompatActivity) getActivity(),new InfoBoulderViewFragment(),this.getClass().getSimpleName(),R.id.fragmentContainerView);
+                    Utils.insertFragment((AppCompatActivity) getActivity(),new InfoBoulderViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
                     break;
                 default:
                     return false;
