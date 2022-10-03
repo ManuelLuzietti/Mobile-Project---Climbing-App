@@ -22,7 +22,7 @@ public class InternetManager {
     private Activity activity;
 //    public final static String URL = "http://192.168.1.134/climbingAppWebServer/";
 //    public final static String URL = "http://10.60.15.218/climbingAppWebServer/";
-public final static String URL = "http://192.168.133.203/climbingAppWebServer/";
+public final static String URL = "http://10.60.10.63/climbingAppWebServer/";
 
     public  InternetManager(Activity activity,View view){
         this.activity = activity;

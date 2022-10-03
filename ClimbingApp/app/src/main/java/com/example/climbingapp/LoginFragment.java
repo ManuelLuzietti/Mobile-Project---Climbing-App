@@ -96,7 +96,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void startMainPane() {
-        Intent intent = new Intent(getContext(),MainActivity.class);
+        Intent intent = new Intent(getContext(),MainMenuActivity.class);
         startActivity(intent);
         getActivity().finish();
     }
