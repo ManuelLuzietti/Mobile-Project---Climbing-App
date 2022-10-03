@@ -30,5 +30,9 @@
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.ClimbingApp" />
     </application>
-
+<queries>
+    <intent>
+        <action android:name='android.media.action.IMAGE_CAPTURE'/>
+    </intent>
+</queries>
 </manifest>

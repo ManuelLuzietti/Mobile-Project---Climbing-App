@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_menu_navigation"
-    app:startDestination="@id/addViewFragment">
+    app:startDestination="@id/addFantaBoulderFragment">
 
     <fragment
         android:id="@+id/menuFragment"
@@ -11,9 +11,9 @@
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" />
     <fragment
-        android:id="@+id/addViewFragment"
-        android:name="com.example.climbingapp.AddViewFragment"
-        android:label="fragment_add_view"
-        tools:layout="@layout/fragment_add_view" />
+        android:id="@+id/addFantaBoulderFragment"
+        android:name="com.example.climbingapp.AddFantaBoulderFragment"
+        android:label="fragment_add_fanta_boulder"
+        tools:layout="@layout/fragment_add_fanta_boulder" />
 
 </navigation>

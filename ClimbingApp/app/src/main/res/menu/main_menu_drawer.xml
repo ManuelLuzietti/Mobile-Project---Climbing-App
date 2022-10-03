@@ -8,5 +8,8 @@
         <item
             android:id="@+id/account_page_fragment"
             android:title="Account" />
+        <item
+            android:id="@+id/addFantaBoulderFragment"
+            android:title="Add fanta-boulder"/>
     </group>
 </menu>

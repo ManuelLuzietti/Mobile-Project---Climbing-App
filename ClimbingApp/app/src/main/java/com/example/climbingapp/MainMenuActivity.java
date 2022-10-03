@@ -35,7 +35,6 @@ public class MainMenuActivity extends AppCompatActivity {
                         .build();
         NavigationView navView = findViewById(R.id.nav_view_menu);
         NavigationUI.setupWithNavController(navView, navController);
-
     }
 
     @Override
