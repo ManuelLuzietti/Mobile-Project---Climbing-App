@@ -11,7 +11,8 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -54,6 +55,21 @@ dependencies {
 
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+
+    //photo editor:
+    // DS Photo Editor SDK
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(name:'ds-photo-editor-sdk-v10', ext:'aar')
+    // SDK related dependencies
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    //altro editor di foto
+    implementation 'com.burhanrashid52:photoeditor:1.5.1'
+
 
 }
 

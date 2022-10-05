@@ -69,7 +69,7 @@ public class Utils {
 
     }
 
-    public static void saveImage(Bitmap bitmap,Activity activity,String username) throws FileNotFoundException{
+    public static Uri saveImage(Bitmap bitmap,Activity activity,String username) throws FileNotFoundException{
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ITALY).format(new Date());
         String name = username + timestamp + ".jpeg";
 
@@ -87,5 +87,6 @@ public class Utils {
         }catch(IOException e){
             e.printStackTrace();
         }
+        return imageUri;
     }
 }

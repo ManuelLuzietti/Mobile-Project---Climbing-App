@@ -70,7 +70,7 @@ public class AddViewFragment extends Fragment {
 
     private void insertCompletion(String text, String grade, String tries, float rating) {
 //        if(!text.equals(getString(R.string.comment_request_addview))){
-//           //todo:continuare da qui
+//           //todo:esempio di id returned.
 //        }
 //        try {
 //            long idreturned = repo.insertBoulder(new Boulder("el gato loco","7a",new Date(),false,"cione.png")).get();
