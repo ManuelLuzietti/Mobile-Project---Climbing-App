@@ -227,4 +227,8 @@ public class ClimbingAppRepository {
     public LiveData<List<User>> getUserFromUsername(String username) {
         return dao.getUserFromUsername(username);
     }
+
+    public LiveData<List<Boulder>> getBoulderIfPresent(String name){
+        return  null;
+    }
 }

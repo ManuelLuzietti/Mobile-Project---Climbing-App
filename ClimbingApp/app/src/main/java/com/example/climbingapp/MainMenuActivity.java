@@ -1,6 +1,7 @@
 package com.example.climbingapp;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -84,35 +85,42 @@ public class MainMenuActivity extends AppCompatActivity {
             switch (requestCode){
                 case 1:
                     Bitmap image = (Bitmap) data.getExtras().get("data");
-
                     try {
                         fantaModel.setImageUri( Utils.saveImage(image,this,"prova"));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
-                    editImage(fantaModel.getImageUri().getValue());
+                    requestEditOnPhoto(fantaModel.getImageUri().getValue());
+                    break;
                 case 2:
-                    fantaModel.setImageUri( data.getData());
-                    editImage(fantaModel.getImageUri().getValue());
+                    requestEditOnPhoto(data.getData());
                     break;
                 case 3:
-                    /// TODO: risolvere qui, perchè non ha permessi per accedere a uri.
-
-                    onEditFinished(data);
-//                    Bitmap bm = null;
-//                    try {
-//                        bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    ;
+                    onEditFinished(data.getData());
                     break;
 
                 default:
                     break;
             }
         }
+    }
+
+
+
+    private void requestEditOnPhoto(Uri uri){
+        fantaModel.setImageUri( uri);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Do you wanna select the holds?");
+        CharSequence[] options = new CharSequence[]{"Yes","No","Cancel"};
+        builder.setItems(options,(dialogInterface, i) -> {
+            if(options[i].equals("Yes")){
+                editImage(fantaModel.getImageUri().getValue());
+            } else if (options[i].equals("No")){
+                onEditFinished(fantaModel.getImageUri().getValue());
+            }
+            dialogInterface.dismiss();
+        });
+        builder.show();
     }
 
     private void editImage(Uri imageUri) {
@@ -126,23 +134,13 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
 
-    private void onEditFinished(Intent data){
-        Uri urii = data.getData();
+    private void onEditFinished(Uri uri){
         try {
-            fantaModel.setBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), urii));
+            fantaModel.setBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri));
+            fantaModel.setImageUri(uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        fantaModel.getImageUri().observe(this,uri->{
-//            if(uri!=null){
-//                try {
-//                    fantaModel.setBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//        });
     }
 
     private void checkPermission(){
