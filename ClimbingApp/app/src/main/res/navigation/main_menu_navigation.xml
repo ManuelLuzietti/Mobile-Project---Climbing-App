@@ -15,5 +15,10 @@
         android:name="com.example.climbingapp.AddFantaBoulderFragment"
         android:label="fragment_add_fanta_boulder"
         tools:layout="@layout/fragment_add_fanta_boulder" />
+    <fragment
+        android:id="@+id/userPageFragment"
+        android:name="com.example.climbingapp.UserPageFragment"
+        android:label="fragment_user_page"
+        tools:layout="@layout/fragment_user_page" />
 
 </navigation>

@@ -18,13 +18,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.climbingapp.viewmodels.AddFantaBoulderViewModel;
 import com.google.android.material.slider.Slider;
+
+import org.json.JSONObject;
 
 public class AddFantaBoulderFragment extends Fragment {
 
     private AddFantaBoulderViewModel model;
     private ClimbingAppRepository repo;
+    private ImageView imageView;
+    private Slider slider;
+    private com.google.android.material.textfield.TextInputEditText nameField;
+
+
+
     public AddFantaBoulderFragment() {
         // Required empty public constructor
     }
@@ -114,7 +125,7 @@ public class AddFantaBoulderFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView imageView = view.findViewById(R.id.add_fanta_boulder_imageview);
+        imageView = view.findViewById(R.id.add_fanta_boulder_imageview);
 //        model.getBitmap().observe(getActivity(),bitmap->{
 //            imageView.setImageBitmap(bitmap);
 //        });
@@ -135,7 +146,7 @@ public class AddFantaBoulderFragment extends Fragment {
 //            }
         });
 
-        Slider slider = view.findViewById(R.id.slider_addFantaBoulder);
+        slider = view.findViewById(R.id.slider_addFantaBoulder);
         String[] grades = getActivity().getResources().getStringArray(R.array.grades);
         slider.setValueTo(grades.length-1);
         slider.setLabelFormatter(value -> {
@@ -143,9 +154,48 @@ public class AddFantaBoulderFragment extends Fragment {
         });
 
         view.findViewById(R.id.button_addFantaBoulder).setOnClickListener(event->{
-
+            //todo:check form fields + volley request
+            //check form:
+            checkFields();
+            checkAndUploadBoulder();
         });
-
-
+        nameField = view.findViewById(R.id.boulder_name_editext_addfantaboulder);
     }
+
+    private void checkFields() {
+        String boulderName = nameField.getText().toString();
+        if (boulderName.equals("")) {
+            boulderName = null;
+        }
+        if (model.getImageUri().getValue() == null) {
+            Toast.makeText(getContext(), "please insert a photo of the boulder", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    }
+
+    //check boulder name request:
+    private void checkAndUploadBoulder(){
+        String checkNameRequest = InternetManager.URL + "";
+        VolleySingleton.getInstance(getContext()).add(new JsonObjectRequest(Request.Method.GET, checkNameRequest, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //if the name is ok:
+                uploadBoulder();
+            }
+        }, null));
+
+        System.out.println("button pressed");
+    }
+
+    private void uploadBoulder() {
+        String insertBoulderRequest = InternetManager.URL + "";
+        VolleySingleton.getInstance(getContext()).add(new JsonObjectRequest(Request.Method.GET, insertBoulderRequest, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //if insert is ok:
+            }
+        }, null));
+    }
+
+
 }
