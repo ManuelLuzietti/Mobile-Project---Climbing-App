@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-@Entity(tableName = "boulder", indices = {@Index(value = {"name"}, unique = true), @Index(value = {"img"}, unique = true)})
+@Entity(tableName = "boulder", indices = {@Index(value = {"name"}, unique = true)})
 public class Boulder {
     @Ignore
     public Boulder(int id, String name, @NonNull String grade, @NonNull Date date, boolean isOfficial, @NonNull String img) {

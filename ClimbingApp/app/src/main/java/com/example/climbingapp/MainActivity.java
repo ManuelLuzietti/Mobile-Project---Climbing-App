@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         test4();
         //test5();
-        test8();
+        //test8();
         //test6();
     }
 

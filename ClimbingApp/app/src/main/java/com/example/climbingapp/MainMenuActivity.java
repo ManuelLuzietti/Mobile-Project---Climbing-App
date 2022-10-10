@@ -36,6 +36,8 @@ public class MainMenuActivity extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavController navController;
     private AddFantaBoulderViewModel fantaModel;
+
+
     private ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
@@ -52,6 +54,7 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
         drawerLayout = findViewById(R.id.my_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.nav_open,R.string.nav_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);

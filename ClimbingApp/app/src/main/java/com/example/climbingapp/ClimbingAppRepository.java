@@ -48,23 +48,28 @@ public class ClimbingAppRepository {
 
     public void updateDB() {
 
-        StringRequest request = new StringRequest(Request.Method.GET, InternetManager.URL + "?method=dump", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    insertInDB(new JSONObject(response));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        executor.execute(()->{
+            ClimbingRoomDatabase.getDatabase(application.getApplicationContext()).clearAllTables();
+            StringRequest request = new StringRequest(Request.Method.GET, InternetManager.URL + "?method=dump", new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        System.out.println(response);
+                        insertInDB(new JSONObject(response));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println(error.toString());
-            }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println(error.toString());
+                }
+            });
+
+            VolleySingleton.getInstance(application.getApplicationContext()).add(request);
         });
 
-        VolleySingleton.getInstance(application.getApplicationContext()).add(request);
     }
 
 
