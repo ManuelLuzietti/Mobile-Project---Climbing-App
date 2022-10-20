@@ -6,13 +6,10 @@
             android:id="@+id/menuFragment"
             android:title="Boulders" />
         <item
-            android:id="@+id/account_page_fragment"
-            android:title="Account" />
-        <item
             android:id="@+id/addFantaBoulderFragment"
             android:title="Add fanta-boulder"/>
         <item
             android:id="@+id/userPageFragment"
-            android:title="User Page" />
+            android:title="Account" />
     </group>
 </menu>

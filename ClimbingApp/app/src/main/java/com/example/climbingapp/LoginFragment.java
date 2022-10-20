@@ -2,6 +2,7 @@ package com.example.climbingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,14 @@ public class LoginFragment extends Fragment {
 //                    System.out.println(response.toString());
                     if (response.getString("status").equals("login success")) {
                         String userId = response.getString("id");
-                        getContext().getSharedPreferences("global_pref",Context.MODE_PRIVATE).edit().putInt("userId",Integer.parseInt(userId)).commit();
+                        String firstName = response.getString("first_name");
+                        String lastName = response.getString("last_name");
+                        SharedPreferences.Editor editor = getActivity().getApplication().getSharedPreferences("global_pref", Context.MODE_PRIVATE).edit();
+                        editor.putInt("userId", Integer.parseInt(userId));
+                        editor.putString("first_name",firstName);
+                        editor.putString("last_name",lastName);
+                        editor.putString("username",username);
+                        editor.commit();
 //                        System.out.println(getContext().getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId",-1));
                         startMainPane();
                     } else {

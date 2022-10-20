@@ -2,6 +2,7 @@ package com.example.climbingapp;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,10 +22,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.example.climbingapp.database.TypeConverters;
 import com.example.climbingapp.viewmodels.AddFantaBoulderViewModel;
 import com.google.android.material.slider.Slider;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 public class AddFantaBoulderFragment extends Fragment {
 
@@ -33,6 +39,7 @@ public class AddFantaBoulderFragment extends Fragment {
     private ImageView imageView;
     private Slider slider;
     private com.google.android.material.textfield.TextInputEditText nameField;
+    private String[] grades ;
 
 
 
@@ -147,7 +154,7 @@ public class AddFantaBoulderFragment extends Fragment {
         });
 
         slider = view.findViewById(R.id.slider_addFantaBoulder);
-        String[] grades = getActivity().getResources().getStringArray(R.array.grades);
+        grades = getActivity().getResources().getStringArray(R.array.grades);
         slider.setValueTo(grades.length-1);
         slider.setLabelFormatter(value -> {
             return grades[(int)value];
@@ -156,31 +163,42 @@ public class AddFantaBoulderFragment extends Fragment {
         view.findViewById(R.id.button_addFantaBoulder).setOnClickListener(event->{
             //todo:check form fields + volley request
             //check form:
-            checkFields();
-            checkAndUploadBoulder();
+            if(checkFields()) {
+                checkAndUploadBoulder();
+            }
+//            checkAndUploadBoulder();
         });
         nameField = view.findViewById(R.id.boulder_name_editext_addfantaboulder);
     }
 
-    private void checkFields() {
-        String boulderName = nameField.getText().toString();
-        if (boulderName.equals("")) {
-            boulderName = null;
-        }
+    private boolean checkFields() {
+
         if (model.getImageUri().getValue() == null) {
             Toast.makeText(getContext(), "please insert a photo of the boulder", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
+        if(grades[(int)slider.getValue()].equals("")){
+            Toast.makeText(getContext(), "please select a grade for the boulder", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     //check boulder name request:
     private void checkAndUploadBoulder(){
-        String checkNameRequest = InternetManager.URL + "";
-        VolleySingleton.getInstance(getContext()).add(new JsonObjectRequest(Request.Method.GET, checkNameRequest, null, new Response.Listener<JSONObject>() {
+        String checkNameRequest = InternetManager.URL + "?method=check_boulder_name&boulder_name="+nameField.getText().toString();
+        VolleySingleton.getInstance(getContext()).add(new StringRequest(Request.Method.GET, checkNameRequest, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 //if the name is ok:
-                uploadBoulder();
+                if(response.equals("name_check_fail")){
+                    Toast.makeText(getActivity(), "Name already taken", Toast.LENGTH_SHORT).show();
+                } else if(response.equals("name_check_ok")){
+                    uploadBoulder();
+                } else {
+                    System.out.println("bho");
+                }
             }
         }, null));
 
@@ -188,13 +206,21 @@ public class AddFantaBoulderFragment extends Fragment {
     }
 
     private void uploadBoulder() {
-        String insertBoulderRequest = InternetManager.URL + "";
-        VolleySingleton.getInstance(getContext()).add(new JsonObjectRequest(Request.Method.GET, insertBoulderRequest, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                //if insert is ok:
-            }
-        }, null));
+        String insertBoulderRequest = InternetManager.URL;
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("method","upload_fanta_boulder");
+            postData.put("name",nameField.getText().toString());
+            postData.put("grade",grades[(int) slider.getValue()]);
+            postData.put("date", TypeConverters.toString(new Date()));
+            postData.put("img",Utils.bitmapToBase64(model.getBitmap().getValue()));
+            postData.put("user_id",getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        VolleySingleton.getInstance(getContext()).add(new JsonObjectRequest(Request.Method.POST, insertBoulderRequest, postData,null, error -> {
+            error.printStackTrace();
+        }));
     }
 
 

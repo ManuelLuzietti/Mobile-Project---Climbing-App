@@ -34,9 +34,10 @@ public class BoulderCardDiffCallback extends DiffUtil.Callback {
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         Boulder newItem = newBoulderList.get(newItemPosition);
         Boulder oldItem = oldBoulderList.get(oldItemPosition);
+
         return newItem.getPlaceName().equals(oldItem.getPlaceName()) &&
                 newItem.getId() == oldItem.getId() &&
-                newItem.getPlaceUser().equals(oldItem.getPlaceUser()) &&
+                newItem.getPlaceUser() == oldItem.getPlaceUser() &&
                 newItem.getPlaceRepeats() == oldItem.getPlaceRepeats() &&
                 newItem.getPlaceGrade().equals(oldItem.getPlaceGrade()) &&
                 newItem.getPlaceRating() == oldItem.getPlaceRating() &&

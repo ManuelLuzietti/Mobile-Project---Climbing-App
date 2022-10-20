@@ -104,4 +104,8 @@ public interface ClimbingDAO {
     LiveData<List<User>> getUserFromUsername(String username);
 
 
+    @Query("select b.* from user u join completed_boulder cb on(u.id=cb.user_id) " +
+            "join boulder b on (cb.boulder_id =b.id) " +
+            "where u.id = :id")
+    LiveData<List<Boulder>> getBouldersCompletedByUser(int id);
 }

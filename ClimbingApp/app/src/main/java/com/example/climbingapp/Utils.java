@@ -7,11 +7,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Base64;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -82,11 +84,19 @@ public class Utils {
 
         OutputStream outputStream = contentResolver.openOutputStream(imageUri);
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+
         try{
             outputStream.close();
         }catch(IOException e){
             e.printStackTrace();
         }
         return imageUri;
+    }
+
+    public static String bitmapToBase64(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }

@@ -4,6 +4,7 @@
     <string name="grade_request_addview">Choose a grade</string>
     <string name="request_tries_addview">Select the number of tries</string>
     <string-array name="grades">
+        <item></item>
         <item>5a</item>
         <item>5b</item>
         <item>5c</item>

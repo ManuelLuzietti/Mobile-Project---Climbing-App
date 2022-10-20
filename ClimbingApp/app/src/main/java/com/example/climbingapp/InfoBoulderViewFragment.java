@@ -77,7 +77,7 @@ public class InfoBoulderViewFragment extends Fragment {
                 int thirdTry = 0;
                 int moreThanThree = 0;
                 for (CompletedBoulder cb : completedBoulders) {
-                    switch (cb.numberOfTries) {
+                    switch (cb.numberOfTries+1) {
                         case 1:
                             flashes += 1;
                             break;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="User info"
+        android:id="@+id/bottomnav_info_user"/>
+    <item android:title="Logbook"
+        android:id="@+id/bottomnav_logbook_user"/>
+    <item android:title="Trofei"
+        android:id="@+id/bottomnav_trofei_user"/>
+</menu>

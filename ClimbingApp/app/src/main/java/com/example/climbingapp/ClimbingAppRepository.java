@@ -200,6 +200,8 @@ public class ClimbingAppRepository {
         return boulders;
     }
 
+
+
     public  LiveData<User> getTracciatoreFromBoulder(int id){
         return dao.getTracciatoreFromBoulder(id);
     }
@@ -235,5 +237,9 @@ public class ClimbingAppRepository {
 
     public LiveData<List<Boulder>> getBoulderIfPresent(String name){
         return  null;
+    }
+
+    public LiveData<List<Boulder>> getBouldersCompletedByUser(int id){
+        return dao.getBouldersCompletedByUser( id);
     }
 }

@@ -2,17 +2,24 @@ package com.example.climbingapp;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.recyclerview.BoulderCardAdapter;
+import com.example.climbingapp.viewmodels.FilterViewModel;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.List;
@@ -25,6 +32,7 @@ public class MenuFragment extends Fragment {
     private Fragment fragment ;
     private ClimbingAppRepository repo;
     private InternetManager internetManager;
+    private FilterViewModel filterModel;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -36,7 +44,25 @@ public class MenuFragment extends Fragment {
         super.onCreate(savedInstanceState);
         repository = new ClimbingAppRepository(getActivity().getApplication());
         fragment = this;
+        setHasOptionsMenu(true);
+        filterModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.boulderlist_menu,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.filter_item:
+                Utils.insertFragment((AppCompatActivity) getActivity(),new FilterFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 
@@ -64,6 +90,23 @@ public class MenuFragment extends Fragment {
         setRecyclerView(view);
         internetManager = new InternetManager(getActivity(),view);
         repo = new ClimbingAppRepository(this.getActivity().getApplication());
+        ((SearchView)view.findViewById(R.id.search_bar)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter("name:"+s);
+//                try {
+//                    filterModel.getFilterSettings().getValue().put("name","s");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+                return true;
+            }
+        });
         ((NavigationBarView)view.findViewById(R.id.bottomnavview_bouldermenu)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.reload_boulder_list_item:
@@ -78,6 +121,10 @@ public class MenuFragment extends Fragment {
             }
             return true;
         });
+        filterModel.getFilterSettings().observe(this,jsonObject -> {
+            adapter.getFilter().filter(jsonObject.toString());
+        });
+
     }
 
     public void setRecyclerView(View view){
@@ -89,7 +136,6 @@ public class MenuFragment extends Fragment {
 
 
     private void populateBoulderList(){
-
         repository.getBoulders().observe(this, new Observer<List<Boulder>>() {
             @Override
             public void onChanged(List<Boulder> boulders) {
@@ -100,7 +146,6 @@ public class MenuFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-
     }
 
 

@@ -15,6 +15,9 @@ import com.example.climbingapp.database.entities.Comment;
 import com.example.climbingapp.recyclerview.CommentsCardAdapter;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommentsBoulderViewFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -55,10 +58,14 @@ public class CommentsBoulderViewFragment extends Fragment {
 
     private void populateCommentList() {
         repository.getCommentsOnBoulder(model.getSelected().getValue().id).observe(this,comments -> {
+            List<Comment> nonEmptyComments = new ArrayList<>();
             for(Comment c:comments){
                 c.updateValues(getActivity().getApplication(),fragment,adapter,comments.indexOf(c));
+                if(!c.text.equals("null")){
+                    nonEmptyComments.add(c);
+                }
             }
-            adapter.setData(comments);
+            adapter.setData(nonEmptyComments);
             adapter.notifyDataSetChanged();
         });
     }

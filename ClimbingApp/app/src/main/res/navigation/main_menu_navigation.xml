@@ -21,4 +21,5 @@
         android:label="fragment_user_page"
         tools:layout="@layout/fragment_user_page" />
 
+
 </navigation>

@@ -16,15 +16,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.climbingapp.database.entities.Comment;
-import com.example.climbingapp.database.entities.CompletedBoulder;
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.example.climbingapp.database.TypeConverters;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 public class AddViewFragment extends Fragment {
     private SelectedBoulderViewModel model;
@@ -81,24 +81,53 @@ public class AddViewFragment extends Fragment {
 //            e.printStackTrace();
 //        }
         Long idInsertedComment = null;
-        if(!text.equals(getString(R.string.comment_request_addview))){
-            try {
-                idInsertedComment = repo.insertComment(new Comment(text,(int)rating,grade,user_id)).get();
-            } catch(ExecutionException | InterruptedException e){
-                e.printStackTrace();
-            }
-        }
-        repo.insertCompletedBoulder(new CompletedBoulder(user_id,model.getSelected().getValue().id,new Date(),idInsertedComment == null ? null : idInsertedComment.intValue(),Utils.numOfTriesConversion(tries)));
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("boulder logged with success");
-        builder.setTitle("Congratulation for the ascent");
-        builder.setCancelable(false);
-        builder.setPositiveButton("ok",(dialogInterface, i) -> {
-            getActivity().onBackPressed();
-        });
+        //todo:inserimento con volley.
+//        if(!text.equals(getString(R.string.comment_request_addview))){
+//            try {
+//                idInsertedComment = repo.insertComment(new Comment(text,(int)rating,grade,user_id)).get();
+//            } catch(ExecutionException | InterruptedException e){
+//                e.printStackTrace();
+//            }
+//        }
+//        repo.insertCompletedBoulder(new CompletedBoulder(user_id,model.getSelected().getValue().id,new Date(),idInsertedComment == null ? null : idInsertedComment.intValue(),Utils.numOfTriesConversion(tries)));
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        //method=insert_completedboulder&text=""&rating=3&grade=7a&user_id=1&date=2020-10-10&boulder_id=6&number_of_tries=1
+        String url = InternetManager.URL + "?method=insert_completedboulder" +
+                "&rating=" + String.valueOf((int)rating)+
+                "&grade=" + grade +
+                "&user_id=" + String.valueOf(user_id)+
+                "&date=" + TypeConverters.toString(new Date()) +
+                "&boulder_id=" + String.valueOf(model.getSelected().getValue().id)+
+                "&number_of_tries=" + tries;
+        if(!text.equals(getString(R.string.comment_request_addview))){
+            url += "&text=" + text;
+        } else {
+            url += "&text=\"\"";
+        }
+
+        StringRequest insertCompletionRequest = new StringRequest(Request.Method.GET,url,response -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Congratulation for the ascent");
+            builder.setCancelable(false);
+            builder.setPositiveButton("ok",(dialogInterface, i) -> {
+                getActivity().onBackPressed();
+            });
+            AlertDialog dialog = builder.create();
+            if(response.equals("success")){
+                builder.setMessage("boulder logged with success");
+            } else {
+                builder.setMessage("Boulder not logged, please retry later.");
+            }
+            dialog.show();
+        },error -> error.printStackTrace());
+        VolleySingleton.getInstance(getContext()).add(insertCompletionRequest);
+
+
+
+
+//    string for url
+//    ?method=insert_completedboulder&text=""&rating=3&grade=7a&user_id=1&date=2020-10-10&boulder_id=6&number_of_tries=1
+
     }
 
     private boolean checkInput( String grade, String tries,float rating) {
