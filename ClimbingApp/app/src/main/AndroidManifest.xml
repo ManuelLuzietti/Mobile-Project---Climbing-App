@@ -20,11 +20,9 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ClimbingApp"
+        android:theme="@style/personalTheme"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".PhotoEditorActivity"
-            android:exported="true" />
+
         <activity
             android:name=".MainMenuActivity"
             android:exported="true" />
@@ -37,11 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.ClimbingApp" />
+
     </application>
 
 </manifest>

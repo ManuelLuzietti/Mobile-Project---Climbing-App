@@ -125,7 +125,6 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
 
 
 
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
