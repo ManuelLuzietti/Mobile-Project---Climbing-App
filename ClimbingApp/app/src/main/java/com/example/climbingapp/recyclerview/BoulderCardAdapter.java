@@ -108,7 +108,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                         if(!jsonObject.getString("grade").equals("")) {
                             Iterator<Boulder> iterator = filteredList.iterator();
                             while(iterator.hasNext()){
-                                if(iterator.next().getPlaceGrade()!=jsonObject.getString("grade")){
+                                if(!iterator.next().getPlaceGrade().equals(jsonObject.getString("grade"))){
                                     iterator.remove();
                                 }
                             }
@@ -117,7 +117,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                         if(!jsonObject.getString("name").equals("")) {
                             Iterator<Boulder> iterator = filteredList.iterator();
                             while(iterator.hasNext()){
-                                if(iterator.next().getPlaceName()!=jsonObject.getString("name")){
+                                if(!iterator.next().getPlaceName().contains(jsonObject.getString("name").toLowerCase().trim())){
                                     iterator.remove();
                                 }
                             }
