@@ -2,10 +2,12 @@ package com.example.climbingapp;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -79,7 +81,14 @@ public class AddFantaBoulderFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int item) {
                             if (options[item].equals("Take Photo")) {
                                 dialog.dismiss();
+                                ContentValues values = new ContentValues();
+                                values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                                values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+                                Uri imageUri = getActivity().getContentResolver().insert(
+                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                                model.setImageUri(imageUri);
                                 getActivity().startActivityForResult(intent, 1);
                             } else if (options[item].equals("Choose From Gallery")) {
                                 dialog.dismiss();
@@ -106,7 +115,14 @@ public class AddFantaBoulderFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int item) {
                             if (options[item].equals("Take Photo")) {
                                 dialog.dismiss();
+                                ContentValues values = new ContentValues();
+                                values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                                values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+                                Uri imageUri = getActivity().getContentResolver().insert(
+                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                                model.setImageUri(imageUri);
                                 getActivity().startActivityForResult(intent, 1);
                             } else if (options[item].equals("Choose From Gallery")) {
                                 dialog.dismiss();
@@ -133,12 +149,12 @@ public class AddFantaBoulderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         imageView = view.findViewById(R.id.add_fanta_boulder_imageview);
-//        model.getBitmap().observe(getActivity(),bitmap->{
-//            imageView.setImageBitmap(bitmap);
-//        });
-        model.getImageUri().observe(getActivity(),uri->{
-            imageView.setImageURI(uri);
+        model.getBitmap().observe(getActivity(),bitmap->{
+            imageView.setImageBitmap(bitmap);
         });
+//        model.getImageUri().observe(getActivity(),uri->{
+//            imageView.setImageURI(uri);
+//        });
         imageView.setOnClickListener(event -> {
             Intent intent = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

@@ -28,7 +28,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.climbingapp.viewmodels.AddFantaBoulderViewModel;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -87,19 +86,25 @@ public class MainMenuActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             switch (requestCode){
                 case 1:
-                    Bitmap image = (Bitmap) data.getExtras().get("data");
-                    try {
-                        fantaModel.setImageUri( Utils.saveImage(image,this,"prova"));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+//                    Bitmap image = (Bitmap) data.getExtras().get("data");
+//                    Uri uri = (Uri) data.getExtras().get(MediaStore.EXTRA_OUTPUT);
+//                    fantaModel.setImageUri(uri);
+                    //fantaModel.setImageUri( Utils.saveImage(image,this,"prova"));
                     requestEditOnPhoto(fantaModel.getImageUri().getValue());
                     break;
                 case 2:
                     requestEditOnPhoto(data.getData());
                     break;
                 case 3:
-                    onEditFinished(data.getData());
+                    if (data != null) {
+                        if(data.getData()!=null){
+                            onEditFinished(data.getData());
+                        }
+                    }else {
+                        onEditFinished(fantaModel.getImageUri().getValue());
+
+                    }
+
                     break;
 
                 default:
@@ -111,15 +116,15 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
     private void requestEditOnPhoto(Uri uri){
-        fantaModel.setImageUri( uri);
+//        fantaModel.setImageUri( uri);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Do you wanna select the holds?");
         CharSequence[] options = new CharSequence[]{"Yes","No","Cancel"};
         builder.setItems(options,(dialogInterface, i) -> {
             if(options[i].equals("Yes")){
-                editImage(fantaModel.getImageUri().getValue());
+                editImage(uri);
             } else if (options[i].equals("No")){
-                onEditFinished(fantaModel.getImageUri().getValue());
+                onEditFinished(uri);
             }
             dialogInterface.dismiss();
         });
@@ -139,8 +144,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void onEditFinished(Uri uri){
         try {
-            fantaModel.setBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri));
-            fantaModel.setImageUri(uri);
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            fantaModel.setBitmap(bitmap);
+//            fantaModel.setImageUri(uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
