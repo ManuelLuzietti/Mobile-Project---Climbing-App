@@ -24,12 +24,11 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.List;
 
-
 public class MenuFragment extends Fragment {
     private RecyclerView recyclerView;
     private BoulderCardAdapter adapter;
     private ClimbingAppRepository repository;
-    private Fragment fragment ;
+    private Fragment fragment;
     private ClimbingAppRepository repo;
     private InternetManager internetManager;
     private FilterViewModel filterModel;
@@ -37,7 +36,6 @@ public class MenuFragment extends Fragment {
     public MenuFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,14 +50,15 @@ public class MenuFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.boulderlist_menu,menu);
+        inflater.inflate(R.menu.boulderlist_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.filter_item:
-                Utils.insertFragment((AppCompatActivity) getActivity(),new FilterFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+                Utils.insertFragment((AppCompatActivity) getActivity(), new FilterFragment(),
+                        this.getClass().getSimpleName(), R.id.nav_host_fragment_menu);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -80,17 +79,18 @@ public class MenuFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_menu, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setRecyclerView(view);
-        internetManager = new InternetManager(getActivity(),view);
+        internetManager = new InternetManager(getActivity(), view);
         repo = new ClimbingAppRepository(this.getActivity().getApplication());
-        ((SearchView)view.findViewById(R.id.search_bar)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        ((SearchView) view.findViewById(R.id.search_bar)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
@@ -98,17 +98,18 @@ public class MenuFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-//                adapter.getFilter().filter("name:"+s);
+                // adapter.getFilter().filter("name:"+s);
                 filterModel.setName(s);
                 filterModel.setSettings();
-                //adapter.getFilter().filter((CharSequence) filterModel.getFilterSettings().getValue().toString());
+                // adapter.getFilter().filter((CharSequence)
+                // filterModel.getFilterSettings().getValue().toString());
                 return true;
             }
         });
-        ((NavigationBarView)view.findViewById(R.id.bottomnavview_bouldermenu)).setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
+        ((NavigationBarView) view.findViewById(R.id.bottomnavview_bouldermenu)).setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
                 case R.id.reload_boulder_list_item:
-                    if(internetManager.isNetworkConnected()){
+                    if (internetManager.isNetworkConnected()) {
                         repo.updateDB();
                     } else {
                         internetManager.getSnackbar().show();
@@ -119,32 +120,30 @@ public class MenuFragment extends Fragment {
             }
             return true;
         });
-        filterModel.getFilterSettings().observe(this,jsonObject -> {
+        filterModel.getFilterSettings().observe(this, jsonObject -> {
             adapter.getFilter().filter(jsonObject.toString());
         });
 
     }
 
-    public void setRecyclerView(View view){
+    public void setRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.boulders_recycler_view);
         adapter = new BoulderCardAdapter(fragment);
         recyclerView.setAdapter(adapter);
         populateBoulderList();
     }
 
-
-    private void populateBoulderList(){
+    private void populateBoulderList() {
         repository.getBoulders().observe(this, new Observer<List<Boulder>>() {
             @Override
             public void onChanged(List<Boulder> boulders) {
-                for(Boulder b: boulders){
-                    b.updateValues(getActivity().getApplication(), fragment,adapter,boulders.indexOf(b));
+                for (Boulder b : boulders) {
+                    b.updateValues(getActivity().getApplication(), fragment, adapter, boulders.indexOf(b));
                 }
                 adapter.setData(boulders);
                 adapter.notifyDataSetChanged();
             }
         });
     }
-
 
 }

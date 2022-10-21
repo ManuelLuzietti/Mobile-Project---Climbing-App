@@ -25,11 +25,16 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.climbingapp.database.ClimbingDAO;
+import com.example.climbingapp.database.ClimbingRoomDatabase;
+import com.example.climbingapp.database.entities.Boulder;
+import com.example.climbingapp.database.entities.TracciaturaBoulder;
+import com.example.climbingapp.database.entities.User;
 import com.example.climbingapp.viewmodels.AddFantaBoulderViewModel;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 
 public class MainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -70,6 +75,7 @@ public class MainMenuActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         this.fantaModel = new ViewModelProvider(this).get(AddFantaBoulderViewModel.class);
         checkPermission();
+        //test();
     }
 
     @Override
@@ -87,19 +93,25 @@ public class MainMenuActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             switch (requestCode){
                 case 1:
-                    Bitmap image = (Bitmap) data.getExtras().get("data");
-                    try {
-                        fantaModel.setImageUri( Utils.saveImage(image,this,"prova"));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+//                    Bitmap image = (Bitmap) data.getExtras().get("data");
+//                    Uri uri = (Uri) data.getExtras().get(MediaStore.EXTRA_OUTPUT);
+//                    fantaModel.setImageUri(uri);
+                    //fantaModel.setImageUri( Utils.saveImage(image,this,"prova"));
                     requestEditOnPhoto(fantaModel.getImageUri().getValue());
                     break;
                 case 2:
                     requestEditOnPhoto(data.getData());
                     break;
                 case 3:
-                    onEditFinished(data.getData());
+                    if (data != null) {
+                        if(data.getData()!=null){
+                            onEditFinished(data.getData());
+                        }
+                    }else {
+                        onEditFinished(fantaModel.getImageUri().getValue());
+
+                    }
+
                     break;
 
                 default:
@@ -111,15 +123,15 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
     private void requestEditOnPhoto(Uri uri){
-        fantaModel.setImageUri( uri);
+//        fantaModel.setImageUri( uri);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Do you wanna select the holds?");
         CharSequence[] options = new CharSequence[]{"Yes","No","Cancel"};
         builder.setItems(options,(dialogInterface, i) -> {
             if(options[i].equals("Yes")){
-                editImage(fantaModel.getImageUri().getValue());
+                editImage(uri);
             } else if (options[i].equals("No")){
-                onEditFinished(fantaModel.getImageUri().getValue());
+                onEditFinished(uri);
             }
             dialogInterface.dismiss();
         });
@@ -139,8 +151,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void onEditFinished(Uri uri){
         try {
-            fantaModel.setBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri));
-            fantaModel.setImageUri(uri);
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            fantaModel.setBitmap(bitmap);
+//            fantaModel.setImageUri(uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -158,4 +171,36 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
+
+    public void test(){
+        ClimbingDAO dao = ClimbingRoomDatabase.getDatabase(this).getDao();
+        ClimbingRoomDatabase.databaseWriteExecutor.execute(()->{
+            dao.insertUser(new User("username","M","L"));
+            dao.insertBoulder(new Boulder("lol","7a",new Date(),true,"dataImg1"));
+            dao.insertTracciatura(new TracciaturaBoulder(1,1));
+//            List<User> users = dao.getUsers();
+//            List<Boulder> boulders = dao.getBoulders();
+//            List<TracciaturaBoulder> tracciature = dao.getTracciature();
+//            System.out.println("users");
+//            for(User u : users){
+//                System.out.println(u.id);
+//            }
+//            System.out.println("boulders");
+//            for(Boulder b: boulders){
+//                System.out.println(b.id);
+//            }
+//            System.out.println("tracciature");
+//            for(TracciaturaBoulder t: tracciature){
+//                System.out.println(t.idTracciatura);
+//            }
+//            List<BoulderAndTracciatura> bat = dao.getBoulderAndTracciatura();
+//            System.out.println("boulder and tracciatura");
+//            for(BoulderAndTracciatura bbb: bat){
+//                System.out.print(bbb.boulder.id);
+//                System.out.print(bbb.tracciaturaBoulder.idTracciatura);
+//                System.out.println("ok");
+//            }
+
+        });
+    }
 }
