@@ -25,10 +25,16 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.climbingapp.database.ClimbingDAO;
+import com.example.climbingapp.database.ClimbingRoomDatabase;
+import com.example.climbingapp.database.entities.Boulder;
+import com.example.climbingapp.database.entities.TracciaturaBoulder;
+import com.example.climbingapp.database.entities.User;
 import com.example.climbingapp.viewmodels.AddFantaBoulderViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class MainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -69,6 +75,7 @@ public class MainMenuActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         this.fantaModel = new ViewModelProvider(this).get(AddFantaBoulderViewModel.class);
         checkPermission();
+        //test();
     }
 
     @Override
@@ -164,4 +171,36 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
+
+    public void test(){
+        ClimbingDAO dao = ClimbingRoomDatabase.getDatabase(this).getDao();
+        ClimbingRoomDatabase.databaseWriteExecutor.execute(()->{
+            dao.insertUser(new User("username","M","L"));
+            dao.insertBoulder(new Boulder("lol","7a",new Date(),true,"dataImg1"));
+            dao.insertTracciatura(new TracciaturaBoulder(1,1));
+//            List<User> users = dao.getUsers();
+//            List<Boulder> boulders = dao.getBoulders();
+//            List<TracciaturaBoulder> tracciature = dao.getTracciature();
+//            System.out.println("users");
+//            for(User u : users){
+//                System.out.println(u.id);
+//            }
+//            System.out.println("boulders");
+//            for(Boulder b: boulders){
+//                System.out.println(b.id);
+//            }
+//            System.out.println("tracciature");
+//            for(TracciaturaBoulder t: tracciature){
+//                System.out.println(t.idTracciatura);
+//            }
+//            List<BoulderAndTracciatura> bat = dao.getBoulderAndTracciatura();
+//            System.out.println("boulder and tracciatura");
+//            for(BoulderAndTracciatura bbb: bat){
+//                System.out.print(bbb.boulder.id);
+//                System.out.print(bbb.tracciaturaBoulder.idTracciatura);
+//                System.out.println("ok");
+//            }
+
+        });
+    }
 }

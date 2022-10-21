@@ -98,6 +98,7 @@ public class MenuFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
+
                 adapter.getFilter().filter("name:"+s);
 //                try {
 //                    filterModel.getFilterSettings().getValue().put("name","s");
