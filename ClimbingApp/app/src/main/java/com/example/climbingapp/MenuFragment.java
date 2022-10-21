@@ -98,12 +98,10 @@ public class MenuFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                adapter.getFilter().filter("name:"+s);
-//                try {
-//                    filterModel.getFilterSettings().getValue().put("name","s");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+//                adapter.getFilter().filter("name:"+s);
+                filterModel.setName(s);
+                filterModel.setSettings();
+                //adapter.getFilter().filter((CharSequence) filterModel.getFilterSettings().getValue().toString());
                 return true;
             }
         });

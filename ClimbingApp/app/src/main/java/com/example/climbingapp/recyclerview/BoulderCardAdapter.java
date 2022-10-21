@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHolder> {
@@ -89,49 +90,46 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 List<Boulder> filteredList = new ArrayList<>();
-                List<Boulder> filteredFilteredList = new ArrayList<>();
+                filteredList.addAll(originalList);
 
-                if(String.valueOf(charSequence).startsWith("name:")){
-                    if (charSequence == null || charSequence.length() == 0) {
-                        filteredList.addAll(originalList);
-                    } else {
-                        String filterPattern = charSequence.toString().toLowerCase().trim();
-                        if(filterPattern.contains("name:")){
-                            String pattern = filterPattern.replace("name:","");
-                            for (Boulder item : originalList) {
-                                if (item.getPlaceName().toLowerCase().contains(pattern) ) {
-                                    filteredList.add(item);
-                                }
-                            }
-                        }
-                    }
-                    filteredFilteredList.addAll(filteredList);
-                }else {
+
+//todo:debug from here..
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(charSequence));
-                        if(jsonObject.getInt("rating")== 0){
-                            filteredList.addAll(originalList);
-                        } else {
-                            for(Boulder item : originalList){
-                                if( item.getPlaceRating()==jsonObject.getInt("rating")){
-                                    filteredList.add(item);
+                        if(jsonObject.getInt("rating")!= 0){
+                            Iterator<Boulder> iterator = filteredList.iterator();
+                            while(iterator.hasNext()){
+                                if(iterator.next().getPlaceRating()!=jsonObject.getInt("rating")){
+                                    iterator.remove();
+                                }
+                            }
+
+                        }
+                        if(!jsonObject.getString("grade").equals("")) {
+                            Iterator<Boulder> iterator = filteredList.iterator();
+                            while(iterator.hasNext()){
+                                if(iterator.next().getPlaceGrade()!=jsonObject.getString("grade")){
+                                    iterator.remove();
                                 }
                             }
                         }
-                        if(!jsonObject.getString("grade").equals("")){
-                            for(Boulder item : filteredList){
-                                if(item.getPlaceGrade().equals(jsonObject.getString("grade"))){
-                                    filteredFilteredList.add(item);
+
+                        if(!jsonObject.getString("name").equals("")) {
+                            Iterator<Boulder> iterator = filteredList.iterator();
+                            while(iterator.hasNext()){
+                                if(iterator.next().getPlaceName()!=jsonObject.getString("name")){
+                                    iterator.remove();
                                 }
                             }
-                        } else {
-                            filteredFilteredList.addAll(filteredList);
                         }
+
+
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
+
 
                 //if you have no constraint --> return the full list
 //                if (filterPattern.contains("grade:")){
@@ -146,7 +144,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
 //
 
                 FilterResults results = new FilterResults();
-                results.values = filteredFilteredList;
+                results.values = filteredList;
                 return results;
             }
 
