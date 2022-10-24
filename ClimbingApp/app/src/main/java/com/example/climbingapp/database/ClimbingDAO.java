@@ -1,6 +1,7 @@
 package com.example.climbingapp.database;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -14,6 +15,7 @@ import com.example.climbingapp.database.entities.User;
 import com.example.climbingapp.database.relationships.BoulderAndTracciatura;
 import com.example.climbingapp.database.relationships.UserAndComment;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -104,8 +106,127 @@ public interface ClimbingDAO {
     LiveData<List<User>> getUserFromUsername(String username);
 
 
-    @Query("select b.* from user u join completed_boulder cb on(u.id=cb.user_id) " +
-            "join boulder b on (cb.boulder_id =b.id) " +
-            "where u.id = :id")
-    LiveData<List<Boulder>> getBouldersCompletedByUser(int id);
+    @Query("select b.*, u.username as user, " +
+            "            (select " +
+            "            CASE " +
+            "            when EXISTS ( SELECT * FROM completed_boulder cb where cb.boulder_id = b.id and cb.user_id = :id) then 1  " +
+            "            else 0 " +
+            "            END) as checked ," +
+            "            (select count(*) from completed_boulder where boulder_id = b.id) as repeats," +
+            "            (select CASE " +
+            "            when (select avg(comm.rating)  from completed_boulder compb join comment comm on (compb.comment_id = comm.id) where compb.boulder_id = b.id) is not null then  " +
+            "            (select avg(comm.rating)  from completed_boulder compb join comment comm on (compb.comment_id = comm.id) where compb.boulder_id = b.id) " +
+            "            else 0 " +
+            "            END) as rating " +
+            "            from boulder b " +
+            "            join tracciatura_boulder t on (t.boulder_id = b.id) " +
+            "            JOIN user u on (t.user_id = u.id) " +
+            "            where u.id in (select user_id from completed_boulder where boulder_id = b.id)")
+    LiveData<List<BoulderUpdated>> getBouldersCompletedByUser(int id);
+
+
+    @Query("select b.*, u.username as user,\n" +
+            "(select " +
+            "CASE " +
+            " when EXISTS ( SELECT * FROM completed_boulder cb where cb.boulder_id = b.id and cb.user_id = :currentUserId) then 1  " +
+            " else 0 " +
+            " END) as checked ," +
+            "(select count(*) from completed_boulder where boulder_id = b.id) as repeats, " +
+            "(select CASE " +
+            " when (select avg(comm.rating)  from completed_boulder compb join comment comm on (compb.comment_id = comm.id) where compb.boulder_id = b.id) is not null then  " +
+            " (select avg(comm.rating)  from completed_boulder compb join comment comm on (compb.comment_id = comm.id) where compb.boulder_id = b.id) " +
+            " else 0 " +
+            "  END) as rating " +
+            "from boulder b " +
+            "join tracciatura_boulder t on (t.boulder_id = b.id) " +
+            "JOIN user u on (t.user_id = u.id) ")
+    LiveData<List<BoulderUpdated>> getBoulderUpdated(int currentUserId);
+
+    public static class BoulderUpdated{
+        public int id;
+        public String name;
+        public String grade;
+        @androidx.room.TypeConverters(com.example.climbingapp.database.TypeConverters.class)
+        public Date date;
+        @ColumnInfo(name = "is_official")
+        public boolean isOfficial;
+        public String img;
+
+        public String user;
+        public int rating;
+        public int repeats;
+        public boolean checked;
+        public int getId() {
+            return id;
+        }
+
+        public String getPlaceName() {
+            return name;
+        }
+
+        public String getPlaceUser() {
+            return user;
+        }
+
+        public int getPlaceRepeats() {
+            return repeats;
+        }
+
+        public String getPlaceGrade() {
+            return grade;
+        }
+
+        public int getPlaceRating() {
+            return rating;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+
+        public boolean isChecked() {
+            return checked;
+        }
+
+        public boolean isOfficial() {
+            return isOfficial;
+        }
+
+
+        public void setPlaceName(String name) {
+            this.name = name;
+        }
+
+        public void setPlaceUser(String user) {
+            this.user = user;
+        }
+
+        public void setPlaceRepeats(int repeats) {
+            this.repeats = repeats;
+        }
+
+        public void setPlaceGrade(String grade) {
+            this.grade = grade;
+        }
+
+        public void setPlaceRating(int raa
+        ) {
+            this.rating = rating;
+        }
+
+        public void setImg( String img) {
+            this.img = img;
+        }
+
+        public void setOfficial(boolean official) {
+            isOfficial = official;
+        }
+
+        public void setChecked(boolean checked) {
+            checked = checked;
+        }
+
+
+    }
 }

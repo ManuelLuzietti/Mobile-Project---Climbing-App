@@ -26,6 +26,8 @@
         <activity
             android:name=".MainMenuActivity"
             android:exported="true" />
+        <activity android:name=".MainActivity"
+            android:exported="true"/>
         <activity
             android:name=".LoginRegisterActivity"
             android:exported="true">

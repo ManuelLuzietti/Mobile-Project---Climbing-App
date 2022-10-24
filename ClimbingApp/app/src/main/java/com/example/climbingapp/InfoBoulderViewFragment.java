@@ -23,7 +23,7 @@ import com.anychart.enums.Anchor;
 import com.anychart.enums.HoverMode;
 import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
-import com.example.climbingapp.database.entities.Boulder;
+import com.example.climbingapp.database.ClimbingDAO;
 import com.example.climbingapp.database.entities.Comment;
 import com.example.climbingapp.database.entities.CompletedBoulder;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
@@ -61,7 +61,7 @@ public class InfoBoulderViewFragment extends Fragment {
     }
 
 
-    private void setTriesPieChart(ViewGroup container, Boulder boulderSelected) {
+    private void setTriesPieChart(ViewGroup container, ClimbingDAO.BoulderUpdated boulderSelected) {
 
 
         repo.getCompletionsOfBoulder(boulderSelected.id).observe(this, completedBoulders -> {
@@ -106,7 +106,7 @@ public class InfoBoulderViewFragment extends Fragment {
         });
     }
 
-    private void setCartesianGradesChart(ViewGroup container, Boulder boulderSelected) {
+    private void setCartesianGradesChart(ViewGroup container, ClimbingDAO.BoulderUpdated boulderSelected) {
         repo.getCommentsOnBoulder(boulderSelected.id).observe(this,comments -> {
 
             synchronized (getActivity()){
@@ -147,7 +147,7 @@ public class InfoBoulderViewFragment extends Fragment {
         });
     }
 
-    private void setRatingsChart(ViewGroup container,Boulder selectedBoulder){
+    private void setRatingsChart(ViewGroup container, ClimbingDAO.BoulderUpdated selectedBoulder){
         repo.getCommentsOnBoulder(selectedBoulder.id).observe(this,comments -> {
             Map<Integer,Integer> map = new ArrayMap<>();
             for(Comment c: comments){
@@ -187,7 +187,7 @@ public class InfoBoulderViewFragment extends Fragment {
 
     }
 
-    private void setInfoBoulder(ViewGroup container, Boulder selectedBoulder){
+    private void setInfoBoulder(ViewGroup container, ClimbingDAO.BoulderUpdated selectedBoulder){
        ((TextView) container.findViewById(R.id.name_boulder_info_fragment)).setText("name:" + selectedBoulder.name);
        repo.getTracciatoreFromBoulder(selectedBoulder.id).observe(this,user ->{
            if(user!= null){

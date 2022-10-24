@@ -47,7 +47,7 @@ public class LogbookFragment extends Fragment {
     }
 
     private void populateBoulderList() {
-        repo.getBouldersCompletedByUser(getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1)).observe(this,boulders -> {
+        repo.getBouldersCompletedByUser(getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1)).observe(this, boulders -> {
             boulderCardAdapter.setData(boulders);
             boulderCardAdapter.notifyDataSetChanged();
         });

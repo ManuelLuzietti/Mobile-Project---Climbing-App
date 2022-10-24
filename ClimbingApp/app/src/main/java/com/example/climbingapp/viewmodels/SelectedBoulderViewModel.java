@@ -6,18 +6,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.climbingapp.database.entities.Boulder;
+import com.example.climbingapp.database.ClimbingDAO;
 
 public class SelectedBoulderViewModel extends ViewModel {
-    private final MutableLiveData<Boulder> boulder =  new MutableLiveData<>();
+    private final MutableLiveData<ClimbingDAO.BoulderUpdated> boulder =  new MutableLiveData<>();
     private final MutableLiveData<Bitmap> bitmap = new MutableLiveData<>();
 
-    public void select(Boulder boulder){
+    public void select(ClimbingDAO.BoulderUpdated boulder){
         this.boulder.setValue(boulder);
 
     }
 
-    public LiveData<Boulder> getSelected(){
+    public LiveData<ClimbingDAO.BoulderUpdated> getSelected(){
         return boulder;
     }
 

@@ -51,7 +51,6 @@ public class Boulder {
     @ColumnInfo(name = "is_official")
     public boolean isOfficial;
 
-
     @NonNull
     public String img;
 
@@ -137,6 +136,12 @@ public class Boulder {
 
     public void updateValues(Application application, Fragment fragment, RecyclerView.Adapter<BoulderCardViewHolder> adapter, int pos) {
         ClimbingAppRepository repository = new ClimbingAppRepository(application);
+
+        /*
+        query:
+
+         */
+
         repository.getTracciatoreFromBoulder(id).observe(fragment, (User u) -> {
             if (u != null) {
                 setPlaceUser(u.username);
