@@ -234,7 +234,9 @@ public class AddFantaBoulderFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        VolleySingleton.getInstance(getContext()).add(new JsonObjectRequest(Request.Method.POST, insertBoulderRequest, postData,null, error -> {
+        VolleySingleton.getInstance(getContext()).add(new JsonObjectRequest(Request.Method.POST, insertBoulderRequest, postData,response -> {
+            getActivity().onBackPressed();
+        }, error -> {
             error.printStackTrace();
         }));
     }

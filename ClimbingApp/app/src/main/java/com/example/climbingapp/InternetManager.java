@@ -20,9 +20,9 @@ public class InternetManager {
     private Snackbar snackbar;
     private boolean isNetworkConnected;
     private Activity activity;
-//    public final static String URL = "http://192.168.1.134/climbingAppWebServer/";
-//    public final static String URL = "http://10.60.15.218/climbingAppWebServer/";
-    public final static String URL = "http://192.168.1.134/climbingAppWebServer/web_server_for_mobile_project/";
+    private static final String HOST = "http://10.0.2.2";
+    private static final String HOST2 ="http://192.168.1.134";
+    public final static String URL = HOST2 +"/climbingAppWebServer/web_server_for_mobile_project/";
 
     public  InternetManager(Activity activity,View view){
         this.activity = activity;
@@ -71,7 +71,6 @@ public class InternetManager {
     }
 
     public void unregisterNetworkCallback(){
-        if (this != null){
             ConnectivityManager connectivityManager =
                     (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
             if (connectivityManager != null) {
@@ -81,7 +80,7 @@ public class InternetManager {
             } else {
                 snackbar.dismiss();
             }
-        }
+
     }
     public boolean isNetworkConnected(){
         return isNetworkConnected;

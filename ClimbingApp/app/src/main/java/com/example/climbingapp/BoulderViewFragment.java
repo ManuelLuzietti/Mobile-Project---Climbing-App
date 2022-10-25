@@ -60,7 +60,6 @@ public class BoulderViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_boulder_view, container, false);
         internetManager = new InternetManager(getActivity(),view);
-
         ((NavigationBarView)view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.bottomnav_add:

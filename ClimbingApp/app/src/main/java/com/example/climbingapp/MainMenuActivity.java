@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
@@ -48,11 +47,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 if (isGranted) {
 
                 } else {
-                    // Explain to the user that the feature is unavailable because the
-                    // features requires a permission that the user has denied. At the
-                    // same time, respect the user's decision. Don't link to system
-                    // settings in an effort to convince the user to change their
-                    // decision.
+                    new AlertDialog.Builder(this).setMessage("Edit function not available").show();
                 }
             });
     @Override
@@ -74,7 +69,6 @@ public class MainMenuActivity extends AppCompatActivity {
         NavigationView navView = findViewById(R.id.nav_view_menu);
         NavigationUI.setupWithNavController(navView, navController);
         this.fantaModel = new ViewModelProvider(this).get(AddFantaBoulderViewModel.class);
-        checkPermission();
         //test();
     }
 
@@ -121,14 +115,20 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
 
-
     private void requestEditOnPhoto(Uri uri){
 //        fantaModel.setImageUri( uri);
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Do you wanna select the holds?");
         CharSequence[] options = new CharSequence[]{"Yes","No","Cancel"};
         builder.setItems(options,(dialogInterface, i) -> {
             if(options[i].equals("Yes")){
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                    new AlertDialog.Builder(this).setMessage("You don't have the permissions to use edit functionality.").show();
+                    return;
+                }
                 editImage(uri);
             } else if (options[i].equals("No")){
                 onEditFinished(uri);
@@ -159,17 +159,17 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
-    private void checkPermission(){
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED) {
-            System.out.println("ciao");
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-            }
-        }
-    }
+//    private void checkPermission(){
+//        if (ContextCompat.checkSelfPermission(
+//                this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+//                PackageManager.PERMISSION_GRANTED) {
+//            System.out.println("ciao");
+//        } else {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+//            }
+//        }
+//    }
 
 
     public void test(){
