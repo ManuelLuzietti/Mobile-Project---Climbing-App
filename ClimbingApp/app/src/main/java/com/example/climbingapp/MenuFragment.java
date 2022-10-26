@@ -90,6 +90,7 @@ public class MenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setRecyclerView(view);
+
         internetManager = new InternetManager(getActivity(), view);
         repo = new ClimbingAppRepository(this.getActivity().getApplication());
         ((SearchView) view.findViewById(R.id.search_bar)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {

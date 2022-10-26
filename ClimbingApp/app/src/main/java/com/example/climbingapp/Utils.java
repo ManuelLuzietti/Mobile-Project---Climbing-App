@@ -70,7 +70,7 @@ public class Utils {
     }
 
     public static void logOutUser(Activity activity){
-        activity.getSharedPreferences("global_pref",Context.MODE_PRIVATE).edit().remove("userId").commit();
+        activity.getSharedPreferences("global_pref",Context.MODE_PRIVATE).edit().clear().commit();
 
     }
 

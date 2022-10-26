@@ -56,11 +56,19 @@ public class MainMenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_menu);
         navController = navHostFragment.getNavController();
+
         AppBarConfiguration appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph())
                         .setDrawerLayout(drawerLayout)
                         .build();
         NavigationView navView = findViewById(R.id.nav_view_menu);
+        navView.getMenu().findItem(R.id.logoutItem).setOnMenuItemClickListener(menuItem -> {
+            Utils.logOutUser(this);
+            finish();
+            Intent intent = new Intent(this,LoginRegisterActivity.class);
+            startActivity(intent);
+            return true;
+        });
         NavigationUI.setupWithNavController(navView, navController);
         this.fantaModel = new ViewModelProvider(this).get(AddFantaBoulderViewModel.class);
     }
