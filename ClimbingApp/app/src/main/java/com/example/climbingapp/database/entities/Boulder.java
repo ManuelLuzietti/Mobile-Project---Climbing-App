@@ -163,9 +163,9 @@ public class Boulder {
 
         });
 
-        repository.getCommentsOnBoulder( id).observe(fragment,(List<Comment> lc) ->{
+        repository.getCommentsOnBoulder( id).observe(fragment,(List<Comment.CommentUpdated> lc) ->{
             double media = 0;
-            for (Comment c: lc){
+            for (Comment.CommentUpdated c: lc){
                 media += c.rating;
             }
             media = media / lc.size();

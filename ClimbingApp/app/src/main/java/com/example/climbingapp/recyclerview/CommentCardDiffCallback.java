@@ -9,10 +9,10 @@ import java.util.List;
 
 public class CommentCardDiffCallback extends DiffUtil.Callback {
 
-    private List<Comment> oldCommentList;
-    private List<Comment> newCommentList;
+    private List<Comment.CommentUpdated> oldCommentList;
+    private List<Comment.CommentUpdated> newCommentList;
 
-    public CommentCardDiffCallback(List<Comment> oldCommentList, List<Comment> newCommentList) {
+    public CommentCardDiffCallback(List<Comment.CommentUpdated> oldCommentList, List<Comment.CommentUpdated> newCommentList) {
         this.oldCommentList = oldCommentList;
         this.newCommentList = newCommentList;
     }
@@ -34,8 +34,8 @@ public class CommentCardDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        Comment oldItem = oldCommentList.get(oldItemPosition);
-        Comment newItem = newCommentList.get(newItemPosition);
+        Comment.CommentUpdated oldItem = oldCommentList.get(oldItemPosition);
+        Comment.CommentUpdated newItem = newCommentList.get(newItemPosition);
         return oldItem.getId() == newItem.getId() &&
                 oldItem.getText().equals(newItem.getText()) &&
                 oldItem.getRating() == newItem.getRating() &&

@@ -30,6 +30,20 @@ public class AddViewFragment extends Fragment {
     private SelectedBoulderViewModel model;
     private ClimbingAppRepository repo;
     private int user_id;
+    private InternetManager internetManager;
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        internetManager.registerNetworkCallback();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        internetManager.unregisterNetworkCallback();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +52,34 @@ public class AddViewFragment extends Fragment {
         repo = new ClimbingAppRepository(this.getActivity().getApplication());
 
     }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_add_view, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        internetManager = new InternetManager(getActivity(),view);
+        setListeners();
+        try {
+            if(checkUserLoggedIn()){
+                checkAlreadyCompletedByUser();
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        List<String> grades = Arrays.asList(getResources().getStringArray(R.array.grades));
+        ArrayAdapter gradesAdapter = new ArrayAdapter(getContext(), R.layout.option_layout, grades);
+        AutoCompleteTextView gradesTv = view.findViewById(R.id.grade_menu_textview);
+        gradesTv.setAdapter(gradesAdapter);
+        List<String> tries = Arrays.asList(getResources().getStringArray(R.array.num_of_tries));
+        ArrayAdapter triesAdapter = new ArrayAdapter(getContext(), R.layout.option_layout, tries);
+        AutoCompleteTextView triesTv = view.findViewById(R.id.tries_menu_textview);
+        triesTv.setAdapter(triesAdapter);
+
+    }
 
     private boolean checkUserLoggedIn() {
         user_id = Objects.requireNonNull(this.getActivity()).getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId",-1);
@@ -69,29 +110,6 @@ public class AddViewFragment extends Fragment {
     }
 
     private void insertCompletion(String text, String grade, String tries, float rating) {
-//        if(!text.equals(getString(R.string.comment_request_addview))){
-//           //todo:esempio di id returned.
-//        }
-//        try {
-//            long idreturned = repo.insertBoulder(new Boulder("el gato loco","7a",new Date(),false,"cione.png")).get();
-//            System.out.println(idreturned);
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        Long idInsertedComment = null;
-        //todo:inserimento con volley.
-//        if(!text.equals(getString(R.string.comment_request_addview))){
-//            try {
-//                idInsertedComment = repo.insertComment(new Comment(text,(int)rating,grade,user_id)).get();
-//            } catch(ExecutionException | InterruptedException e){
-//                e.printStackTrace();
-//            }
-//        }
-//        repo.insertCompletedBoulder(new CompletedBoulder(user_id,model.getSelected().getValue().id,new Date(),idInsertedComment == null ? null : idInsertedComment.intValue(),Utils.numOfTriesConversion(tries)));
-
-        //method=insert_completedboulder&text=""&rating=3&grade=7a&user_id=1&date=2020-10-10&boulder_id=6&number_of_tries=1
         String url = InternetManager.URL + "?method=insert_completedboulder" +
                 "&rating=" + String.valueOf((int)rating)+
                 "&grade=" + grade +
@@ -107,6 +125,7 @@ public class AddViewFragment extends Fragment {
 
         StringRequest insertCompletionRequest = new StringRequest(Request.Method.GET,url,response -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            repo.updateDB();
             builder.setTitle("Congratulation for the ascent");
             builder.setCancelable(false);
             builder.setPositiveButton("ok",(dialogInterface, i) -> {
@@ -120,13 +139,11 @@ public class AddViewFragment extends Fragment {
             }
             dialog.show();
         },error -> error.printStackTrace());
-        VolleySingleton.getInstance(getContext()).add(insertCompletionRequest);
-
-
-
-
-//    string for url
-//    ?method=insert_completedboulder&text=""&rating=3&grade=7a&user_id=1&date=2020-10-10&boulder_id=6&number_of_tries=1
+        if(internetManager.isNetworkConnected()){
+            VolleySingleton.getInstance(getContext()).add(insertCompletionRequest);
+        }else {
+            internetManager.getSnackbar().show();
+        }
 
     }
 
@@ -157,33 +174,7 @@ public class AddViewFragment extends Fragment {
        return valid;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_view, container, false);
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setListeners();
-        try {
-            if(checkUserLoggedIn()){
-                checkAlreadyCompletedByUser();
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        List<String> grades = Arrays.asList(getResources().getStringArray(R.array.grades));
-        ArrayAdapter gradesAdapter = new ArrayAdapter(getContext(), R.layout.option_layout, grades);
-         AutoCompleteTextView gradesTv = view.findViewById(R.id.grade_menu_textview);
-        gradesTv.setAdapter(gradesAdapter);
-        List<String> tries = Arrays.asList(getResources().getStringArray(R.array.num_of_tries));
-        ArrayAdapter triesAdapter = new ArrayAdapter(getContext(), R.layout.option_layout, tries);
-        AutoCompleteTextView triesTv = view.findViewById(R.id.tries_menu_textview);
-        triesTv.setAdapter(triesAdapter);
-
-    }
 
     private void checkAlreadyCompletedByUser() throws Exception {
         int boulderId = model.getSelected().getValue().getId();

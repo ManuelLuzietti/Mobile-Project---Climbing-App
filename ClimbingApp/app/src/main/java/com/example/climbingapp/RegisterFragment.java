@@ -22,6 +22,19 @@ import java.util.regex.Pattern;
 public class RegisterFragment extends Fragment {
 
     private ClimbingAppRepository repository;
+    private InternetManager internetManager;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        internetManager.registerNetworkCallback();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        internetManager.unregisterNetworkCallback();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,13 +45,13 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        internetManager = new InternetManager(getActivity(),view);
         EditText passwordEt = view.findViewById(R.id.password_registerview);
         passwordEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -89,7 +102,11 @@ public class RegisterFragment extends Fragment {
         }, error -> {
             error.printStackTrace();
         });
-        VolleySingleton.getInstance(getContext()).add(registerRequest);
+        if(internetManager.isNetworkConnected()){
+            VolleySingleton.getInstance(getContext()).add(registerRequest);
+        } else {
+            internetManager.getSnackbar().show();
+        }
     }
 
     public boolean validateText(String text, EditText view) {

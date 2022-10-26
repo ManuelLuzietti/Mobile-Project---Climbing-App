@@ -26,8 +26,20 @@ public class PersonalInfoFragment extends Fragment {
     private TextInputEditText firstNameEt;
     private TextInputEditText lastNameEt;
     private String id;
+    private InternetManager internetManager;
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        internetManager.registerNetworkCallback();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        internetManager.unregisterNetworkCallback();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,19 +49,18 @@ public class PersonalInfoFragment extends Fragment {
         firstName = global_pref.getString("first_name","");
         lastName = global_pref.getString("last_name","");
         id = String.valueOf(global_pref.getInt("userId",-1));
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_personal_info, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        internetManager = new InternetManager(getActivity(),view);
         usernameEt = view.findViewById(R.id.username_textInputEditText_userPage);
         firstNameEt = view.findViewById(R.id.firstname_textInputEditText_userPage);
         lastNameEt = view.findViewById(R.id.lastname_textInputEditText_userPage);
@@ -70,8 +81,6 @@ public class PersonalInfoFragment extends Fragment {
                 updateLastname(lastnameText);
             }
         });
-
-
     }
 
     private void updateLastname(String lastnameText) {
@@ -80,7 +89,11 @@ public class PersonalInfoFragment extends Fragment {
         },error -> {
             error.printStackTrace();
         });
-        VolleySingleton.getInstance(getContext()).add(updateLastnameReq);
+        if(internetManager.isNetworkConnected()){
+            VolleySingleton.getInstance(getContext()).add(updateLastnameReq);
+        } else {
+            internetManager.getSnackbar().show();
+        }
     }
 
 
@@ -91,7 +104,11 @@ public class PersonalInfoFragment extends Fragment {
         },error -> {
             error.printStackTrace();
         });
-        VolleySingleton.getInstance(getContext()).add(updateFirstnameReq);
+        if(internetManager.isNetworkConnected()){
+            VolleySingleton.getInstance(getContext()).add(updateFirstnameReq);
+        } else {
+            internetManager.getSnackbar().show();
+        }
     }
 
     private void updateUsername(String usernameText) {
@@ -100,7 +117,11 @@ public class PersonalInfoFragment extends Fragment {
         },error -> {
             error.printStackTrace();
         });
-        VolleySingleton.getInstance(getContext()).add(updateUsernameReq);
+        if(internetManager.isNetworkConnected()){
+            VolleySingleton.getInstance(getContext()).add(updateUsernameReq);
+        } else {
+            internetManager.getSnackbar().show();
+        }
 
     }
 
@@ -127,6 +148,6 @@ public class PersonalInfoFragment extends Fragment {
 
     private void updatePreference(String key,String value){
         SharedPreferences global_pref = getContext().getSharedPreferences("global_pref", Context.MODE_PRIVATE);
-        global_pref.edit().putString(key,value);
+        global_pref.edit().putString(key,value).commit();
     }
 }

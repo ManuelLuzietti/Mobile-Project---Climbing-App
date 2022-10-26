@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CommentsCardAdapter extends RecyclerView.Adapter<CommentsCardViewHolder> {
     private  SelectedBoulderViewModel model;
-    private List<Comment> list;
+    private List<Comment.CommentUpdated> list;
 
     public CommentsCardAdapter(Fragment fragment){
         list = new ArrayList<>();
@@ -34,7 +34,7 @@ public class CommentsCardAdapter extends RecyclerView.Adapter<CommentsCardViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CommentsCardViewHolder holder, int position) {
-        Comment item = list.get(position);
+        Comment.CommentUpdated item = list.get(position);
         holder.place_user_textview.setText( item.getUsername());
         holder.place_grade_textview.setText("grade: " + item.getGrade()+" - ");
         holder.place_rating_ratingbar.setRating(item.getRating());
@@ -48,7 +48,7 @@ public class CommentsCardAdapter extends RecyclerView.Adapter<CommentsCardViewHo
         return list.size();
     }
 
-    public void setData(List<Comment> list){
+    public void setData(List<Comment.CommentUpdated> list){
         final CommentCardDiffCallback diffCallback =
                 new CommentCardDiffCallback(this.list, list);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);

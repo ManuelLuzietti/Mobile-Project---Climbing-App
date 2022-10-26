@@ -45,7 +45,7 @@ public class BoulderViewFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        internetManager.registerNetworkCallback(getActivity());
+        internetManager.registerNetworkCallback();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class BoulderViewFragment extends Fragment {
         if(internetManager.isNetworkConnected()){
             String imgName = model.getSelected().getValue().getImg();
             if(imgName != null){
-                VolleySingleton.getInstance(getContext()).add(new JsonObjectRequest(InternetManager.URL + "?img="+imgName,null, new Response.Listener<JSONObject>() {
+                JsonObjectRequest jsonRequest = new JsonObjectRequest(InternetManager.URL + "?img="+imgName,null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         byte[] decodedString = new byte[0];
@@ -116,9 +116,9 @@ public class BoulderViewFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                     }
-                }));
+                });
+                VolleySingleton.getInstance(getContext()).add(jsonRequest);
             }
-
         } else {
             internetManager.getSnackbar().show();
         }

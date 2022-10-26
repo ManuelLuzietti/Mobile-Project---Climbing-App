@@ -56,7 +56,7 @@ public class InternetManager {
 
     }
 
-    public void registerNetworkCallback(Activity activity) {
+    public void registerNetworkCallback() {
         ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

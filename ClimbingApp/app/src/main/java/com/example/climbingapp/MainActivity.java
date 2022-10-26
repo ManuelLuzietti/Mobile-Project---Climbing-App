@@ -13,7 +13,7 @@ import com.example.climbingapp.database.entities.Boulder;
 
 import java.util.Date;
 import java.util.List;
-
+//test activity
 public class MainActivity extends AppCompatActivity {
 
     private  InternetManager internetManager;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_menu_center_pane);
         internetManager = new InternetManager(this,findViewById(R.id.main_activity_layout));
 
 
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        internetManager.registerNetworkCallback(this);
+        internetManager.registerNetworkCallback();
     }
 
     @Override

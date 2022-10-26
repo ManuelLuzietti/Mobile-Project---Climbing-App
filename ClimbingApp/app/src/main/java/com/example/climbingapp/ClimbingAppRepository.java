@@ -214,7 +214,7 @@ public class ClimbingAppRepository {
         return dao.isBoulderCompletedByUser(id_user,id_boulder);
     }
 
-    public LiveData<List<Comment>> getCommentsOnBoulder(int boulder_id){
+    public LiveData<List<Comment.CommentUpdated>> getCommentsOnBoulder(int boulder_id){
         return dao.getCommentsOnBoulder(boulder_id);
     }
 

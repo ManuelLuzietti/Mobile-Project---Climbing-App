@@ -63,7 +63,6 @@ public class InfoBoulderViewFragment extends Fragment {
 
     private void setTriesPieChart(ViewGroup container, ClimbingDAO.BoulderUpdated boulderSelected) {
 
-
         repo.getCompletionsOfBoulder(boulderSelected.id).observe(this, completedBoulders -> {
             synchronized (getActivity()) {
                 AnyChartView chart1 = container.findViewById(R.id.pie_chart_info_fragment);
@@ -108,7 +107,6 @@ public class InfoBoulderViewFragment extends Fragment {
 
     private void setCartesianGradesChart(ViewGroup container, ClimbingDAO.BoulderUpdated boulderSelected) {
         repo.getCommentsOnBoulder(boulderSelected.id).observe(this,comments -> {
-
             synchronized (getActivity()){
                 AnyChartView view = container.findViewById(R.id.cartesian_chart_grades_info_fragment);
                 view.setProgressBar(container.findViewById(R.id.cartesian_chart_progess_bar));
@@ -116,7 +114,7 @@ public class InfoBoulderViewFragment extends Fragment {
                 Cartesian cartesian = AnyChart.column();
                 List<DataEntry> grades = new ArrayList<>();
                 Map<String,Integer> map = new ArrayMap<>();
-                for(Comment c: comments){
+                for(Comment.CommentUpdated c: comments){
                     String grade = c.grade;
                     if(map.containsKey(grade)) {
                         int prevValue = map.get(grade);
@@ -150,7 +148,7 @@ public class InfoBoulderViewFragment extends Fragment {
     private void setRatingsChart(ViewGroup container, ClimbingDAO.BoulderUpdated selectedBoulder){
         repo.getCommentsOnBoulder(selectedBoulder.id).observe(this,comments -> {
             Map<Integer,Integer> map = new ArrayMap<>();
-            for(Comment c: comments){
+            for(Comment.CommentUpdated c: comments){
                 Integer rating = c.rating;
                 if(map.containsKey(rating)) {
                     int prevValue = map.get(rating);

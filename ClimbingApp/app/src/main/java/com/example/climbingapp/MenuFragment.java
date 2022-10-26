@@ -70,7 +70,7 @@ public class MenuFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        internetManager.registerNetworkCallback(getActivity());
+        internetManager.registerNetworkCallback();
     }
 
     @Override
@@ -100,11 +100,8 @@ public class MenuFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                // adapter.getFilter().filter("name:"+s);
                 filterModel.setName(s);
                 filterModel.setSettings();
-                // adapter.getFilter().filter((CharSequence)
-                // filterModel.getFilterSettings().getValue().toString());
                 return true;
             }
         });
@@ -125,7 +122,6 @@ public class MenuFragment extends Fragment {
         filterModel.getFilterSettings().observe(this, jsonObject -> {
             adapter.getFilter().filter(jsonObject.toString());
         });
-
     }
 
     public void setRecyclerView(View view) {
@@ -139,9 +135,6 @@ public class MenuFragment extends Fragment {
         repository.getBouldersUpdated(getActivity().getSharedPreferences("global_pref",MODE_PRIVATE).getInt("userId",-1)).observe(this, new Observer<List<ClimbingDAO.BoulderUpdated>>() {
             @Override
             public void onChanged(List<ClimbingDAO.BoulderUpdated> boulders) {
-//                for (ClimbingDAO.BoulderUpdated b : boulders) {
-//                    b.updateValues(getActivity().getApplication(), fragment, adapter, boulders.indexOf(b));
-//                }
                 adapter.setData(boulders);
                 adapter.notifyDataSetChanged();
             }

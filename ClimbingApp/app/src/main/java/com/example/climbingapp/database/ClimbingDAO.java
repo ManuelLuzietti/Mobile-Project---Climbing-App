@@ -91,9 +91,14 @@ public interface ClimbingDAO {
             "and b.id == :boulder_id")
     LiveData<List<Boulder>> isBoulderCompletedByUser(int user_id,int boulder_id);
 
-    @Query("select * from comment c join completed_boulder cb on (c.id == cb.comment_id) " +
-            "where cb.boulder_id == :boulder_id")
-    LiveData<List<Comment>> getCommentsOnBoulder(int boulder_id);
+    @Query("select c.*," +
+            "(select u.username from user u where u.id = c.user_id) as username," +
+            "cb.number_of_tries," +
+            "cb.date " +
+            "from comment c join completed_boulder cb on (cb.comment_id = c.id) " +
+            "where c.text is not null " +
+            "and cb.boulder_id = :boulder_id")
+    LiveData<List<Comment.CommentUpdated>> getCommentsOnBoulder(int boulder_id);
 
     @Query("select * from comment c join completed_boulder cb on (c.id == cb.comment_id) " +
             "where c.id == :id")
