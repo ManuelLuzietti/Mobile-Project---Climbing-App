@@ -134,9 +134,6 @@ public class MenuFragment extends Fragment {
             return true;
         });
 
-//        if(savedInstanceState==null){
-//           populateBoulderList();
-//        }
     }
 
 
