@@ -1,11 +1,6 @@
 package com.example.climbingapp.database.entities;
 
-import android.app.Application;
-import android.content.Context;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -13,12 +8,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.climbingapp.ClimbingAppRepository;
-import com.example.climbingapp.recyclerview.BoulderCardViewHolder;
-
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 @Entity(tableName = "boulder", indices = {@Index(value = {"name"}, unique = true)})
 public class Boulder {
@@ -134,45 +124,45 @@ public class Boulder {
         checked = checked;
     }
 
-    public void updateValues(Application application, Fragment fragment, RecyclerView.Adapter<BoulderCardViewHolder> adapter, int pos) {
-        ClimbingAppRepository repository = new ClimbingAppRepository(application);
-
-        /*
-        query:
-
-         */
-
-        repository.getTracciatoreFromBoulder(id).observe(fragment, (User u) -> {
-            if (u != null) {
-                setPlaceUser(u.username);
-                adapter.notifyItemChanged(pos);
-            }
-        });
-        repository.getCompletionsOfBoulder(id).observe(fragment, (List<CompletedBoulder> l) -> {
-            setPlaceRepeats(l.size());
-            adapter.notifyItemChanged(pos);
-        });
-        int id_user = Objects.requireNonNull(fragment.getActivity()).getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId", -1);
-        repository.getBoulderIfCompletedByUser(id_user, id).observe(fragment,(List<Boulder> b)->{
-            if (b.size()!=0){
-                checked = true;
-            } else{
-                checked = false;
-            }
-            adapter.notifyItemChanged(pos);
-
-        });
-
-        repository.getCommentsOnBoulder( id).observe(fragment,(List<Comment.CommentUpdated> lc) ->{
-            double media = 0;
-            for (Comment.CommentUpdated c: lc){
-                media += c.rating;
-            }
-            media = media / lc.size();
-            rating = (int)media;
-            adapter.notifyItemChanged(pos);
-        });
-
-
-    }
+//    public void updateValues(Application application, Fragment fragment, RecyclerView.Adapter<BoulderCardViewHolder> adapter, int pos) {
+//        ClimbingAppRepository repository = new ClimbingAppRepository(application);
+//
+//        /*
+//        query:
+//
+//         */
+//
+//        repository.getTracciatoreFromBoulder(id).observe(fragment, (User u) -> {
+//            if (u != null) {
+//                setPlaceUser(u.username);
+//                adapter.notifyItemChanged(pos);
+//            }
+//        });
+//        repository.getCompletionsOfBoulder(id).observe(fragment, (List<CompletedBoulder> l) -> {
+//            setPlaceRepeats(l.size());
+//            adapter.notifyItemChanged(pos);
+//        });
+//        int id_user = Objects.requireNonNull(fragment.getActivity()).getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId", -1);
+//        repository.getBoulderIfCompletedByUser(id_user, id).observe(fragment,(List<Boulder> b)->{
+//            if (b.size()!=0){
+//                checked = true;
+//            } else{
+//                checked = false;
+//            }
+//            adapter.notifyItemChanged(pos);
+//
+//        });
+//
+//        repository.getCommentsOnBoulder( id).observe(fragment,(List<Comment.CommentUpdated> lc) ->{
+//            double media = 0;
+//            for (Comment.CommentUpdated c: lc){
+//                media += c.rating;
+//            }
+//            media = media / lc.size();
+//            rating = (int)media;
+//            adapter.notifyItemChanged(pos);
+//        });
+//
+//
+//    }
 }

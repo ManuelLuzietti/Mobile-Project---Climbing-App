@@ -6,17 +6,15 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.climbingapp.BoulderViewFragment;
 import com.example.climbingapp.R;
-import com.example.climbingapp.Utils;
 import com.example.climbingapp.database.ClimbingDAO;
-import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
 import org.json.JSONException;
@@ -62,7 +60,8 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         }
         layoutView.setOnClickListener(ev -> {
             model.select(item);
-            Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null,R.id.nav_host_fragment_menu);
+            //Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null,R.id.nav_host_fragment_menu);
+            NavHostFragment.findNavController(FragmentManager.findFragment(layoutView)).navigate(R.id.action_menuFragment_to_boulderViewFragment);
         });
     }
 
@@ -92,9 +91,6 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
             protected FilterResults performFiltering(CharSequence charSequence) {
                 List<ClimbingDAO.BoulderUpdated> filteredList = new ArrayList<>();
                 filteredList.addAll(originalList);
-
-
-//todo:debug from here..
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(charSequence));
                         if(jsonObject.getInt("rating")!= 0){
@@ -104,7 +100,6 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                                     iterator.remove();
                                 }
                             }
-
                         }
                         if(!jsonObject.getString("grade").equals("")) {
                             Iterator<ClimbingDAO.BoulderUpdated> iterator = filteredList.iterator();
@@ -114,7 +109,6 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                                 }
                             }
                         }
-
                         if(!jsonObject.getString("name").equals("")) {
                             Iterator<ClimbingDAO.BoulderUpdated> iterator = filteredList.iterator();
                             while(iterator.hasNext()){
@@ -123,9 +117,6 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                                 }
                             }
                         }
-
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

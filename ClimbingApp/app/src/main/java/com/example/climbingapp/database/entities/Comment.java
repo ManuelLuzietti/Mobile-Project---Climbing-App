@@ -1,18 +1,10 @@
 package com.example.climbingapp.database.entities;
 
-import android.app.Application;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import com.example.climbingapp.ClimbingAppRepository;
-import com.example.climbingapp.database.TypeConverters;
-import com.example.climbingapp.recyclerview.CommentsCardViewHolder;
 
 @Entity(tableName = "comment",
         foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)})
@@ -102,21 +94,21 @@ public class Comment {
 
 
 
-    public void updateValues(Application application, Fragment fragment, RecyclerView.Adapter<CommentsCardViewHolder> adapter, int pos) {
-        ClimbingAppRepository repository = new ClimbingAppRepository(application);
-        repository.getCompletionOfBoulderFromComment(id).observe(fragment,completion ->{
-            if(completion== null){
-                return;
-            }
-            setNumOfTries(completion.numberOfTries);
-            setDate(TypeConverters.toString(completion.date));
-            adapter.notifyItemChanged(pos);
-        });
-        repository.getUserFromId(userId).observe(fragment,user -> {
-            setUsername(user.username);
-            adapter.notifyItemChanged(pos);
-        });
-    }
+//    public void updateValues(Application application, Fragment fragment, RecyclerView.Adapter<CommentsCardViewHolder> adapter, int pos) {
+//        ClimbingAppRepository repository = new ClimbingAppRepository(application);
+//        repository.getCompletionOfBoulderFromComment(id).observe(fragment,completion ->{
+//            if(completion== null){
+//                return;
+//            }
+//            setNumOfTries(completion.numberOfTries);
+//            setDate(TypeConverters.toString(completion.date));
+//            adapter.notifyItemChanged(pos);
+//        });
+//        repository.getUserFromId(userId).observe(fragment,user -> {
+//            setUsername(user.username);
+//            adapter.notifyItemChanged(pos);
+//        });
+//    }
 
 
     public static class CommentUpdated{

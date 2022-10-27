@@ -9,9 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -63,13 +64,16 @@ public class BoulderViewFragment extends Fragment {
         ((NavigationBarView)view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.bottomnav_add:
-                    Utils.insertFragment((AppCompatActivity) getActivity(),new AddViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+//                    Utils.insertFragment((AppCompatActivity) getActivity(),new AddViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+                    NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_addViewFragment);
                     break;
                 case R.id.bottomnav_comments:
-                    Utils.insertFragment((AppCompatActivity) getActivity(),new CommentsBoulderViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+//                    Utils.insertFragment((AppCompatActivity) getActivity(),new CommentsBoulderViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+                    NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_commentsBoulderViewFragment);
                     break;
                 case  R.id.bottomnav_info:
-                    Utils.insertFragment((AppCompatActivity) getActivity(),new InfoBoulderViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+//                    Utils.insertFragment((AppCompatActivity) getActivity(),new InfoBoulderViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+                    NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_infoBoulderViewFragment);
                     break;
                 default:
                     return false;

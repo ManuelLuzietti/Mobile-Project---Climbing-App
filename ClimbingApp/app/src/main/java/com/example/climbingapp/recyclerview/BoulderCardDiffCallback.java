@@ -37,7 +37,7 @@ public class BoulderCardDiffCallback extends DiffUtil.Callback {
 
         return newItem.getPlaceName().equals(oldItem.getPlaceName()) &&
                 newItem.getId() == oldItem.getId() &&
-                newItem.getPlaceUser() == oldItem.getPlaceUser() &&
+                newItem.getPlaceUser().equals(oldItem.getPlaceUser()) &&
                 newItem.getPlaceRepeats() == oldItem.getPlaceRepeats() &&
                 newItem.getPlaceGrade().equals(oldItem.getPlaceGrade()) &&
                 newItem.getPlaceRating() == oldItem.getPlaceRating() &&
