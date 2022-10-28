@@ -3,15 +3,15 @@ package com.example.climbingapp.recyclerview;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.example.climbingapp.database.ClimbingDAO;
+import com.example.climbingapp.database.entities.Boulder;
 
 import java.util.List;
 
 public class BoulderCardDiffCallback extends DiffUtil.Callback {
-    private List<ClimbingDAO.BoulderUpdated> oldBoulderList;
-    private List<ClimbingDAO.BoulderUpdated> newBoulderList;
+    private List<Boulder.BoulderUpdated> oldBoulderList;
+    private List<Boulder.BoulderUpdated> newBoulderList;
 
-    public BoulderCardDiffCallback(List<ClimbingDAO.BoulderUpdated> oldBoulderList, List<ClimbingDAO.BoulderUpdated> newBoulderList){
+    public BoulderCardDiffCallback(List<Boulder.BoulderUpdated> oldBoulderList, List<Boulder.BoulderUpdated> newBoulderList){
         this.newBoulderList = newBoulderList;
         this.oldBoulderList = oldBoulderList;
     }
@@ -32,8 +32,8 @@ public class BoulderCardDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        ClimbingDAO.BoulderUpdated newItem = newBoulderList.get(newItemPosition);
-        ClimbingDAO.BoulderUpdated oldItem = oldBoulderList.get(oldItemPosition);
+        Boulder.BoulderUpdated newItem = newBoulderList.get(newItemPosition);
+        Boulder.BoulderUpdated oldItem = oldBoulderList.get(oldItemPosition);
 
         return newItem.getPlaceName().equals(oldItem.getPlaceName()) &&
                 newItem.getId() == oldItem.getId() &&

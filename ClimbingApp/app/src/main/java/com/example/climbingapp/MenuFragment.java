@@ -19,7 +19,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.climbingapp.database.ClimbingDAO;
+import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.recyclerview.BoulderCardAdapter;
 import com.example.climbingapp.viewmodels.FilterViewModel;
 import com.google.android.material.navigation.NavigationBarView;
@@ -145,9 +145,9 @@ public class MenuFragment extends Fragment {
     }
 
     private void populateBoulderList() {
-        repository.getBouldersUpdated(getActivity().getSharedPreferences("global_pref",MODE_PRIVATE).getInt("userId",-1)).observe(this, new Observer<List<ClimbingDAO.BoulderUpdated>>() {
+        repository.getBouldersUpdated(getActivity().getSharedPreferences("global_pref",MODE_PRIVATE).getInt("userId",-1)).observe(this, new Observer<List<Boulder.BoulderUpdated>>() {
             @Override
-            public void onChanged(List<ClimbingDAO.BoulderUpdated> boulders) {
+            public void onChanged(List<Boulder.BoulderUpdated> boulders) {
                 adapter.setData(boulders);
                 adapter.getFilter().filter(filterModel.getFilterSettings().getValue().toString());
                 adapter.notifyDataSetChanged();

@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
-import com.example.climbingapp.database.ClimbingDAO;
 import com.example.climbingapp.database.entities.Boulder;
 
 import java.util.Date;
@@ -137,10 +136,10 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void test9(){
-        LiveData<List<ClimbingDAO.BoulderUpdated>> l = new ClimbingAppRepository(getApplication()).getBouldersUpdated(getSharedPreferences("global_pref",MODE_PRIVATE).getInt("userId",-1));
+        LiveData<List<Boulder.BoulderUpdated>> l = new ClimbingAppRepository(getApplication()).getBouldersUpdated(getSharedPreferences("global_pref",MODE_PRIVATE).getInt("userId",-1));
         l.observe(this,ll ->{
             if(ll!= null){
-                for(ClimbingDAO.BoulderUpdated b: ll){
+                for(Boulder.BoulderUpdated b: ll){
                     System.out.println(b.id);
                 }
             }

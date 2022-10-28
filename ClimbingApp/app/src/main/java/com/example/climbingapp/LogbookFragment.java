@@ -11,12 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.climbingapp.recyclerview.BoulderCardAdapter;
+import com.example.climbingapp.recyclerview.BoulderCardLogbookAdapter;
 
 
 public class LogbookFragment extends Fragment {
     private RecyclerView recyclerView;
-    private BoulderCardAdapter boulderCardAdapter;
+    private BoulderCardLogbookAdapter boulderCardLogbookAdapter;
     private ClimbingAppRepository repo;
 
     @Override
@@ -41,15 +41,15 @@ public class LogbookFragment extends Fragment {
 
     public void setRecyclerView(View view){
         recyclerView = view.findViewById(R.id.logbook_recyclerview);
-        boulderCardAdapter = new BoulderCardAdapter(this);
-        recyclerView.setAdapter(boulderCardAdapter);
+        boulderCardLogbookAdapter = new BoulderCardLogbookAdapter(this);
+        recyclerView.setAdapter(boulderCardLogbookAdapter);
         populateBoulderList();
     }
 
     private void populateBoulderList() {
-        repo.getBouldersCompletedByUser(getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1)).observe(this, boulders -> {
-            boulderCardAdapter.setData(boulders);
-            boulderCardAdapter.notifyDataSetChanged();
+        repo.getBouldersLogbook(getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1)).observe(this, boulders -> {
+            boulderCardLogbookAdapter.setData(boulders);
+            boulderCardLogbookAdapter.notifyDataSetChanged();
         });
     }
 

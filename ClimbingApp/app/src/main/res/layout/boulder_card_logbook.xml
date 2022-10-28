@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/boulder_logbook_single_card"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="16dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="1dp"
+    app:strokeColor="@color/material_on_surface_stroke">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/check_boulder_image_logbook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/place_boulder_name_textview_logbook"
+            app:srcCompat="@drawable/ic_baseline_check_24" />
+
+        <ImageView
+            android:id="@+id/official_boulder_image_logbook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_boulder_image_logbook"
+            app:srcCompat="@drawable/ic_baseline_favorite_24" />
+
+        <TextView
+            android:id="@+id/place_boulder_name_textview_logbook"
+            android:layout_width="353dp"
+            android:layout_height="wrap_content"
+            android:text="name placeholder"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/comment_boulder_logbook"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/comment_boulder_logbook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_comment_24" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_1_logbook"
+            android:layout_width="176dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@+id/check_boulder_image_logbook"
+            app:layout_constraintTop_toBottomOf="@id/place_boulder_name_textview_logbook">
+
+
+            <TextView
+                android:id="@+id/place_user_textview_logbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="user placeholder"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/place_repeats_textview_logbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="repeat placeholder"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/place_grade_textview_logbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="grade placeholder"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/place_rating_textview_logbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="rating placeholder"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_2_logbook"
+            android:layout_width="176dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/linear_layout_1_logbook"
+            app:layout_constraintTop_toBottomOf="@+id/place_boulder_name_textview_logbook">
+
+            <RatingBar
+                android:id="@+id/place_ratinguser_ratingbar_logbook"
+                style="?android:ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1.0" />
+
+            <TextView
+                android:id="@+id/place_gradeuser_textview_logbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="grade user placeholder"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/place_triesuser_textview_logbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="tries user placeholder"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/place_dateuser_textview_logbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="date user placeholder"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

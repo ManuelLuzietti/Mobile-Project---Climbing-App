@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.climbingapp.R;
-import com.example.climbingapp.database.ClimbingDAO;
+import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
 import org.json.JSONException;
@@ -25,8 +25,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHolder> {
-    private List<ClimbingDAO.BoulderUpdated> list  ;
-    private List<ClimbingDAO.BoulderUpdated> originalList;
+    private List<Boulder.BoulderUpdated> list  ;
+    private List<Boulder.BoulderUpdated> originalList;
     private View layoutView;
     private Fragment fragment;
     private SelectedBoulderViewModel model;
@@ -46,7 +46,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
 
     @Override
     public void onBindViewHolder(@NonNull BoulderCardViewHolder holder, int position) {
-        ClimbingDAO.BoulderUpdated item = list.get(position);
+        Boulder.BoulderUpdated item = list.get(position);
         holder.place_boulder_name_textview.setText(item.getPlaceName());
         holder.place_user_textview.setText(item.getPlaceUser());
         holder.place_repeats_textview.setText(String.valueOf(item.getPlaceRepeats()));
@@ -89,12 +89,12 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                List<ClimbingDAO.BoulderUpdated> filteredList = new ArrayList<>();
+                List<Boulder.BoulderUpdated> filteredList = new ArrayList<>();
                 filteredList.addAll(originalList);
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(charSequence));
                         if(jsonObject.getInt("rating")!= 0){
-                            Iterator<ClimbingDAO.BoulderUpdated> iterator = filteredList.iterator();
+                            Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
                             while(iterator.hasNext()){
                                 if(iterator.next().getPlaceRating()!=jsonObject.getInt("rating")){
                                     iterator.remove();
@@ -102,7 +102,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                             }
                         }
                         if(!jsonObject.getString("grade").equals("")) {
-                            Iterator<ClimbingDAO.BoulderUpdated> iterator = filteredList.iterator();
+                            Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
                             while(iterator.hasNext()){
                                 if(!iterator.next().getPlaceGrade().equals(jsonObject.getString("grade"))){
                                     iterator.remove();
@@ -110,7 +110,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                             }
                         }
                         if(!jsonObject.getString("name").equals("")) {
-                            Iterator<ClimbingDAO.BoulderUpdated> iterator = filteredList.iterator();
+                            Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
                             while(iterator.hasNext()){
                                 if(!iterator.next().getPlaceName().contains(jsonObject.getString("name").toLowerCase().trim())){
                                     iterator.remove();
@@ -142,11 +142,11 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                List<ClimbingDAO.BoulderUpdated> filteredList = new ArrayList<>();
+                List<Boulder.BoulderUpdated> filteredList = new ArrayList<>();
                 List<?> result = (List<?>) results.values;
                 for (Object object : result) {
-                    if (object instanceof ClimbingDAO.BoulderUpdated) {
-                        filteredList.add((ClimbingDAO.BoulderUpdated) object);
+                    if (object instanceof Boulder.BoulderUpdated) {
+                        filteredList.add((Boulder.BoulderUpdated) object);
                     }
                 }
 
@@ -156,7 +156,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         };
     }
 
-     public void updateCardListItems(List<ClimbingDAO.BoulderUpdated> filteredList) {
+     public void updateCardListItems(List<Boulder.BoulderUpdated> filteredList) {
             final BoulderCardDiffCallback diffCallback =
                     new BoulderCardDiffCallback(this.list, filteredList);
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
@@ -169,7 +169,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     //     * Method that set the list in the Home
     //     * @param list the list to display in the home
     //     */
-        public void setData(List<ClimbingDAO.BoulderUpdated> list){
+        public void setData(List<Boulder.BoulderUpdated> list){
             final BoulderCardDiffCallback diffCallback =
                     new BoulderCardDiffCallback(this.list, list);
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);

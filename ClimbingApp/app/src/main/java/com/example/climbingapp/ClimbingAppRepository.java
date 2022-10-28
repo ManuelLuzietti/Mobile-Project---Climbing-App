@@ -239,11 +239,16 @@ public class ClimbingAppRepository {
         return  null;
     }
 
-    public LiveData<List<ClimbingDAO.BoulderUpdated>> getBouldersCompletedByUser(int id){
+    public LiveData<List<Boulder.BoulderUpdated>> getBouldersCompletedByUser(int id){
         return dao.getBouldersCompletedByUser( id);
     }
 
-    public LiveData<List<ClimbingDAO.BoulderUpdated>> getBouldersUpdated(int userId){
+    public LiveData<List<Boulder.BoulderUpdated>> getBouldersUpdated(int userId){
         return dao.getBoulderUpdated(userId);
+    }
+
+
+    public LiveData<List<Boulder.BoulderLogbook>> getBouldersLogbook(int userId){
+        return dao.getBouldersLogbook(userId);
     }
 }

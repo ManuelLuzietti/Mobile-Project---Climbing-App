@@ -63,6 +63,20 @@ public class Utils {
                 throw new RuntimeException();
         }
     }
+    public static String numOfTriesConversion(int tries){
+        switch (tries) {
+            case 1:
+                return "flash";
+            case 2:
+                return "second attempt";
+            case 3:
+                return "third attempt";
+            case 4:
+                return "more than three";
+            default:
+                throw new RuntimeException();
+        }
+    }
 
     public static boolean isUserLoggedIn(Activity activity) {
         int id = activity.getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId",-1);

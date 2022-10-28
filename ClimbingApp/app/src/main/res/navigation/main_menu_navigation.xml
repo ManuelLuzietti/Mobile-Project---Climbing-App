@@ -23,17 +23,7 @@
         android:id="@+id/userPageFragment"
         android:name="com.example.climbingapp.UserPageFragment"
         android:label="fragment_user_page"
-        tools:layout="@layout/fragment_user_page" >
-        <action
-            android:id="@+id/action_userPageFragment_to_personalInfoFragment"
-            app:destination="@id/personalInfoFragment" />
-        <action
-            android:id="@+id/action_userPageFragment_to_logbookFragment"
-            app:destination="@id/logbookFragment" />
-        <action
-            android:id="@+id/action_userPageFragment_to_trofeiFragment"
-            app:destination="@id/trofeiFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_user_page" />
     <fragment
         android:id="@+id/boulderViewFragment"
         android:name="com.example.climbingapp.BoulderViewFragment"
@@ -64,21 +54,6 @@
         android:name="com.example.climbingapp.AddViewFragment"
         android:label="fragment_add_view"
         tools:layout="@layout/fragment_add_view" />
-    <fragment
-        android:id="@+id/personalInfoFragment"
-        android:name="com.example.climbingapp.PersonalInfoFragment"
-        android:label="fragment_personal_info"
-        tools:layout="@layout/fragment_personal_info" />
-    <fragment
-        android:id="@+id/logbookFragment"
-        android:name="com.example.climbingapp.LogbookFragment"
-        android:label="fragment_logbook"
-        tools:layout="@layout/fragment_logbook" />
-    <fragment
-        android:id="@+id/trofeiFragment"
-        android:name="com.example.climbingapp.TrofeiFragment"
-        android:label="fragment_trofei"
-        tools:layout="@layout/fragment_trofei" />
 
 
 </navigation>
