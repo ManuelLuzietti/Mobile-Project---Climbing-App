@@ -88,7 +88,9 @@ public class AddFantaBoulderFragment extends Fragment {
         if(getActivity()!=null){
             model.getBitmap().observe(getActivity(),bitmap->{
                 if(bitmap==null){
-                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_camera));
+                    if (getActivity() != null) {
+                        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_camera));
+                    }
                 } else {
                     imageView.setImageBitmap(bitmap);
                 }
