@@ -41,65 +41,68 @@ public class InfoBoulderViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repo = new ClimbingAppRepository(getActivity().getApplication());
-        model = new ViewModelProvider(getActivity()).get(SelectedBoulderViewModel.class);
+        if (getActivity() != null) {
+            repo = new ClimbingAppRepository(getActivity().getApplication());
+            model = new ViewModelProvider(getActivity()).get(SelectedBoulderViewModel.class);
+        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         model.getSelected().observe(this, boulder -> {
             setTriesPieChart(container, boulder);
             setCartesianGradesChart(container, boulder);
             setRatingsChart(container,boulder);
             setInfoBoulder(container,boulder);
         });
-
         return inflater.inflate(R.layout.fragment_info_boulder_view, container, false);
-
     }
 
 
     private void setTriesPieChart(ViewGroup container, Boulder.BoulderUpdated boulderSelected) {
 
         repo.getCompletionsOfBoulder(boulderSelected.id).observe(this, completedBoulders -> {
-            synchronized (getActivity()) {
-                AnyChartView chart1 = container.findViewById(R.id.pie_chart_info_fragment);
-                chart1.setProgressBar(container.findViewById(R.id.pie_chart_progress_bar));
-                APIlib.getInstance().setActiveAnyChartView(chart1);
-                Pie pie = AnyChart.pie();
-                pie.title("Tries:");
-                List<DataEntry> tries = new ArrayList<>();
-                int flashes = 0;
-                int secondTry = 0;
-                int thirdTry = 0;
-                int moreThanThree = 0;
-                for (CompletedBoulder cb : completedBoulders) {
-                    switch (cb.numberOfTries+1) {
-                        case 1:
-                            flashes += 1;
-                            break;
-                        case 2:
-                            secondTry += 1;
-                            break;
-                        case 3:
-                            thirdTry += 1;
-                            break;
-                        case 4:
-                            moreThanThree += 1;
-                            break;
-                        default:
-                            break;
+            if (getActivity() != null) {
+                synchronized (getActivity()) {
+                    AnyChartView chart1 = container.findViewById(R.id.pie_chart_info_fragment);
+                    chart1.setProgressBar(container.findViewById(R.id.pie_chart_progress_bar));
+                    APIlib.getInstance().setActiveAnyChartView(chart1);
+                    Pie pie = AnyChart.pie();
+                    pie.title("Tries:");
+                    List<DataEntry> tries = new ArrayList<>();
+                    int flashes = 0;
+                    int secondTry = 0;
+                    int thirdTry = 0;
+                    int moreThanThree = 0;
+                    for (CompletedBoulder cb : completedBoulders) {
+                        switch (cb.numberOfTries+1) {
+                            case 1:
+                                flashes += 1;
+                                break;
+                            case 2:
+                                secondTry += 1;
+                                break;
+                            case 3:
+                                thirdTry += 1;
+                                break;
+                            case 4:
+                                moreThanThree += 1;
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    tries.add(new ValueDataEntry("flash", flashes));
+                    tries.add(new ValueDataEntry("2", secondTry));
+                    tries.add(new ValueDataEntry("3", thirdTry));
+                    tries.add(new ValueDataEntry("4+", moreThanThree));
+                    pie.labels().format("{%value}");
+                    pie.data(tries);
+                    chart1.setChart(pie);
                 }
-                tries.add(new ValueDataEntry("flash", flashes));
-                tries.add(new ValueDataEntry("2", secondTry));
-                tries.add(new ValueDataEntry("3", thirdTry));
-                tries.add(new ValueDataEntry("4+", moreThanThree));
-                pie.labels().format("{%value}");
-                pie.data(tries);
-                chart1.setChart(pie);
+
             }
 
         });
@@ -107,41 +110,44 @@ public class InfoBoulderViewFragment extends Fragment {
 
     private void setCartesianGradesChart(ViewGroup container, Boulder.BoulderUpdated boulderSelected) {
         repo.getCommentsOnBoulder(boulderSelected.id).observe(this,comments -> {
-            synchronized (getActivity()){
-                AnyChartView view = container.findViewById(R.id.cartesian_chart_grades_info_fragment);
-                view.setProgressBar(container.findViewById(R.id.cartesian_chart_progess_bar));
-                APIlib.getInstance().setActiveAnyChartView(view);
-                Cartesian cartesian = AnyChart.column();
-                List<DataEntry> grades = new ArrayList<>();
-                Map<String,Integer> map = new ArrayMap<>();
-                for(Comment.CommentUpdated c: comments){
-                    String grade = c.grade;
-                    if(map.containsKey(grade)) {
-                        int prevValue = map.get(grade);
-                        map.put(grade,prevValue+1);
-                    } else {
-                        map.put(grade,1);
+            if (getActivity() != null) {
+                synchronized (getActivity()){
+                    AnyChartView view = container.findViewById(R.id.cartesian_chart_grades_info_fragment);
+                    view.setProgressBar(container.findViewById(R.id.cartesian_chart_progess_bar));
+                    APIlib.getInstance().setActiveAnyChartView(view);
+                    Cartesian cartesian = AnyChart.column();
+                    List<DataEntry> grades = new ArrayList<>();
+                    Map<String,Integer> map = new ArrayMap<>();
+                    for(Comment.CommentUpdated c: comments){
+                        String grade = c.grade;
+                        if(map.containsKey(grade)) {
+                            int prevValue = map.get(grade);
+                            map.put(grade,prevValue+1);
+                        } else {
+                            map.put(grade,1);
+                        }
                     }
+                    for(Map.Entry<String,Integer> entry: map.entrySet()){
+                        grades.add(new ValueDataEntry(entry.getKey(),entry.getValue()));
+                    }
+                    Column column = cartesian.column(grades);
+                    cartesian.animation(true);
+                    column.tooltip()
+                            .titleFormat("{%X}")
+                            .position(Position.CENTER_BOTTOM)
+                            .anchor(Anchor.CENTER_BOTTOM)
+                    ;
+                    cartesian.animation(true);
+                    cartesian.title("Grades");
+                    cartesian.yAxis(0).labels().format("{%Value}");
+                    cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
+                    cartesian.interactivity().hoverMode(HoverMode.BY_X);
+                    cartesian.xAxis(0).title("Grades");
+                    cartesian.yAxis(0).title("n.");
+                    view.setChart(cartesian);
                 }
-                for(Map.Entry<String,Integer> entry: map.entrySet()){
-                    grades.add(new ValueDataEntry(entry.getKey(),entry.getValue()));
-                }
-                Column column = cartesian.column(grades);
-                cartesian.animation(true);
-                column.tooltip()
-                        .titleFormat("{%X}")
-                        .position(Position.CENTER_BOTTOM)
-                        .anchor(Anchor.CENTER_BOTTOM)
-                        ;
-                cartesian.animation(true);
-                cartesian.title("Grades");
-                cartesian.yAxis(0).labels().format("{%Value}");
-                cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
-                cartesian.interactivity().hoverMode(HoverMode.BY_X);
-                cartesian.xAxis(0).title("Grades");
-                cartesian.yAxis(0).title("n.");
-                view.setChart(cartesian);
             }
+
         });
     }
 

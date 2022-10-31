@@ -1,5 +1,6 @@
 package com.example.climbingapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,14 +16,15 @@ import com.example.climbingapp.recyclerview.BoulderCardLogbookAdapter;
 
 
 public class LogbookFragment extends Fragment {
-    private RecyclerView recyclerView;
     private BoulderCardLogbookAdapter boulderCardLogbookAdapter;
     private ClimbingAppRepository repo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repo = new ClimbingAppRepository(getActivity().getApplication());
+        if (getActivity() != null) {
+            repo = new ClimbingAppRepository(getActivity().getApplication());
+        }
 
     }
 
@@ -40,17 +42,25 @@ public class LogbookFragment extends Fragment {
     }
 
     public void setRecyclerView(View view){
-        recyclerView = view.findViewById(R.id.logbook_recyclerview);
-        boulderCardLogbookAdapter = new BoulderCardLogbookAdapter(this);
+        RecyclerView recyclerView = view.findViewById(R.id.logbook_recyclerview);
+        try {
+            boulderCardLogbookAdapter = new BoulderCardLogbookAdapter(this);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         recyclerView.setAdapter(boulderCardLogbookAdapter);
         populateBoulderList();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void populateBoulderList() {
-        repo.getBouldersLogbook(getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1)).observe(this, boulders -> {
-            boulderCardLogbookAdapter.setData(boulders);
-            boulderCardLogbookAdapter.notifyDataSetChanged();
-        });
+        if (getActivity() != null) {
+            repo.getBouldersLogbook(getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1)).observe(this, boulders -> {
+                boulderCardLogbookAdapter.setData(boulders);
+                boulderCardLogbookAdapter.notifyDataSetChanged();
+            });
+        }
+
     }
 
 

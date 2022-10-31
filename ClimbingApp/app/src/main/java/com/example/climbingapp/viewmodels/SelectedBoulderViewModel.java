@@ -20,7 +20,6 @@ public class SelectedBoulderViewModel extends ViewModel {
     public LiveData<Boulder.BoulderUpdated> getSelected(){
         return boulder;
     }
-
     public void setBitmap(Bitmap bitmap){
         this.bitmap.setValue(bitmap);
     }
@@ -28,11 +27,4 @@ public class SelectedBoulderViewModel extends ViewModel {
         return this.bitmap;
     }
 
-//    public void setBitmap(Bitmap bitmap){
-//        this.bitmap.setValue(bitmap);
-//    }
-//
-//    public LiveData<Bitmap> getBitmap(){
-//        return this.bitmap;
-//    }
 }

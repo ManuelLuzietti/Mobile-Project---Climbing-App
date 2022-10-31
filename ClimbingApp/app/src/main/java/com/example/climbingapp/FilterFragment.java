@@ -27,7 +27,9 @@ public class FilterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        if(getActivity()!=null){
+            model = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        }
 
     }
 
@@ -41,13 +43,17 @@ public class FilterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         gradeSlider = view.findViewById(R.id.slider_filter);
-        grades = getActivity().getResources().getStringArray(R.array.grades);
+        if(getActivity()!=null){
+            grades = getActivity().getResources().getStringArray(R.array.grades);
+        }
         gradeSlider.setValueTo(grades.length-1);
         gradeSlider.setLabelFormatter(value -> {
             return grades[(int)value];
         });
         ratingbar = view.findViewById(R.id.rating_bar_filter);
-        ratingbar.setRating(model.getRating().getValue());
+        if(model.getRating().getValue()!=null){
+            ratingbar.setRating(model.getRating().getValue());
+        }
         gradeSlider.setValue(Arrays.asList(grades).indexOf(model.getGrade().getValue()));
         ((Button)view.findViewById(R.id.filter_apply_button)).setOnClickListener(event->{
             model.setGrade(grades[((int)gradeSlider.getValue())]);

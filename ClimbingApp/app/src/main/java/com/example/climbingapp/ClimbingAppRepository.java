@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.climbingapp.database.ClimbingDAO;
 import com.example.climbingapp.database.ClimbingRoomDatabase;
@@ -28,11 +27,11 @@ import java.util.concurrent.Future;
 
 public class ClimbingAppRepository {
 
-    private ClimbingDAO dao;
-    private Application application;
+    private final ClimbingDAO dao;
+    private final Application application;
     private final ExecutorService executor = Executors.newFixedThreadPool(1);
-    private List<String> tableNames = new ArrayList<>();
-    private LiveData<List<Boulder>> boulders;
+    private final List<String> tableNames = new ArrayList<>();
+    private final LiveData<List<Boulder>> boulders;
 
     public ClimbingAppRepository(Application application) {
         this.application = application;
@@ -60,12 +59,7 @@ public class ClimbingAppRepository {
                         e.printStackTrace();
                     }
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println(error.toString());
-                }
-            });
+            }, error -> System.out.println(error.toString()));
 
             VolleySingleton.getInstance(application.getApplicationContext()).add(request);
         });
@@ -167,9 +161,6 @@ public class ClimbingAppRepository {
         return ClimbingRoomDatabase.databaseWriteExecutor.submit(()->{
             return dao.insertBoulder(boulder);
         });
-//        ClimbingRoomDatabase.databaseWriteExecutor.execute(() -> {
-//            dao.insertBoulder(boulder);
-//        });
     }
 
     public Future<Long> insertUser(User user) {

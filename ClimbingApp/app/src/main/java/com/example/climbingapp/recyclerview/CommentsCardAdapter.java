@@ -5,25 +5,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.climbingapp.R;
 import com.example.climbingapp.database.entities.Comment;
-import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommentsCardAdapter extends RecyclerView.Adapter<CommentsCardViewHolder> {
-    private  SelectedBoulderViewModel model;
     private List<Comment.CommentUpdated> list;
 
-    public CommentsCardAdapter(Fragment fragment){
+    public CommentsCardAdapter(){
         list = new ArrayList<>();
-        model = new ViewModelProvider(fragment.getActivity()).get(SelectedBoulderViewModel.class);
     }
     @NonNull
     @Override

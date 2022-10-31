@@ -1,5 +1,6 @@
 package com.example.climbingapp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +17,18 @@ import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
 public class CommentsBoulderViewFragment extends Fragment {
 
-    private RecyclerView recyclerView;
     private CommentsCardAdapter adapter;
     private ClimbingAppRepository repository;
-    private Fragment fragment;
     private SelectedBoulderViewModel model;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getActivity() == null) {
+            return;
+        }
         repository = new ClimbingAppRepository(getActivity().getApplication());
-        fragment = this;
+        Fragment fragment = this;
         model = new ViewModelProvider(getActivity()).get(SelectedBoulderViewModel.class);
     }
 
@@ -43,17 +45,21 @@ public class CommentsBoulderViewFragment extends Fragment {
     }
 
     private void setRecyclerView(View view) {
-        recyclerView = view.findViewById(R.id.comments_recyclerview);
-        adapter = new CommentsCardAdapter(fragment);
+        RecyclerView recyclerView = view.findViewById(R.id.comments_recyclerview);
+        adapter = new CommentsCardAdapter();
         recyclerView.setAdapter(adapter);
         populateCommentList();
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void populateCommentList() {
-        repository.getCommentsOnBoulder(model.getSelected().getValue().id).observe(this,comments -> {
-            adapter.setData(comments);
-            adapter.notifyDataSetChanged();
-        });
+        if (model.getSelected().getValue() != null) {
+            repository.getCommentsOnBoulder(model.getSelected().getValue().id).observe(this,comments -> {
+                adapter.setData(comments);
+                adapter.notifyDataSetChanged();
+            });
+        }
+
     }
 }

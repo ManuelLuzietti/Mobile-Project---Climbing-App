@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModel;
 
 public class AddFantaBoulderViewModel extends ViewModel {
 
-    private MutableLiveData<Bitmap> bitmap;
-    private MutableLiveData<Uri> imageUri;
+    private final MutableLiveData<Bitmap> bitmap;
+    private final MutableLiveData<Uri> imageUri;
 
     public AddFantaBoulderViewModel() {
         super();

@@ -21,7 +21,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.climbingapp.viewmodels.AddFantaBoulderViewModel;
@@ -30,13 +29,12 @@ import com.google.android.material.navigation.NavigationView;
 import java.io.IOException;
 
 public class MainMenuActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavController navController;
     private AddFantaBoulderViewModel fantaModel;
     private Uri uri;
 
-    private ActivityResultLauncher<String> requestPermissionLauncher =
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
                     requestEditOnPhoto(uri);
@@ -49,18 +47,22 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        drawerLayout = findViewById(R.id.my_drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.nav_open,R.string.nav_close);
+        DrawerLayout drawerLayout = findViewById(R.id.my_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.nav_open,R.string.nav_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_menu);
-        navController = navHostFragment.getNavController();
+        if(navHostFragment!=null){
+            navController = navHostFragment.getNavController();
+        }
 
-        AppBarConfiguration appBarConfiguration =
-                new AppBarConfiguration.Builder(navController.getGraph())
-                        .setDrawerLayout(drawerLayout)
-                        .build();
+//        AppBarConfiguration appBarConfiguration =
+//                new AppBarConfiguration.Builder(navController.getGraph())
+//                        .setDrawerLayout(drawerLayout)
+//                        .build();
         NavigationView navView = findViewById(R.id.nav_view_menu);
         navView.getMenu().findItem(R.id.logoutItem).setOnMenuItemClickListener(menuItem -> {
             Utils.logOutUser(this);
@@ -91,7 +93,9 @@ public class MainMenuActivity extends AppCompatActivity {
                     requestEditOnPhoto(fantaModel.getImageUri().getValue());
                     break;
                 case 2:
-                    requestEditOnPhoto(data.getData());
+                    if (data != null) {
+                        requestEditOnPhoto(data.getData());
+                    }
                     break;
                 case 3:
                     if (data != null) {

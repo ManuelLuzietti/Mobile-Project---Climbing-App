@@ -44,6 +44,9 @@ public class PersonalInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getActivity()==null){
+            return;
+        }
         SharedPreferences global_pref = getActivity().getApplication().getSharedPreferences("global_pref", Context.MODE_PRIVATE);
         username = global_pref.getString("username","");
         firstName = global_pref.getString("first_name","");
@@ -67,28 +70,29 @@ public class PersonalInfoFragment extends Fragment {
         usernameEt.setText(username);
         firstNameEt.setText(firstName);
         lastNameEt.setText(lastName);
-        view.findViewById(R.id.update_button_personalinfo).setOnClickListener(event->{
-            String usernameText = usernameEt.getText().toString();
+        view.findViewById(R.id.update_button_personalinfo).setOnClickListener(event->{ String usernameText = usernameEt.getText().toString();
            if(!usernameText.equals(username)){
                updateUsername(usernameText);
            }
-           String firstnameText = firstNameEt.getText().toString();
-            if(!firstnameText.equals(firstName)){
-                updateFirstname(firstnameText);
-            }
-            String lastnameText = lastNameEt.getText().toString();
-            if(!lastnameText.equals(lastName)){
-                updateLastname(lastnameText);
-            }
+           if(firstNameEt.getText()!=null){
+               String firstnameText = firstNameEt.getText().toString();
+               if(!firstnameText.equals(firstName)){
+                   updateFirstname(firstnameText);
+               }
+           }
+
+           if(lastNameEt.getText()!=null){
+               String lastnameText = lastNameEt.getText().toString();
+               if(!lastnameText.equals(lastName)){
+                   updateLastname(lastnameText);
+               }
+           }
+
         });
     }
 
     private void updateLastname(String lastnameText) {
-        StringRequest updateLastnameReq = new StringRequest(Request.Method.GET,InternetManager.URL+"?method=update_lastname&lastname="+lastnameText+"&id="+id,response -> {
-            checkResponse(response);
-        },error -> {
-            error.printStackTrace();
-        });
+        StringRequest updateLastnameReq = new StringRequest(Request.Method.GET,InternetManager.URL+"?method=update_lastname&lastname="+lastnameText+"&id="+id, this::checkResponse, Throwable::printStackTrace);
         if(internetManager.isNetworkConnected()){
             VolleySingleton.getInstance(getContext()).add(updateLastnameReq);
         } else {
@@ -99,11 +103,7 @@ public class PersonalInfoFragment extends Fragment {
 
 
     private void updateFirstname(String firstnameText) {
-        StringRequest updateFirstnameReq = new StringRequest(Request.Method.GET,InternetManager.URL+"?method=update_firstname&firstname="+firstnameText+"&id="+id,response -> {
-            checkResponse(response);
-        },error -> {
-            error.printStackTrace();
-        });
+        StringRequest updateFirstnameReq = new StringRequest(Request.Method.GET,InternetManager.URL+"?method=update_firstname&firstname="+firstnameText+"&id="+id, this::checkResponse, Throwable::printStackTrace);
         if(internetManager.isNetworkConnected()){
             VolleySingleton.getInstance(getContext()).add(updateFirstnameReq);
         } else {
@@ -112,11 +112,7 @@ public class PersonalInfoFragment extends Fragment {
     }
 
     private void updateUsername(String usernameText) {
-        StringRequest updateUsernameReq = new StringRequest(Request.Method.GET,InternetManager.URL+"?method=update_username&username="+usernameText+"&id="+id,response -> {
-            checkResponse(response);
-        },error -> {
-            error.printStackTrace();
-        });
+        StringRequest updateUsernameReq = new StringRequest(Request.Method.GET,InternetManager.URL+"?method=update_username&username="+usernameText+"&id="+id, this::checkResponse, Throwable::printStackTrace);
         if(internetManager.isNetworkConnected()){
             VolleySingleton.getInstance(getContext()).add(updateUsernameReq);
         } else {
@@ -128,16 +124,23 @@ public class PersonalInfoFragment extends Fragment {
     private void checkResponse(String response) {
         switch (response) {
             case "update success username":
-                Toast.makeText(getContext(),"update username success",Toast.LENGTH_SHORT).show();
-                updatePreference("username",usernameEt.getText().toString());
+                if(usernameEt.getText()!=null){
+                    Toast.makeText(getContext(),"update username success",Toast.LENGTH_SHORT).show();
+                    updatePreference("username",usernameEt.getText().toString());
+                }
                 break;
             case "update success firstname":
-                Toast.makeText(getContext(),"update firstname success",Toast.LENGTH_SHORT).show();
-                updatePreference("firstname",firstNameEt.getText().toString());
+                if (firstNameEt.getText() != null) {
+                    Toast.makeText(getContext(),"update firstname success",Toast.LENGTH_SHORT).show();
+                    updatePreference("firstname",firstNameEt.getText().toString());
+                }
                 break;
             case "update success lastname":
-                Toast.makeText(getContext(),"update lastname success",Toast.LENGTH_SHORT).show();
-                updatePreference("lastname",lastNameEt.getText().toString());
+                if (lastNameEt.getText() != null) {
+                    Toast.makeText(getContext(),"update lastname success",Toast.LENGTH_SHORT).show();
+                    updatePreference("lastname",lastNameEt.getText().toString());
+                }
+
                 break;
             case "username already taken":
                 Toast.makeText(getContext(),"username already taken",Toast.LENGTH_SHORT).show();
@@ -147,7 +150,10 @@ public class PersonalInfoFragment extends Fragment {
     }
 
     private void updatePreference(String key,String value){
-        SharedPreferences global_pref = getContext().getSharedPreferences("global_pref", Context.MODE_PRIVATE);
-        global_pref.edit().putString(key,value).commit();
+        if (getContext() != null) {
+            SharedPreferences global_pref = getContext().getSharedPreferences("global_pref", Context.MODE_PRIVATE);
+            global_pref.edit().putString(key,value).apply();
+        }
+
     }
 }

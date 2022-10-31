@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -53,8 +54,12 @@ public class AddFantaBoulderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new ViewModelProvider(getActivity()).get(AddFantaBoulderViewModel.class);
-        repo = new ClimbingAppRepository(getActivity().getApplication());
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if(activity!=null){
+            model = new ViewModelProvider(activity).get(AddFantaBoulderViewModel.class);
+            repo = new ClimbingAppRepository(activity.getApplication());
+        }
+
     }
 
     @Override
@@ -80,13 +85,15 @@ public class AddFantaBoulderFragment extends Fragment {
         imageView = view.findViewById(R.id.add_fanta_boulder_imageview);
         internetManager = new InternetManager(getActivity(),view);
 
-        model.getBitmap().observe(getActivity(),bitmap->{
-            if(bitmap==null){
-                imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_camera));
-            } else {
-                imageView.setImageBitmap(bitmap);
-            }
-        });
+        if(getActivity()!=null){
+            model.getBitmap().observe(getActivity(),bitmap->{
+                if(bitmap==null){
+                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_camera));
+                } else {
+                    imageView.setImageBitmap(bitmap);
+                }
+            });
+        }
         imageView.setOnClickListener(event -> {
             Intent editIntent = new Intent(Intent.ACTION_EDIT);
             if(editIntent.resolveActivity(getActivity().getPackageManager())==null){
@@ -116,43 +123,55 @@ public class AddFantaBoulderFragment extends Fragment {
             Toast.makeText(getContext(), "please select a grade for the boulder", Toast.LENGTH_SHORT).show();
             return false;
         }
+        if(nameField.getText()==null){
+            Toast.makeText(getContext(), "please insert a name for the boulder", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
     //check boulder name request:
     private void checkAndUploadBoulder(){
-        String checkNameRequest = InternetManager.URL + "?method=check_boulder_name&boulder_name="+nameField.getText().toString();
-        StringRequest request = new StringRequest(Request.Method.GET, checkNameRequest, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if(response.equals("name_check_fail")){
-                    Toast.makeText(getActivity(), "Name already taken", Toast.LENGTH_SHORT).show();
-                } else if(response.equals("name_check_ok")){
-                    uploadBoulder();
-                } else {
-                    System.out.println("bho");
+        String checkNameRequest;
+        StringRequest request;
+        if(nameField.getText()!=null){
+            checkNameRequest = InternetManager.URL + "?method=check_boulder_name&boulder_name="+nameField.getText().toString();
+            request = new StringRequest(Request.Method.GET, checkNameRequest, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(response.equals("name_check_fail")){
+                        Toast.makeText(getActivity(), "Name already taken", Toast.LENGTH_SHORT).show();
+                    } else if(response.equals("name_check_ok")){
+                        uploadBoulder();
+                    } else {
+                        System.out.println("bho");
+                    }
                 }
+            }, Throwable::printStackTrace);
+            if (internetManager.isNetworkConnected()){
+                VolleySingleton.getInstance(getContext()).add(request);
+            } else{
+                internetManager.getSnackbar().show();
             }
-        }, error -> error.printStackTrace());
-        if (internetManager.isNetworkConnected()){
-            VolleySingleton.getInstance(getContext()).add(request);
-        } else{
-            internetManager.getSnackbar().show();
         }
+
 
         Log.d(this.getClass().getSimpleName(),"button pressed");
     }
+
 
     private void uploadBoulder() {
         String insertBoulderRequest = InternetManager.URL;
         JSONObject postData = new JSONObject();
         try {
-            postData.put("method","upload_fanta_boulder");
-            postData.put("name",nameField.getText().toString());
-            postData.put("grade",grades[(int) slider.getValue()]);
-            postData.put("date", TypeConverters.toString(new Date()));
-            postData.put("img",Utils.bitmapToBase64(model.getBitmap().getValue()));
-            postData.put("user_id",getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1));
+            if(nameField.getText()!=null && model.getBitmap().getValue()!=null && getActivity()!=null){
+                postData.put("method","upload_fanta_boulder");
+                postData.put("name",nameField.getText().toString());
+                postData.put("grade",grades[(int) slider.getValue()]);
+                postData.put("date", TypeConverters.toString(new Date()));
+                postData.put("img",Utils.bitmapToBase64(model.getBitmap().getValue()));
+                postData.put("user_id",getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -162,11 +181,11 @@ public class AddFantaBoulderFragment extends Fragment {
             repo.updateDB();
             new AlertDialog.Builder(getContext()).setTitle("Thanks for your upload").setMessage("The problem is going to be analyzed soon")
                     .setPositiveButton("Alè",(dialogInterface, i) -> {
-                        getActivity().onBackPressed();
+                        if(getActivity()!=null){
+                            getActivity().onBackPressed();
+                        }
                     }).show();
-        }, error -> {
-            error.printStackTrace();
-        });
+        }, Throwable::printStackTrace);
         if (internetManager.isNetworkConnected()){
             VolleySingleton.getInstance(getContext()).add(jsonRequest);
         } else{
@@ -183,6 +202,9 @@ public class AddFantaBoulderFragment extends Fragment {
             builder.setItems(options, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
+                    if(getActivity()==null){
+                        return;
+                    }
                     if (options[item].equals("Take Photo")) {
                         dialog.dismiss();
                         ContentValues values = new ContentValues();
@@ -205,7 +227,7 @@ public class AddFantaBoulderFragment extends Fragment {
                         Intent showImage = new Intent(Intent.ACTION_VIEW);
                         showImage.setDataAndType(model.getImageUri().getValue(), "image/*");
                         if(showImage.resolveActivity(getActivity().getPackageManager())!= null){
-                            if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                            if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                                 getActivity().startActivity(showImage);
                             } else {
                                 Toast.makeText(getActivity(), "You don't have access permission to data", Toast.LENGTH_SHORT).show();
@@ -221,6 +243,9 @@ public class AddFantaBoulderFragment extends Fragment {
             builder.setItems(options, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
+                    if(getActivity()==null){
+                        return;
+                    }
                     if (options[item].equals("Take Photo")) {
                         dialog.dismiss();
                         ContentValues values = new ContentValues();

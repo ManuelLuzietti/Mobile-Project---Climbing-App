@@ -7,10 +7,11 @@
     tools:context=".RegisterFragment">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/password_registerview"
@@ -18,12 +19,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:ems="10"
-                android:hint="Password"
-                android:inputType="textPersonName"
+                android:hint="@string/password_field_hint_register"
+                android:inputType="textPassword"
                 android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/username_registerview" />
+                app:layout_constraintTop_toBottomOf="@+id/username_registerview"
+                android:autofillHints="password" />
 
             <EditText
                 android:id="@+id/firstnname_registerview"
@@ -31,12 +33,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:ems="10"
-                android:hint="first name"
+                android:hint="@string/first_name_field_hint_register"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password_registerview" />
+                app:layout_constraintTop_toBottomOf="@+id/password_registerview"
+                android:autofillHints="First name" />
 
             <EditText
                 android:id="@+id/username_registerview"
@@ -44,12 +47,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:ems="10"
-                android:hint="Username"
+                android:hint="@string/username_field_hint_register"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:autofillHints="Username" />
 
             <EditText
                 android:id="@+id/lastname_registerview"
@@ -57,19 +61,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:ems="10"
-                android:hint="last name"
+                android:hint="@string/last_name_field_hint_register"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/firstnname_registerview" />
+                app:layout_constraintTop_toBottomOf="@+id/firstnname_registerview"
+                android:autofillHints="Last name" />
 
             <Button
                 android:id="@+id/register_button_registerview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:text="Register"
+                android:text="@string/register_button_register"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lastname_registerview" />

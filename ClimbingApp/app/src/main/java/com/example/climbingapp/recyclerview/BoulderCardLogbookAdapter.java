@@ -22,18 +22,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoulderCardLogbookAdapter extends RecyclerView.Adapter<BoulderCardLogbookViewholder> {
-    private  Fragment fragment;
+    private final Fragment fragment;
     private List<Boulder.BoulderLogbook> list;
-    private List<Boulder.BoulderLogbook> originalList;
-    private SelectedBoulderViewModel model;
+    private final SelectedBoulderViewModel model;
     private View layoutView;
 
 
-    public BoulderCardLogbookAdapter(Fragment fragment){
+    public BoulderCardLogbookAdapter(Fragment fragment) throws Exception {
         list = new ArrayList<>();
-        originalList = new ArrayList<>();
         this.fragment = fragment;
-        model = new ViewModelProvider(fragment.getActivity()).get(SelectedBoulderViewModel.class);
+        if (fragment.getActivity() != null) {
+            model = new ViewModelProvider(fragment.getActivity()).get(SelectedBoulderViewModel.class);
+        } else {
+            throw new Exception();
+        }
     }
     @NonNull
     @Override
@@ -61,7 +63,9 @@ public class BoulderCardLogbookAdapter extends RecyclerView.Adapter<BoulderCardL
             holder.commentImage.setVisibility(View.INVISIBLE);
         } else{
             holder.commentImage.setOnClickListener(view ->{
-                new AlertDialog.Builder(fragment.getContext()).setTitle("Comment").setMessage(item.getCommentText()).show();
+                if (fragment.getContext() != null) {
+                    new AlertDialog.Builder(fragment.getContext()).setTitle("Comment").setMessage(item.getCommentText()).show();
+                }
             });
         }
         holder.ratingBar.setRating(item.ratingUser);
@@ -71,8 +75,9 @@ public class BoulderCardLogbookAdapter extends RecyclerView.Adapter<BoulderCardL
         layoutView.setOnClickListener(ev -> {
             Boulder.BoulderUpdated boulder = new Boulder.BoulderUpdated(item.id,item.name,item.grade,item.date,item.isOfficial,item.img,item.user,item.rating,item.repeats,item.checked);
             model.select(boulder);
-            Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null,R.id.nav_host_fragment_menu);
-            //NavHostFragment.findNavController(FragmentManager.findFragment(layoutView)).navigate(R.id.action_logbookFragment_to_boulderViewFragment);
+            if (fragment.getActivity() != null) {
+                Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null,R.id.nav_host_fragment_menu);
+            }
         });
     }
 

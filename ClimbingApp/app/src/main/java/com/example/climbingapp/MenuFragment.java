@@ -2,6 +2,7 @@ package com.example.climbingapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,17 +25,16 @@ import com.example.climbingapp.recyclerview.BoulderCardAdapter;
 import com.example.climbingapp.viewmodels.FilterViewModel;
 import com.google.android.material.navigation.NavigationBarView;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class MenuFragment extends Fragment {
-    private RecyclerView recyclerView;
     private BoulderCardAdapter adapter;
     private ClimbingAppRepository repository;
     private Fragment fragment;
-    private ClimbingAppRepository repo;
     private InternetManager internetManager;
     private FilterViewModel filterModel;
-    private boolean backstacked;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -43,11 +43,12 @@ public class MenuFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = new ClimbingAppRepository(getActivity().getApplication());
+        if(getActivity()!=null){
+            repository = new ClimbingAppRepository(getActivity().getApplication());
+        }
         fragment = this;
         setHasOptionsMenu(true);
         filterModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
-        backstacked = false;
     }
 
     @Override
@@ -58,12 +59,11 @@ public class MenuFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.filter_item:
-                backstacked = true;
+        if (item.getItemId() == R.id.filter_item) {
+            if(getActivity()!=null){
                 Utils.insertFragment((AppCompatActivity) getActivity(), new FilterFragment(),
                         this.getClass().getSimpleName(), R.id.nav_host_fragment_menu);
-                break;
+            }
         }
         return super.onOptionsItemSelected(item);
 
@@ -73,15 +73,6 @@ public class MenuFragment extends Fragment {
     public void onStart() {
         super.onStart();
         internetManager.registerNetworkCallback();
-//        populateBoulderList();
-//        if(adapter.getItemCount()==0){
-//            if(internetManager.isNetworkConnected()){
-//                repo.updateDB();
-//                populateBoulderList();
-//            } else {
-//                internetManager.getSnackbar().show();
-//            }
-//        }
     }
 
     @Override
@@ -105,7 +96,6 @@ public class MenuFragment extends Fragment {
             adapter.getFilter().filter(jsonObject.toString());
         });
         internetManager = new InternetManager(getActivity(), view);
-        repo = new ClimbingAppRepository(this.getActivity().getApplication());
         ((SearchView) view.findViewById(R.id.search_bar)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -120,16 +110,14 @@ public class MenuFragment extends Fragment {
             }
         });
         ((NavigationBarView) view.findViewById(R.id.bottomnavview_bouldermenu)).setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.reload_boulder_list_item:
-                    if (internetManager.isNetworkConnected()) {
-                        repo.updateDB();
-                    } else {
-                        internetManager.getSnackbar().show();
-                    }
-                    break;
-                default:
-                    return false;
+            if (item.getItemId() == R.id.reload_boulder_list_item) {
+                if (internetManager.isNetworkConnected()) {
+                    repository.updateDB();
+                } else {
+                    internetManager.getSnackbar().show();
+                }
+            } else {
+                return false;
             }
             return true;
         });
@@ -138,21 +126,28 @@ public class MenuFragment extends Fragment {
 
 
     public void setRecyclerView(View view) {
-        recyclerView = view.findViewById(R.id.boulders_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.boulders_recycler_view);
         adapter = new BoulderCardAdapter(fragment);
         recyclerView.setAdapter(adapter);
         populateBoulderList();
     }
 
     private void populateBoulderList() {
-        repository.getBouldersUpdated(getActivity().getSharedPreferences("global_pref",MODE_PRIVATE).getInt("userId",-1)).observe(this, new Observer<List<Boulder.BoulderUpdated>>() {
-            @Override
-            public void onChanged(List<Boulder.BoulderUpdated> boulders) {
-                adapter.setData(boulders);
-                adapter.getFilter().filter(filterModel.getFilterSettings().getValue().toString());
-                adapter.notifyDataSetChanged();
-            }
-        });
+        if(getActivity()!=null){
+            repository.getBouldersUpdated(getActivity().getSharedPreferences("global_pref",MODE_PRIVATE).getInt("userId",-1)).observe(this, new Observer<List<Boulder.BoulderUpdated>>() {
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onChanged(List<Boulder.BoulderUpdated> boulders) {
+                    adapter.setData(boulders);
+                    JSONObject filterJson = filterModel.getFilterSettings().getValue();
+                    if(filterJson!=null){
+                        adapter.getFilter().filter(filterJson.toString());
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+
 
     }
 

@@ -84,7 +84,9 @@ public class Utils {
     }
 
     public static void logOutUser(Activity activity){
-        activity.getSharedPreferences("global_pref",Context.MODE_PRIVATE).edit().clear().commit();
+        if (activity != null) {
+            activity.getSharedPreferences("global_pref",Context.MODE_PRIVATE).edit().clear().apply();
+        }
 
     }
 

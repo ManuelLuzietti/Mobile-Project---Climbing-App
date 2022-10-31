@@ -48,8 +48,11 @@ public class AddViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new ViewModelProvider(this.getActivity()).get(SelectedBoulderViewModel.class);
-        repo = new ClimbingAppRepository(this.getActivity().getApplication());
+        if (getActivity() != null) {
+            model = new ViewModelProvider(this.getActivity()).get(SelectedBoulderViewModel.class);
+            repo = new ClimbingAppRepository(this.getActivity().getApplication());
+        }
+
 
     }
     @Override
@@ -84,10 +87,12 @@ public class AddViewFragment extends Fragment {
     private boolean checkUserLoggedIn() {
         user_id = Objects.requireNonNull(this.getActivity()).getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId",-1);
         if(user_id == -1) {
-            TextView warning_message = ((TextView)getView().findViewById(R.id.warning_massage_addview));
-            warning_message.setText("User not logged in");
-            warning_message.setVisibility(View.VISIBLE);
-            getView().findViewById(R.id.button_add_view).setOnClickListener(null);
+            if (getView() != null) {
+                TextView warning_message = ((TextView)getView().findViewById(R.id.warning_massage_addview));
+                warning_message.setText("User not logged in");
+                warning_message.setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.button_add_view).setOnClickListener(null);
+            }
             return false;
         }
         return true;
@@ -97,19 +102,29 @@ public class AddViewFragment extends Fragment {
 
     private void setListeners() {
         View view = getView();
-        view.findViewById(R.id.button_add_view).setOnClickListener(event->{
-            String text = ((TextView)view.findViewById(R.id.text_comment_addview)).getText().toString();
-            String grade = ((TextView)view.findViewById(R.id.grade_menu_textview)).getText().toString();
-            String tries =  ((TextView)view.findViewById(R.id.tries_menu_textview)).getText().toString();
-            float rating =  ((RatingBar)view.findViewById(R.id.rating_bar_add_view)).getRating();
-            if(!checkInput(grade,tries,rating)){
-                return;
-            }
-            insertCompletion(text,grade,tries,rating);
-        });
+        if (view != null) {
+            view.findViewById(R.id.button_add_view).setOnClickListener(event->{
+                String text = ((TextView)view.findViewById(R.id.text_comment_addview)).getText().toString();
+                String grade = ((TextView)view.findViewById(R.id.grade_menu_textview)).getText().toString();
+                String tries =  ((TextView)view.findViewById(R.id.tries_menu_textview)).getText().toString();
+                float rating =  ((RatingBar)view.findViewById(R.id.rating_bar_add_view)).getRating();
+                try {
+                    if(!checkInput(grade,tries,rating)){
+                        return;
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                insertCompletion(text,grade,tries,rating);
+            });
+        }
+
     }
 
     private void insertCompletion(String text, String grade, String tries, float rating) {
+        if (model.getSelected().getValue() == null) {
+            return;
+        }
         String url = InternetManager.URL + "?method=insert_completedboulder" +
                 "&rating=" + String.valueOf((int)rating)+
                 "&grade=" + grade +
@@ -123,7 +138,11 @@ public class AddViewFragment extends Fragment {
             url += "&text=\"\"";
         }
 
+
         StringRequest insertCompletionRequest = new StringRequest(Request.Method.GET,url,response -> {
+            if (getActivity() == null) {
+                return;
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             repo.updateDB();
             builder.setTitle("Congratulation for the ascent");
@@ -138,7 +157,7 @@ public class AddViewFragment extends Fragment {
                 builder.setMessage("Boulder not logged, please retry later.");
             }
             dialog.show();
-        },error -> error.printStackTrace());
+        }, Throwable::printStackTrace);
         if(internetManager.isNetworkConnected()){
             VolleySingleton.getInstance(getContext()).add(insertCompletionRequest);
         }else {
@@ -147,11 +166,15 @@ public class AddViewFragment extends Fragment {
 
     }
 
-    private boolean checkInput( String grade, String tries,float rating) {
+    private boolean checkInput( String grade, String tries,float rating) throws Exception {
         boolean valid = true;
-        View gradeWarning = getView().findViewById(R.id.warning_grade_message_addview);
-        View triesWarning = getView().findViewById(R.id.warning_tries_message_addview);
-        View ratingWarning = getView().findViewById(R.id.warning_rating_addview);
+        View view = getView();
+        if(view==null){
+            throw new Exception();
+        }
+        View gradeWarning = view.findViewById(R.id.warning_grade_message_addview);
+        View triesWarning = view.findViewById(R.id.warning_tries_message_addview);
+        View ratingWarning = view.findViewById(R.id.warning_rating_addview);
        if(grade.equals(getString(R.string.grade_request_addview))){
            gradeWarning.setVisibility(View.VISIBLE);
            valid = false;
@@ -176,12 +199,19 @@ public class AddViewFragment extends Fragment {
 
 
 
-    private void checkAlreadyCompletedByUser() throws Exception {
+    private void checkAlreadyCompletedByUser()  {
+        if(model.getSelected().getValue()==null){
+            return;
+        }
         int boulderId = model.getSelected().getValue().getId();
         repo.getBoulderIfCompletedByUser(this.user_id,boulderId).observe(this,boulders -> {
                 if (boulders.size()!=0){
-                    getView().findViewById(R.id.warning_massage_addview).setVisibility(View.VISIBLE);
-                    getView().findViewById(R.id.button_add_view).setOnClickListener(null);
+                    View view = getView();
+                    if(view==null){
+                        return;
+                    }
+                    view.findViewById(R.id.warning_massage_addview).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.button_add_view).setOnClickListener(null);
                 }
             });
 

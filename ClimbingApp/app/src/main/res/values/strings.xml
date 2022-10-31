@@ -52,4 +52,17 @@
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="nav_open">open</string>
     <string name="nav_close">close</string>
+    <string name="password_field_hint_login">Password</string>
+    <string name="username_field_hint_login">Username</string>
+    <string name="log_in_button_text">Log in</string>
+    <string name="warning_message_login">Username or password not valid</string>
+    <string name="register_button_text">Register</string>
+    <string name="password_field_hint_register">Password</string>
+    <string name="first_name_field_hint_register">First name</string>
+    <string name="username_field_hint_register">Username</string>
+    <string name="last_name_field_hint_register">Last name</string>
+    <string name="register_button_register">Register</string>
+    <string name="uppercase_pattern">[A-Z]</string>
+    <string name="lowercase_pattern">[a-z]</string>
+    <string name="number_pattern">[0-9]</string>
 </resources>

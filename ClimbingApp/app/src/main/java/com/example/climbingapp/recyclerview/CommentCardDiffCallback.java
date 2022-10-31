@@ -9,8 +9,8 @@ import java.util.List;
 
 public class CommentCardDiffCallback extends DiffUtil.Callback {
 
-    private List<Comment.CommentUpdated> oldCommentList;
-    private List<Comment.CommentUpdated> newCommentList;
+    private final List<Comment.CommentUpdated> oldCommentList;
+    private final List<Comment.CommentUpdated> newCommentList;
 
     public CommentCardDiffCallback(List<Comment.CommentUpdated> oldCommentList, List<Comment.CommentUpdated> newCommentList) {
         this.oldCommentList = oldCommentList;

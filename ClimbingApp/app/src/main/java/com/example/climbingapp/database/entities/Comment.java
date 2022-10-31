@@ -92,25 +92,6 @@ public class Comment {
     }
 
 
-
-
-//    public void updateValues(Application application, Fragment fragment, RecyclerView.Adapter<CommentsCardViewHolder> adapter, int pos) {
-//        ClimbingAppRepository repository = new ClimbingAppRepository(application);
-//        repository.getCompletionOfBoulderFromComment(id).observe(fragment,completion ->{
-//            if(completion== null){
-//                return;
-//            }
-//            setNumOfTries(completion.numberOfTries);
-//            setDate(TypeConverters.toString(completion.date));
-//            adapter.notifyItemChanged(pos);
-//        });
-//        repository.getUserFromId(userId).observe(fragment,user -> {
-//            setUsername(user.username);
-//            adapter.notifyItemChanged(pos);
-//        });
-//    }
-
-
     public static class CommentUpdated{
         public int id;
         public String text;

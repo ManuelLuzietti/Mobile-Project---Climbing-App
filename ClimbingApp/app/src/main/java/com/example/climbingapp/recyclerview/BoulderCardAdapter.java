@@ -25,22 +25,23 @@ import java.util.Iterator;
 import java.util.List;
 
 public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHolder> {
-    private List<Boulder.BoulderUpdated> list  ;
+    private List<Boulder.BoulderUpdated> list;
     private List<Boulder.BoulderUpdated> originalList;
     private View layoutView;
-    private Fragment fragment;
     private SelectedBoulderViewModel model;
 
-    public BoulderCardAdapter( Fragment fragment){
+    public BoulderCardAdapter(Fragment fragment) {
         list = new ArrayList<>();
         originalList = new ArrayList<>();
-        this.fragment = fragment;
-        model = new ViewModelProvider(fragment.getActivity()).get(SelectedBoulderViewModel.class);
+        if (fragment.getActivity() != null) {
+            model = new ViewModelProvider(fragment.getActivity()).get(SelectedBoulderViewModel.class);
+        }
     }
+
     @NonNull
     @Override
     public BoulderCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card,parent,false);
+        layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card, parent, false);
         return new BoulderCardViewHolder(layoutView);
     }
 
@@ -52,15 +53,14 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         holder.place_repeats_textview.setText(String.valueOf(item.getPlaceRepeats()));
         holder.place_grade_textview.setText(item.getPlaceGrade());
         holder.place_rating_textview.setText(String.valueOf(item.getPlaceRating()));
-        if(!item.isChecked()){
+        if (!item.isChecked()) {
             holder.checkBoulderImage.setVisibility(View.INVISIBLE);
         }
-        if(!item.isOfficial()){
+        if (!item.isOfficial()) {
             holder.officialBoulderImage.setVisibility(View.INVISIBLE);
         }
         layoutView.setOnClickListener(ev -> {
             model.select(item);
-            //Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null,R.id.nav_host_fragment_menu);
             NavHostFragment.findNavController(FragmentManager.findFragment(layoutView)).navigate(R.id.action_menuFragment_to_boulderViewFragment);
         });
     }
@@ -70,69 +70,40 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         return this.list.size();
     }
 
-//    public void updateCardListItems(List<Boulder> list) {
-//        setData(list);
-//    }
-
-//    public void setData(List<Boulder> list){
-//        final BoulderCardDiffCallback diffCallback =
-//                new BoulderCardDiffCallback(this.list, list);
-//        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-//
-//        this.list = new ArrayList<>(list);
-//
-//        diffResult.dispatchUpdatesTo(this);
-//    }
-
-
     public Filter getFilter() {
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                List<Boulder.BoulderUpdated> filteredList = new ArrayList<>();
-                filteredList.addAll(originalList);
-                    try {
-                        JSONObject jsonObject = new JSONObject(String.valueOf(charSequence));
-                        if(jsonObject.getInt("rating")!= 0){
-                            Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
-                            while(iterator.hasNext()){
-                                if(iterator.next().getPlaceRating()!=jsonObject.getInt("rating")){
-                                    iterator.remove();
-                                }
+                List<Boulder.BoulderUpdated> filteredList = new ArrayList<>(originalList);
+                try {
+                    JSONObject jsonObject = new JSONObject(String.valueOf(charSequence));
+                    if (jsonObject.getInt("rating") != 0) {
+                        Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
+                        while (iterator.hasNext()) {
+                            if (iterator.next().getPlaceRating() != jsonObject.getInt("rating")) {
+                                iterator.remove();
                             }
                         }
-                        if(!jsonObject.getString("grade").equals("")) {
-                            Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
-                            while(iterator.hasNext()){
-                                if(!iterator.next().getPlaceGrade().equals(jsonObject.getString("grade"))){
-                                    iterator.remove();
-                                }
-                            }
-                        }
-                        if(!jsonObject.getString("name").equals("")) {
-                            Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
-                            while(iterator.hasNext()){
-                                if(!iterator.next().getPlaceName().contains(jsonObject.getString("name").toLowerCase().trim())){
-                                    iterator.remove();
-                                }
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-
-
-                //if you have no constraint --> return the full list
-//                if (filterPattern.contains("grade:")){
-//                        String pattern = filterPattern.replace("grade:","");
-//                        for (Boulder item : originalList) {
-//                            if (item.getPlaceGrade().toLowerCase().contains(pattern) ) {
-//                                filteredList.add(item);
-//                            }
-//                        }
-//                    }
-//                }
-//
+                    if (!jsonObject.getString("grade").equals("")) {
+                        Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
+                        while (iterator.hasNext()) {
+                            if (!iterator.next().getPlaceGrade().equals(jsonObject.getString("grade"))) {
+                                iterator.remove();
+                            }
+                        }
+                    }
+                    if (!jsonObject.getString("name").equals("")) {
+                        Iterator<Boulder.BoulderUpdated> iterator = filteredList.iterator();
+                        while (iterator.hasNext()) {
+                            if (!iterator.next().getPlaceName().contains(jsonObject.getString("name").toLowerCase().trim())) {
+                                iterator.remove();
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 FilterResults results = new FilterResults();
                 results.values = filteredList;
@@ -149,34 +120,28 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                         filteredList.add((Boulder.BoulderUpdated) object);
                     }
                 }
-
-                //warn the adapter that the data are changed after the filtering
                 updateCardListItems(filteredList);
             }
         };
     }
 
-     public void updateCardListItems(List<Boulder.BoulderUpdated> filteredList) {
-            final BoulderCardDiffCallback diffCallback =
-                    new BoulderCardDiffCallback(this.list, filteredList);
-            final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+    public void updateCardListItems(List<Boulder.BoulderUpdated> filteredList) {
+        final BoulderCardDiffCallback diffCallback =
+                new BoulderCardDiffCallback(this.list, filteredList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
-            this.list = new ArrayList<>(filteredList);
-            diffResult.dispatchUpdatesTo(this);
-        }
-    //
-    //    /**
-    //     * Method that set the list in the Home
-    //     * @param list the list to display in the home
-    //     */
-        public void setData(List<Boulder.BoulderUpdated> list){
-            final BoulderCardDiffCallback diffCallback =
-                    new BoulderCardDiffCallback(this.list, list);
-            final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        this.list = new ArrayList<>(filteredList);
+        diffResult.dispatchUpdatesTo(this);
+    }
 
-            this.list = new ArrayList<>(list);
-            this.originalList = new ArrayList<>(list);
+    public void setData(List<Boulder.BoulderUpdated> list) {
+        final BoulderCardDiffCallback diffCallback =
+                new BoulderCardDiffCallback(this.list, list);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
-            diffResult.dispatchUpdatesTo(this);
-        }
+        this.list = new ArrayList<>(list);
+        this.originalList = new ArrayList<>(list);
+
+        diffResult.dispatchUpdatesTo(this);
+    }
 }

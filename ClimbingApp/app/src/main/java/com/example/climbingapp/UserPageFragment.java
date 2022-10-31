@@ -1,5 +1,6 @@
 package com.example.climbingapp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class UserPageFragment extends Fragment {
     private BottomNavigationView navigationView ;
-    private boolean backstacked;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,23 +27,15 @@ public class UserPageFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_user_page, container, false);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(getActivity()== null){
+            return;
+        }
         Utils.insertFragment((AppCompatActivity) getActivity(),new PersonalInfoFragment(),this.getClass().getSimpleName(),R.id.fragment_container_view_userpage);
         navigationView = ((BottomNavigationView)view.findViewById(R.id.bottomnavview_userpage));
-        //todo:fix back button
-//        switch (navigationView.getSelectedItemId()){
-//                case R.id.bottomnav_info_user:
-//                    Utils.insertFragment((AppCompatActivity) getActivity(),new PersonalInfoFragment(),this.getClass().getSimpleName(),R.id.fragment_container_view_userpage);
-//                    break;
-//                case R.id.bottomnav_logbook_user:
-//                    Utils.insertFragment((AppCompatActivity) getActivity(),new LogbookFragment(),this.getClass().getSimpleName(),R.id.fragment_container_view_userpage);
-//                    break;
-//                case R.id.bottomnav_trofei_user:
-//                    Utils.insertFragment((AppCompatActivity) getActivity(),new TrofeiFragment(),this.getClass().getSimpleName(),R.id.fragment_container_view_userpage);
-//                    break;
-//        }
         navigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.bottomnav_info_user:
@@ -70,6 +63,9 @@ public class UserPageFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        if(getActivity()== null){
+            return;
+        }
         if(navigationView.getSelectedItemId()==R.id.bottomnav_logbook_user){
             Utils.insertFragment((AppCompatActivity) getActivity(),new LogbookFragment(),this.getClass().getSimpleName(),R.id.fragment_container_view_userpage);
         }

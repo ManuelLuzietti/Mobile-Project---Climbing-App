@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -21,18 +22,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginFragment extends Fragment {
-    private ClimbingAppRepository repo;
     private TextView warningMessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repo = new ClimbingAppRepository(getActivity().getApplication());
-        if(Utils.isUserLoggedIn(getActivity())){
-            Intent intent = new Intent(getContext(),MainMenuActivity.class);
-            startActivity(intent);
-            getActivity().finish();
+        if(getActivity()!=null){
+            if(Utils.isUserLoggedIn(getActivity())){
+                Intent intent = new Intent(getContext(),MainMenuActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
         }
+
 
     }
 
@@ -44,7 +46,7 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         EditText etUsername = view.findViewById(R.id.username_loginview);
         EditText etPassword = view.findViewById(R.id.password_loginview);
@@ -52,7 +54,7 @@ public class LoginFragment extends Fragment {
         view.findViewById(R.id.login_button).setOnClickListener(event -> {
             String username = etUsername.getText().toString();
             String password = etPassword.getText().toString();
-            if (username == null || password == null) {
+            if (username.equals("") || password.equals("")) {
                 warningMessage.setVisibility(View.VISIBLE);
                 return;
             }
@@ -60,7 +62,10 @@ public class LoginFragment extends Fragment {
         });
 
         view.findViewById(R.id.register_button).setOnClickListener(event -> {
-            Utils.insertFragment((AppCompatActivity) getActivity(),new RegisterFragment(),this.getClass().getSimpleName(),R.id.fragment_container_view_login);
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            if(activity!=null){
+                Utils.insertFragment(activity,new RegisterFragment(),this.getClass().getSimpleName(),R.id.fragment_container_view_login);
+            }
         });
 
     }
@@ -78,14 +83,15 @@ public class LoginFragment extends Fragment {
                         String userId = response.getString("id");
                         String firstName = response.getString("first_name");
                         String lastName = response.getString("last_name");
-                        SharedPreferences.Editor editor = getActivity().getApplication().getSharedPreferences("global_pref", Context.MODE_PRIVATE).edit();
-                        editor.putInt("userId", Integer.parseInt(userId));
-                        editor.putString("first_name",firstName);
-                        editor.putString("last_name",lastName);
-                        editor.putString("username",username);
-                        editor.commit();
-//                        System.out.println(getContext().getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId",-1));
-                        startMainPane();
+                        if(getActivity()!=null){
+                            SharedPreferences.Editor editor = getActivity().getApplication().getSharedPreferences("global_pref", Context.MODE_PRIVATE).edit();
+                            editor.putInt("userId", Integer.parseInt(userId));
+                            editor.putString("first_name",firstName);
+                            editor.putString("last_name",lastName);
+                            editor.putString("username",username);
+                            editor.apply();
+                            startMainPane();
+                        }
                     } else {
                         warningMessage.setVisibility(View.VISIBLE);
                     }
@@ -99,14 +105,18 @@ public class LoginFragment extends Fragment {
                 System.out.println(error.toString());
             }
         });
-        VolleySingleton.getInstance(getActivity().getApplicationContext()).add(loginRequest);
+        if(getActivity() != null){
+            VolleySingleton.getInstance(getActivity().getApplicationContext()).add(loginRequest);
+        }
 
     }
 
     private void startMainPane() {
         Intent intent = new Intent(getContext(),MainMenuActivity.class);
         startActivity(intent);
-        getActivity().finish();
+        if(getActivity()!= null){
+            getActivity().finish();
+        }
     }
 
 }

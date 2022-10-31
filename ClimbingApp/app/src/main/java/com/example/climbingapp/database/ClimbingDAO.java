@@ -21,18 +21,6 @@ public interface ClimbingDAO {
     @Query("SELECT * FROM USER where id == :id")
     List<UserAndComment> getUserComments(int id);
 
-//    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE user_id == :user_id AND boulder_id == :boulder_id")
-//    List<CompletamentoBoulderAndCommento> getComment(int user_id,int boulder_id);
-//
-//    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE user_id == :id")
-//    List<UserAndCompletamentoBoulder> getUserCompletedBoulders(int id);
-//
-//    @Query("SELECT * FROM COMPLETAMENTO_BOULDER WHERE boulder_id == :id")
-//    List<CompletamentoBoulderAndBoulder> getAllCompletionOfBoulder(int id);
-//
-//    @Query("SELECT * FROM BOULDER WHERE tracciatore_id == :id")
-//    List<TracciaturaBoulder> getBouldersByTracciatore(int id);
-//
     @Query("SELECT * FROM USER")
     List<User> getUsers();
 
@@ -66,10 +54,6 @@ public interface ClimbingDAO {
 
     @Query("select * from boulder ")
     List<BoulderAndTracciatura> getBoulderAndTracciatura();
-
-//    @Query("select a.* from User a join tracciatura_boulder b on(a.id == b.user_id) " +
-//            "join boulder c on (b.boulder_id == c.id)")
-//    List<User> prova();
 
     @Query("select u.* " +
             "from User u join tracciatura_boulder t on(t.user_id == u.id)" +

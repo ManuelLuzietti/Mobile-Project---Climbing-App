@@ -8,10 +8,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FilterViewModel extends ViewModel {
-    private  MutableLiveData<String> nameSelected;
-    private MutableLiveData<String> gradeSelected;
-    private MutableLiveData<JSONObject> filterSetting;
-    private MutableLiveData<Integer> ratingSelected;
+    private final MutableLiveData<String> nameSelected;
+    private final MutableLiveData<String> gradeSelected;
+    private final MutableLiveData<JSONObject> filterSetting;
+    private final MutableLiveData<Integer> ratingSelected;
     public FilterViewModel(){
         gradeSelected = new MutableLiveData<>();
         filterSetting = new MutableLiveData<>();

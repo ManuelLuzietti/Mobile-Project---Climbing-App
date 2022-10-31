@@ -77,6 +77,7 @@ public class Boulder {
         return rating;
     }
 
+    @NonNull
     public String getImg() {
         return img;
     }
@@ -107,12 +108,11 @@ public class Boulder {
         this.grade = grade;
     }
 
-    public void setPlaceRating(int raa
-    ) {
+    public void setPlaceRating(int rating) {
         this.rating = rating;
     }
 
-    public void setImg( String img) {
+    public void setImg(@NonNull String img) {
         this.img = img;
     }
 
@@ -121,7 +121,7 @@ public class Boulder {
     }
 
     public void setChecked(boolean checked) {
-        checked = checked;
+        this.checked = checked;
     }
 
     public static class BoulderUpdated{
@@ -206,7 +206,7 @@ public class Boulder {
             this.grade = grade;
         }
 
-        public void setPlaceRating(int raa
+        public void setPlaceRating(int rating
         ) {
             this.rating = rating;
         }
@@ -220,55 +220,12 @@ public class Boulder {
         }
 
         public void setChecked(boolean checked) {
-            checked = checked;
+            this.checked = checked;
         }
 
 
     }
 
-
-
-//    public void updateValues(Application application, Fragment fragment, RecyclerView.Adapter<BoulderCardViewHolder> adapter, int pos) {
-//        ClimbingAppRepository repository = new ClimbingAppRepository(application);
-//
-//        /*
-//        query:
-//
-//         */
-//
-//        repository.getTracciatoreFromBoulder(id).observe(fragment, (User u) -> {
-//            if (u != null) {
-//                setPlaceUser(u.username);
-//                adapter.notifyItemChanged(pos);
-//            }
-//        });
-//        repository.getCompletionsOfBoulder(id).observe(fragment, (List<CompletedBoulder> l) -> {
-//            setPlaceRepeats(l.size());
-//            adapter.notifyItemChanged(pos);
-//        });
-//        int id_user = Objects.requireNonNull(fragment.getActivity()).getSharedPreferences("global_pref",Context.MODE_PRIVATE).getInt("userId", -1);
-//        repository.getBoulderIfCompletedByUser(id_user, id).observe(fragment,(List<Boulder> b)->{
-//            if (b.size()!=0){
-//                checked = true;
-//            } else{
-//                checked = false;
-//            }
-//            adapter.notifyItemChanged(pos);
-//
-//        });
-//
-//        repository.getCommentsOnBoulder( id).observe(fragment,(List<Comment.CommentUpdated> lc) ->{
-//            double media = 0;
-//            for (Comment.CommentUpdated c: lc){
-//                media += c.rating;
-//            }
-//            media = media / lc.size();
-//            rating = (int)media;
-//            adapter.notifyItemChanged(pos);
-//        });
-//
-//
-//    }
 
     public static  class BoulderLogbook{
         public int id;
@@ -373,8 +330,7 @@ public class Boulder {
             this.grade = grade;
         }
 
-        public void setPlaceRating(int raa
-        ) {
+        public void setPlaceRating(int rating) {
             this.rating = rating;
         }
 
@@ -387,7 +343,7 @@ public class Boulder {
         }
 
         public void setChecked(boolean checked) {
-            checked = checked;
+            this.checked = checked;
         }
     }
 }

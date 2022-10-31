@@ -17,25 +17,22 @@ import com.google.android.material.snackbar.Snackbar;
 public class InternetManager {
 
     private ConnectivityManager.NetworkCallback networkCallback;
-    private Snackbar snackbar;
+    private final Snackbar snackbar;
     private boolean isNetworkConnected;
-    private Activity activity;
+    private final Activity activity;
     private static final String HOST = "http://10.0.2.2";
     private static final String HOST2 ="http://192.168.1.134";
-    public final static String URL = HOST2 +"/climbingAppWebServer/web_server_for_mobile_project/";
+    public final static String URL = HOST +"/climbingAppWebServer/web_server_for_mobile_project/";
 
     public  InternetManager(Activity activity,View view){
         this.activity = activity;
         this.isNetworkConnected = false;
         snackbar = Snackbar.make(view, "no internet available", Snackbar.LENGTH_INDEFINITE)
-                .setAction("settings", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_WIRELESS_SETTINGS);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(intent);
-                    }
+                .setAction("settings", view1 -> {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_WIRELESS_SETTINGS);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intent);
                 });
         networkCallback = new ConnectivityManager.NetworkCallback() {
             @Override

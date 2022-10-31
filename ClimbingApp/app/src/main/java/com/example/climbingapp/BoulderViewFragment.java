@@ -1,5 +1,6 @@
 package com.example.climbingapp;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 import com.google.android.material.navigation.NavigationBarView;
@@ -39,8 +39,9 @@ public class BoulderViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new ViewModelProvider(getActivity()).get(SelectedBoulderViewModel.class);
-
+        if(getActivity()!=null){
+            model = new ViewModelProvider(getActivity()).get(SelectedBoulderViewModel.class);
+        }
     }
 
     @Override
@@ -55,6 +56,7 @@ public class BoulderViewFragment extends Fragment {
         internetManager.unregisterNetworkCallback();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,15 +66,12 @@ public class BoulderViewFragment extends Fragment {
         ((NavigationBarView)view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.bottomnav_add:
-//                    Utils.insertFragment((AppCompatActivity) getActivity(),new AddViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
                     NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_addViewFragment);
                     break;
                 case R.id.bottomnav_comments:
-//                    Utils.insertFragment((AppCompatActivity) getActivity(),new CommentsBoulderViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
                     NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_commentsBoulderViewFragment);
                     break;
                 case  R.id.bottomnav_info:
-//                    Utils.insertFragment((AppCompatActivity) getActivity(),new InfoBoulderViewFragment(),this.getClass().getSimpleName(),R.id.nav_host_fragment_menu);
                     NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_infoBoulderViewFragment);
                     break;
                 default:
@@ -94,13 +93,20 @@ public class BoulderViewFragment extends Fragment {
             mIsCreated = true;
             requestImmage();
         } else {
-            ((ImageView)getView().findViewById(R.id.boulder_imageview)).setImageBitmap(model.getBitmap().getValue());
+            if(getView()!=null){
+                ((ImageView)getView().findViewById(R.id.boulder_imageview)).setImageBitmap(model.getBitmap().getValue());
+            }
         }
     }
 
     private void requestImmage(){
         if(internetManager.isNetworkConnected()){
-            String imgName = model.getSelected().getValue().getImg();
+            String imgName;
+            if (model.getSelected().getValue() != null) {
+                imgName = model.getSelected().getValue().getImg();
+            } else{
+                imgName = null;
+            }
             if(imgName != null){
                 JsonObjectRequest jsonRequest = new JsonObjectRequest(InternetManager.URL + "?img="+imgName,null, new Response.Listener<JSONObject>() {
                     @Override
@@ -112,15 +118,12 @@ public class BoulderViewFragment extends Fragment {
                             e.printStackTrace();
                         }
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString,0, decodedString.length);
-                        ((ImageView)getView().findViewById(R.id.boulder_imageview)).setImageBitmap(decodedByte);
+                        if (getView() != null) {
+                            ((ImageView)getView().findViewById(R.id.boulder_imageview)).setImageBitmap(decodedByte);
+                        }
                         model.setBitmap(decodedByte);
                     }
-                },new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                });
+                }, Throwable::printStackTrace);
                 VolleySingleton.getInstance(getContext()).add(jsonRequest);
             }
         } else {

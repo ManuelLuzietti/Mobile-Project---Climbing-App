@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
@@ -21,7 +22,6 @@ import java.util.regex.Pattern;
 
 public class RegisterFragment extends Fragment {
 
-    private ClimbingAppRepository repository;
     private InternetManager internetManager;
 
     @Override
@@ -39,7 +39,6 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = new ClimbingAppRepository(getActivity().getApplication());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class RegisterFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         internetManager = new InternetManager(getActivity(),view);
         EditText passwordEt = view.findViewById(R.id.password_registerview);
@@ -58,12 +57,10 @@ public class RegisterFragment extends Fragment {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 validateText(charSequence.toString(), passwordEt);
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
 
@@ -92,16 +89,16 @@ public class RegisterFragment extends Fragment {
         StringRequest registerRequest = new StringRequest(Request.Method.GET,url,response -> {
             if(response.equals("registration success")){
                 Toast.makeText(getContext(),"registration success",Toast.LENGTH_SHORT).show();
-                getActivity().onBackPressed();
+                if(getActivity()!=null){
+                    getActivity().onBackPressed();
+                }
             } else if(response.equals("registration failed")) {
                 new AlertDialog.Builder(getContext()).setMessage("Username already taken").setTitle("Error").show();
             }else {
                     new AlertDialog.Builder(getContext()).setMessage("Something went wrong..").setTitle("Error").show();
                 }
 
-        }, error -> {
-            error.printStackTrace();
-        });
+        }, Throwable::printStackTrace);
         if(internetManager.isNetworkConnected()){
             VolleySingleton.getInstance(getContext()).add(registerRequest);
         } else {
@@ -112,9 +109,9 @@ public class RegisterFragment extends Fragment {
     public boolean validateText(String text, EditText view) {
 
         // check for pattern
-        Pattern uppercase = Pattern.compile("[A-Z]");
-        Pattern lowercase = Pattern.compile("[a-z]");
-        Pattern digit = Pattern.compile("[0-9]");
+        Pattern uppercase = Pattern.compile(getString(R.string.uppercase_pattern));
+        Pattern lowercase = Pattern.compile(getString(R.string.lowercase_pattern));
+        Pattern digit = Pattern.compile(getString(R.string.number_pattern));
 
         // if lowercase character is not present
         if (!lowercase.matcher(text).find()) {

@@ -8,8 +8,8 @@ import com.example.climbingapp.database.entities.Boulder;
 import java.util.List;
 
 public class BoulderCardDiffCallback extends DiffUtil.Callback {
-    private List<Boulder.BoulderUpdated> oldBoulderList;
-    private List<Boulder.BoulderUpdated> newBoulderList;
+    private final List<Boulder.BoulderUpdated> oldBoulderList;
+    private final List<Boulder.BoulderUpdated> newBoulderList;
 
     public BoulderCardDiffCallback(List<Boulder.BoulderUpdated> oldBoulderList, List<Boulder.BoulderUpdated> newBoulderList){
         this.newBoulderList = newBoulderList;
