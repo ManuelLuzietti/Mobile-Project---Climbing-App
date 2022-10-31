@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -66,13 +67,32 @@ public class BoulderViewFragment extends Fragment {
         ((NavigationBarView)view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.bottomnav_add:
-                    NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_addViewFragment);
+                    try{
+                        NavHostFragment.findNavController(FragmentManager.findFragment(view))
+                                .navigate(R.id.action_boulderViewFragment_to_addViewFragment);
+                    } catch (IllegalStateException is){
+                        if (getActivity() != null) {
+                            Utils.insertFragment((AppCompatActivity) getActivity(),new AddViewFragment(),getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+                        }
+                    }
                     break;
                 case R.id.bottomnav_comments:
-                    NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_commentsBoulderViewFragment);
+                    try{
+                        NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_commentsBoulderViewFragment);
+                    } catch (IllegalStateException is){
+                        if (getActivity() != null) {
+                            Utils.insertFragment((AppCompatActivity) getActivity(),new CommentsBoulderViewFragment(),getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+                        }
+                    }
                     break;
                 case  R.id.bottomnav_info:
-                    NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_infoBoulderViewFragment);
+                    try{
+                        NavHostFragment.findNavController(FragmentManager.findFragment(view)).navigate(R.id.action_boulderViewFragment_to_infoBoulderViewFragment);
+                    } catch (IllegalStateException is){
+                        if (getActivity() != null) {
+                            Utils.insertFragment((AppCompatActivity) getActivity(),new InfoBoulderViewFragment(),getClass().getSimpleName(),R.id.nav_host_fragment_menu);
+                        }
+                    }
                     break;
                 default:
                     return false;
