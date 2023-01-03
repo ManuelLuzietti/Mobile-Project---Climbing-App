@@ -70,7 +70,7 @@ public class BoulderCardLogbookAdapter extends RecyclerView.Adapter<BoulderCardL
         }
         holder.ratingBar.setRating(item.ratingUser);
         holder.place_gradeuser.setText(item.gradeUser);
-        holder.place_triesuser.setText(Utils.numOfTriesConversion(item.getNumberOfTries()));//todo:converti
+        holder.place_triesuser.setText(Utils.numOfTriesConversion(item.getNumberOfTries()+1));//todo:converti
         holder.place_dateuser.setText(TypeConverters.toString(item.dateCompletion));
         layoutView.setOnClickListener(ev -> {
             Boulder.BoulderUpdated boulder = new Boulder.BoulderUpdated(item.id,item.name,item.grade,item.date,item.isOfficial,item.img,item.user,item.rating,item.repeats,item.checked);
