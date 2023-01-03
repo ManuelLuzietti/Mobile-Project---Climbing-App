@@ -113,6 +113,7 @@ public class MenuFragment extends Fragment {
             if (item.getItemId() == R.id.reload_boulder_list_item) {
                 if (internetManager.isNetworkConnected()) {
                     repository.updateDB();
+                    //populateBoulderList();
                 } else {
                     internetManager.getSnackbar().show();
                 }

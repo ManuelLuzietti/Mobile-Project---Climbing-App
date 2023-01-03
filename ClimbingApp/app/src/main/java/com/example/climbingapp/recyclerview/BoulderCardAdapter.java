@@ -7,9 +7,9 @@ import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +29,14 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     private List<Boulder.BoulderUpdated> originalList;
     private View layoutView;
     private SelectedBoulderViewModel model;
+    private View parent;
+    RecyclerView recyclerView;
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+    }
 
     public BoulderCardAdapter(Fragment fragment) {
         list = new ArrayList<>();
@@ -41,7 +49,22 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     @NonNull
     @Override
     public BoulderCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card, parent, false);
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card, parent, false);
+        this.parent = parent;
+        layoutView.setOnClickListener(view -> {
+            int position = recyclerView.getChildLayoutPosition(layoutView);
+            Boulder.BoulderUpdated boulder = list.get(position);
+            model.select(boulder);
+            NavController navController = null;
+            try{
+                navController = Navigation.findNavController(parent);
+            } catch (Exception ex){
+                ex.printStackTrace();
+            }
+            if(navController!=null){
+                navController.navigate(R.id.action_menuFragment_to_boulderViewFragment);
+            }
+        });
         return new BoulderCardViewHolder(layoutView);
     }
 
@@ -59,10 +82,28 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         if (!item.isOfficial()) {
             holder.officialBoulderImage.setVisibility(View.INVISIBLE);
         }
-        layoutView.setOnClickListener(ev -> {
-            model.select(item);
-            NavHostFragment.findNavController(FragmentManager.findFragment(layoutView)).navigate(R.id.action_menuFragment_to_boulderViewFragment);
-        });
+
+//        layoutView.setOnClickListener(ev -> {
+//            System.out.println(position);
+//            System.out.println(((TextView)layoutView.findViewById(R.id.place_boulder_name_textview)).getText().toString());
+//            //todo:incasina la lista
+//            model.select(item);
+//
+////            NavHostFragment navHostFragment = (NavHostFragment) FragmentManager.findFragment(parent.getRootView().getRootView().findViewById(R.id.nav_host_fragment_menu));
+////            NavController navController = navHostFragment.getNavController();
+//            NavController navController = null;
+//            try{
+//                navController = Navigation.findNavController(parent);
+//            } catch (Exception ex){
+//                ex.printStackTrace();
+//            }
+//
+//            if(navController!=null){
+//                navController.navigate(R.id.action_menuFragment_to_boulderViewFragment);
+//            }
+//
+////            NavHostFragment.findNavController(FragmentManager.findFragment(parent.getRootView().findViewById(R.id.nav_host_fragment_menu))).navigate(R.id.action_menuFragment_to_boulderViewFragment);
+//        });
     }
 
     @Override

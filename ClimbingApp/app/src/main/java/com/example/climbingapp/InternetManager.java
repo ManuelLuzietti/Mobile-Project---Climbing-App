@@ -20,8 +20,8 @@ public class InternetManager {
     private final Snackbar snackbar;
     private boolean isNetworkConnected;
     private final Activity activity;
-    private static final String HOST = "http://10.0.2.2";
-    private static final String HOST2 ="http://192.168.1.134";
+    private static final String HOST2 = "http://10.0.2.2";
+    private static final String HOST ="http://192.168.1.134";
     public final static String URL = HOST +"/climbingAppWebServer/web_server_for_mobile_project/";
 
     public  InternetManager(Activity activity,View view){
