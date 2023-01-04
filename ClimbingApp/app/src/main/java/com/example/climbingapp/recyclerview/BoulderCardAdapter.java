@@ -55,6 +55,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
             int position = recyclerView.getChildLayoutPosition(layoutView);
             Boulder.BoulderUpdated boulder = list.get(position);
             model.select(boulder);
+            model.setIndex(boulder);
             NavController navController = null;
             try{
                 navController = Navigation.findNavController(parent);

@@ -53,6 +53,7 @@ public class BoulderViewFragment extends Fragment {
         if (getActivity() != null) {
             model = new ViewModelProvider(getActivity()).get(SelectedBoulderViewModel.class);
         }
+
     }
 
     @Override
@@ -73,6 +74,7 @@ public class BoulderViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_boulder_view, container, false);
+        setTouchListener(view);
         internetManager = new InternetManager(getActivity(), view);
         ((NavigationBarView) view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -115,6 +117,8 @@ public class BoulderViewFragment extends Fragment {
 
         return view;
     }
+
+
 
     @Override
     public void onResume() {
@@ -199,5 +203,26 @@ public class BoulderViewFragment extends Fragment {
             ((ImageView) getView().findViewById(R.id.boulder_imageview)).setImageBitmap(decodedByte);
         }
         model.setBitmap(decodedByte);
+    }
+
+    private void setTouchListener(View view) {
+        view.findViewById(R.id.boulder_imageview).setOnTouchListener(new OnSwipeTouchListener(view.getContext()) {
+            @Override
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                System.out.println("right");
+
+                model.decreaseIndex();
+                requestImmage();
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                System.out.println("left");
+                model.increaseIndex();
+                requestImmage();
+            }
+        });
     }
 }

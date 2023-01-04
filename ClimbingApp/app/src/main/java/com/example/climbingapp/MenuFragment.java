@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.recyclerview.BoulderCardAdapter;
 import com.example.climbingapp.viewmodels.FilterViewModel;
+import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONObject;
@@ -35,6 +36,7 @@ public class MenuFragment extends Fragment {
     private Fragment fragment;
     private InternetManager internetManager;
     private FilterViewModel filterModel;
+    private SelectedBoulderViewModel model;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -49,6 +51,7 @@ public class MenuFragment extends Fragment {
         fragment = this;
         setHasOptionsMenu(true);
         filterModel = new ViewModelProvider(getActivity()).get(FilterViewModel.class);
+        model = new ViewModelProvider(getActivity()).get(SelectedBoulderViewModel.class);
     }
 
     @Override
@@ -140,6 +143,7 @@ public class MenuFragment extends Fragment {
                 @Override
                 public void onChanged(List<Boulder.BoulderUpdated> boulders) {
                     adapter.setData(boulders);
+                    model.setBoulderList(boulders);
                     JSONObject filterJson = filterModel.getFilterSettings().getValue();
                     if(filterJson!=null){
                         adapter.getFilter().filter(filterJson.toString());
