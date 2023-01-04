@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -49,7 +51,7 @@ public class BoulderViewFragment extends Fragment {
     private ProgressBar progressBar;
     private ImageView imageView;
     private FloatingActionButton fab ;
-
+    private TextView nameTextView;
     public BoulderViewFragment() {
         // Required empty public constructor
     }
@@ -86,7 +88,12 @@ public class BoulderViewFragment extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.boulder_progressBar);
         imageView = (ImageView) view.findViewById(R.id.boulder_imageview);
         internetManager = new InternetManager(getActivity(), view);
+        nameTextView =(TextView) view.findViewById(R.id.boulder_nameTextView);
+        nameTextView.setText(model.getSelected().getValue().getPlaceName());
         fab = (FloatingActionButton) view.findViewById(R.id.buoulder_fab);
+        model.getSelected().observe(this, (Boulder.BoulderUpdated boulder)->{
+            nameTextView.setText(boulder.getPlaceName());
+        });
 
         ((NavigationBarView) view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -123,9 +130,7 @@ public class BoulderViewFragment extends Fragment {
             }
             return true;
         });
-        fab.setOnClickListener(view1 -> {
-            requestImmage();
-        });
+
 
 
 
