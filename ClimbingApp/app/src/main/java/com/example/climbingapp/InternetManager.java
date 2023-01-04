@@ -27,7 +27,7 @@ public class InternetManager {
     public  InternetManager(Activity activity,View view){
         this.activity = activity;
         this.isNetworkConnected = false;
-        snackbar = Snackbar.make(view, "no internet available", Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(view, "no internet available", Snackbar.LENGTH_SHORT)
                 .setAction("settings", view1 -> {
                     Intent intent = new Intent();
                     intent.setAction(Settings.ACTION_WIRELESS_SETTINGS);

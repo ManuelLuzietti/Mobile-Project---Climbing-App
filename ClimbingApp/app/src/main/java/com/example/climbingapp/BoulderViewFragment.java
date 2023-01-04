@@ -21,8 +21,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONException;
@@ -46,6 +48,7 @@ public class BoulderViewFragment extends Fragment {
     private boolean mIsCreated;
     private ProgressBar progressBar;
     private ImageView imageView;
+    private FloatingActionButton fab ;
 
     public BoulderViewFragment() {
         // Required empty public constructor
@@ -83,6 +86,8 @@ public class BoulderViewFragment extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.boulder_progressBar);
         imageView = (ImageView) view.findViewById(R.id.boulder_imageview);
         internetManager = new InternetManager(getActivity(), view);
+        fab = (FloatingActionButton) view.findViewById(R.id.buoulder_fab);
+
         ((NavigationBarView) view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.bottomnav_add:
@@ -118,9 +123,12 @@ public class BoulderViewFragment extends Fragment {
             }
             return true;
         });
-        view.findViewById(R.id.boulder_imageview).setOnClickListener(view1 -> {
+        fab.setOnClickListener(view1 -> {
             requestImmage();
         });
+
+
+
 
         return view;
     }
@@ -146,7 +154,7 @@ public class BoulderViewFragment extends Fragment {
 
     private void requestImmage() {
         progressBar.setVisibility(View.VISIBLE);
-        imageView.setVisibility(View.INVISIBLE);
+        imageView.setImageDrawable(getContext().getDrawable(R.drawable.whitebackground));
         String imgName;
         if (model.getSelected().getValue() != null) {
             imgName = model.getSelected().getValue().getImg();
@@ -196,7 +204,13 @@ public class BoulderViewFragment extends Fragment {
                 setBitmap(imgData);
                 createImgFile(imgName, imgData);
             }
-        }, Throwable::printStackTrace);
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_baseline_image_not_supported_24));
+                progressBar.setVisibility(View.GONE);
+            }
+        });
         VolleySingleton.getInstance(getContext()).add(jsonRequest);
     }
 
@@ -213,9 +227,9 @@ public class BoulderViewFragment extends Fragment {
         byte[] decodedString = Base64.decode(data.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         if (getView() != null) {
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
             imageView.setImageBitmap(decodedByte);
-            imageView.setVisibility(View.VISIBLE);
+            //imageView.setVisibility(View.VISIBLE);
         }
         model.setBitmap(decodedByte);
     }
