@@ -27,9 +27,7 @@ import java.util.List;
 public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHolder> {
     private List<Boulder.BoulderUpdated> list;
     private List<Boulder.BoulderUpdated> originalList;
-    private View layoutView;
     private SelectedBoulderViewModel model;
-    private View parent;
     RecyclerView recyclerView;
 
     @Override
@@ -69,7 +67,6 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     @Override
     public BoulderCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card, parent, false);
-        this.parent = parent;
         layoutView.setOnClickListener(view -> {
             int position = recyclerView.getChildLayoutPosition(layoutView);
             Boulder.BoulderUpdated boulder = list.get(position);
@@ -174,6 +171,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
 
                 FilterResults results = new FilterResults();
                 results.values = filteredList;
+
                 return results;
             }
 
@@ -188,6 +186,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
                     }
                 }
                 updateCardListItems(filteredList);
+                model.setBoulderList(filteredList);
             }
         };
     }
@@ -211,4 +210,5 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
 
         diffResult.dispatchUpdatesTo(this);
     }
+
 }
