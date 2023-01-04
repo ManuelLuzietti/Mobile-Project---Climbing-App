@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -41,6 +44,8 @@ public class BoulderViewFragment extends Fragment {
     private SelectedBoulderViewModel model;
     private InternetManager internetManager;
     private boolean mIsCreated;
+    private ProgressBar progressBar;
+    private ImageView imageView;
 
     public BoulderViewFragment() {
         // Required empty public constructor
@@ -75,6 +80,8 @@ public class BoulderViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_boulder_view, container, false);
         setTouchListener(view);
+        progressBar = (ProgressBar) view.findViewById(R.id.boulder_progressBar);
+        imageView = (ImageView) view.findViewById(R.id.boulder_imageview);
         internetManager = new InternetManager(getActivity(), view);
         ((NavigationBarView) view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -118,7 +125,11 @@ public class BoulderViewFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+    }
 
     @Override
     public void onResume() {
@@ -134,6 +145,8 @@ public class BoulderViewFragment extends Fragment {
     }
 
     private void requestImmage() {
+        progressBar.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.INVISIBLE);
         String imgName;
         if (model.getSelected().getValue() != null) {
             imgName = model.getSelected().getValue().getImg();
@@ -146,7 +159,7 @@ public class BoulderViewFragment extends Fragment {
             if (filesList.contains(imgName)) {
                 String buffer = "";
                 try {
-                    FileInputStream fIn = new FileInputStream( new File(this.getContext().getFilesDir(),imgName));
+                    FileInputStream fIn = new FileInputStream(new File(this.getContext().getFilesDir(), imgName));
                     InputStreamReader reader = new InputStreamReader(fIn);
                     BufferedReader bReader = new BufferedReader(reader);
                     String dataRow = "";
@@ -196,11 +209,13 @@ public class BoulderViewFragment extends Fragment {
         }
     }
 
-    private void setBitmap(String data){
+    private void setBitmap(String data) {
         byte[] decodedString = Base64.decode(data.getBytes(StandardCharsets.UTF_8), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         if (getView() != null) {
-            ((ImageView) getView().findViewById(R.id.boulder_imageview)).setImageBitmap(decodedByte);
+            progressBar.setVisibility(View.INVISIBLE);
+            imageView.setImageBitmap(decodedByte);
+            imageView.setVisibility(View.VISIBLE);
         }
         model.setBitmap(decodedByte);
     }
