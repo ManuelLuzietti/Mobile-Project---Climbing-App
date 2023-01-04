@@ -45,6 +45,26 @@ public class BoulderCardLogbookAdapter extends RecyclerView.Adapter<BoulderCardL
     }
 
     @Override
+    public void onViewDetachedFromWindow(@NonNull BoulderCardLogbookViewholder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.checkBoulderImage.setVisibility(View.INVISIBLE);
+        holder.officialBoulderImage.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull BoulderCardLogbookViewholder holder) {
+        super.onViewAttachedToWindow(holder);
+        Boulder.BoulderUpdated b = list.get(holder.getAdapterPosition());
+        if(b.checked){
+            holder.checkBoulderImage.setVisibility(View.VISIBLE);
+        }
+        if(b.isOfficial){
+            holder.officialBoulderImage.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    @Override
     public void onBindViewHolder(@NonNull BoulderCardLogbookViewholder holder, int position) {
         Boulder.BoulderLogbook item = list.get(position);
         holder.place_boulder_name_textview.setText(item.getPlaceName());

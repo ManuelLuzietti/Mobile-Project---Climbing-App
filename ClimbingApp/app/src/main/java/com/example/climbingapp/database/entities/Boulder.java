@@ -44,14 +44,7 @@ public class Boulder {
     @NonNull
     public String img;
 
-    @Ignore
-    public int rating;
-    @Ignore
-    public int repeats;
-    @Ignore
-    public boolean checked;
-    @Ignore
-    public String user;
+
 
     public int getId() {
         return id;
@@ -61,21 +54,12 @@ public class Boulder {
         return name;
     }
 
-    public String getPlaceUser() {
-        return user;
-    }
 
-    public int getPlaceRepeats() {
-        return repeats;
-    }
 
     public String getPlaceGrade() {
         return grade;
     }
 
-    public int getPlaceRating() {
-        return rating;
-    }
 
     @NonNull
     public String getImg() {
@@ -83,9 +67,6 @@ public class Boulder {
     }
 
 
-    public boolean isChecked() {
-        return checked;
-    }
 
     public boolean isOfficial() {
         return isOfficial;
@@ -96,21 +77,12 @@ public class Boulder {
         this.name = name;
     }
 
-    public void setPlaceUser(String user) {
-        this.user = user;
-    }
 
-    public void setPlaceRepeats(int repeats) {
-        this.repeats = repeats;
-    }
 
     public void setPlaceGrade(String grade) {
         this.grade = grade;
     }
 
-    public void setPlaceRating(int rating) {
-        this.rating = rating;
-    }
 
     public void setImg(@NonNull String img) {
         this.img = img;
@@ -120,32 +92,25 @@ public class Boulder {
         isOfficial = official;
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
 
-    public static class BoulderUpdated{
-        public int id;
-        public String name;
-        public String grade;
-        @TypeConverters(com.example.climbingapp.database.TypeConverters.class)
-        public Date date;
-        @ColumnInfo(name = "is_official")
-        public boolean isOfficial;
-        public String img;
+    public static class BoulderUpdated extends Boulder{
+//        public int id;
+//        public String name;
+//        public String grade;
+//        @TypeConverters(com.example.climbingapp.database.TypeConverters.class)
+//        public Date date;
+//        @ColumnInfo(name = "is_official")
+//        public boolean isOfficial;
+//        public String img;
 
         public String user;
         public int rating;
+        @ColumnInfo(name = "completions")
         public int repeats;
         public boolean checked;
 
         public BoulderUpdated(int id, String name, String grade, Date date, boolean isOfficial, String img, String user, int rating, int repeats, boolean checked) {
-            this.id = id;
-            this.name = name;
-            this.grade = grade;
-            this.date = date;
-            this.isOfficial = isOfficial;
-            this.img = img;
+            super(id,name,grade,date,isOfficial,img);
             this.user = user;
             this.rating = rating;
             this.repeats = repeats;
@@ -227,21 +192,8 @@ public class Boulder {
     }
 
 
-    public static  class BoulderLogbook{
-        public int id;
-        public String name;
-        public String grade;
-        @TypeConverters(com.example.climbingapp.database.TypeConverters.class)
-        public Date date;
-        @ColumnInfo(name = "is_official")
-        public boolean isOfficial;
-        public String img;
+    public static  class BoulderLogbook extends  BoulderUpdated{
 
-        public String user;
-        public int rating;
-        @ColumnInfo(name = "completions")
-        public int repeats;
-        public boolean checked;
 
         @ColumnInfo(name = "number_of_tries")
         public int numberOfTries;
@@ -254,6 +206,16 @@ public class Boulder {
         public String gradeUser;
         @ColumnInfo(name = "comment_text")
         public String commentText;
+
+        public BoulderLogbook(int id, String name, String grade, Date date, boolean isOfficial, String img, String user, int rating, int repeats, boolean checked,
+                              int numberOfTries,Date dateCompletion,int ratingUser,String gradeUser,String commentText) {
+            super(id, name, grade, date, isOfficial, img, user, rating, repeats, checked);
+            this.numberOfTries = numberOfTries;
+            this.dateCompletion = dateCompletion;
+            this.ratingUser = ratingUser;
+            this.gradeUser = gradeUser;
+            this.commentText = commentText;
+        }
 
         public int getNumberOfTries(){
             return numberOfTries;

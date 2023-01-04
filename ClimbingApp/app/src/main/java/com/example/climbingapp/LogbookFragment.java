@@ -10,14 +10,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.climbingapp.recyclerview.BoulderCardLogbookAdapter;
+import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
 
 
 public class LogbookFragment extends Fragment {
     private BoulderCardLogbookAdapter boulderCardLogbookAdapter;
     private ClimbingAppRepository repo;
+    private SelectedBoulderViewModel model;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,9 @@ public class LogbookFragment extends Fragment {
         if (getActivity() != null) {
             repo = new ClimbingAppRepository(getActivity().getApplication());
         }
-
+        if (getActivity() != null) {
+            model = new ViewModelProvider(getActivity()).get(SelectedBoulderViewModel.class);
+        }
     }
 
     @Override
@@ -58,6 +63,7 @@ public class LogbookFragment extends Fragment {
             repo.getBouldersLogbook(getActivity().getSharedPreferences("global_pref", Context.MODE_PRIVATE).getInt("userId",-1)).observe(this, boulders -> {
                 boulderCardLogbookAdapter.setData(boulders);
                 boulderCardLogbookAdapter.notifyDataSetChanged();
+                model.setBoulderList(boulders);
             });
         }
 

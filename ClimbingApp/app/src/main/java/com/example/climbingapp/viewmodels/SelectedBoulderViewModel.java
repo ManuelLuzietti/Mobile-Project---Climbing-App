@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectedBoulderViewModel extends ViewModel {
-    private List<Boulder.BoulderUpdated> boulderList = new ArrayList<>();
+    private List<? extends Boulder.BoulderUpdated> boulderList = new ArrayList<>();
     private final MutableLiveData<Boulder.BoulderUpdated> boulder =  new MutableLiveData<>();
     private final MutableLiveData<Bitmap> bitmap = new MutableLiveData<>();
     private int boulderListIndex;
@@ -38,7 +38,7 @@ public class SelectedBoulderViewModel extends ViewModel {
         return this.bitmap;
     }
 
-    public void setBoulderList(@NonNull  List<Boulder.BoulderUpdated> list){
+    public void setBoulderList(@NonNull  List<? extends Boulder.BoulderUpdated> list){
         this.boulderList = list;
         this.maxIndex = Math.max(list.size() - 1, 0);
     }

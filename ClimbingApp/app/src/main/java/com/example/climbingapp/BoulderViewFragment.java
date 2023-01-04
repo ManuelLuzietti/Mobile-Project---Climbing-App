@@ -152,6 +152,7 @@ public class BoulderViewFragment extends Fragment {
             requestImmage();
         } else {
             if (getView() != null) {
+                progressBar.setVisibility(View.GONE);
                 ((ImageView) getView().findViewById(R.id.boulder_imageview)).setImageBitmap(model.getBitmap().getValue());
             }
         }

@@ -99,7 +99,7 @@ public interface ClimbingDAO {
             "            when EXISTS ( SELECT * FROM completed_boulder cb where cb.boulder_id = b.id and cb.user_id = :id) then 1  " +
             "            else 0 " +
             "            END) as checked ," +
-            "            (select count(*) from completed_boulder where boulder_id = b.id) as repeats," +
+            "            (select count(*) from completed_boulder where boulder_id = b.id) as completions," +
             "            (select CASE " +
             "            when (select avg(comm.rating)  from completed_boulder compb join comment comm on (compb.comment_id = comm.id) where compb.boulder_id = b.id) is not null then  " +
             "            (select avg(comm.rating)  from completed_boulder compb join comment comm on (compb.comment_id = comm.id) where compb.boulder_id = b.id) " +
@@ -118,7 +118,7 @@ public interface ClimbingDAO {
             " when EXISTS ( SELECT * FROM completed_boulder cb where cb.boulder_id = b.id and cb.user_id = :currentUserId) then 1  " +
             " else 0 " +
             " END) as checked ," +
-            "(select count(*) from completed_boulder where boulder_id = b.id) as repeats, " +
+            "(select count(*) from completed_boulder where boulder_id = b.id) as completions, " +
             "(select CASE " +
             " when (select avg(comm.rating)  from completed_boulder compb join comment comm on (compb.comment_id = comm.id) where compb.boulder_id = b.id) is not null then  " +
             " (select avg(comm.rating)  from completed_boulder compb join comment comm on (compb.comment_id = comm.id) where compb.boulder_id = b.id) " +

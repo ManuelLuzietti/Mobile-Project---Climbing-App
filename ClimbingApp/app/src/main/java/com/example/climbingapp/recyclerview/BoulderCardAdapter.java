@@ -46,6 +46,25 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         }
     }
 
+    @Override
+    public void onViewDetachedFromWindow(@NonNull BoulderCardViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.checkBoulderImage.setVisibility(View.INVISIBLE);
+        holder.officialBoulderImage.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull BoulderCardViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        Boulder.BoulderUpdated b = list.get(holder.getAdapterPosition());
+        if(b.checked){
+            holder.checkBoulderImage.setVisibility(View.VISIBLE);
+        }
+        if(b.isOfficial){
+            holder.officialBoulderImage.setVisibility(View.VISIBLE);
+        }
+    }
+
     @NonNull
     @Override
     public BoulderCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -68,6 +87,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
         });
         return new BoulderCardViewHolder(layoutView);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull BoulderCardViewHolder holder, int position) {
@@ -110,6 +130,11 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     @Override
     public int getItemCount() {
         return this.list.size();
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull BoulderCardViewHolder holder) {
+        super.onViewRecycled(holder);
     }
 
     public Filter getFilter() {

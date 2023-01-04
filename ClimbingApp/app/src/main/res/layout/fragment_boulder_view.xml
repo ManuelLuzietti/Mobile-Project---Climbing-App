@@ -21,7 +21,6 @@
             android:textAlignment="center"
             android:textSize="24dp"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +68,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="SpeakableTextPresentCheck"
             android:layout_marginBottom="70dp"
-        />
+            android:contentDescription="Update" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
