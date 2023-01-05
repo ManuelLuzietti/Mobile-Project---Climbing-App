@@ -2,6 +2,7 @@ package com.example.climbingapp.recyclerview;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,8 @@ public class BoulderCardViewHolder extends RecyclerView.ViewHolder {
     TextView place_user_textview;
     TextView place_repeats_textview;
     TextView place_grade_textview;
-    TextView place_rating_textview;
+    //TextView place_rating_textview;
+    RatingBar place_rating_ratingbar;
 
     public BoulderCardViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -26,6 +28,7 @@ public class BoulderCardViewHolder extends RecyclerView.ViewHolder {
         place_user_textview = itemView.findViewById(R.id.place_user_textview);
         place_repeats_textview = itemView.findViewById(R.id.place_repeats_textview);
         place_grade_textview = itemView.findViewById(R.id.place_grade_textview);
-        place_rating_textview = itemView.findViewById(R.id.place_rating_textview);
+        place_rating_ratingbar = itemView.findViewById(R.id.place_rating_ratingbar_boulder);
+        //place_rating_textview = itemView.findViewById(R.id.place_rating_textview);
     }
 }

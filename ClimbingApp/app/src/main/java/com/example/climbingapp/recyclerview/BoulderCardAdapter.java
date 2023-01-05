@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHolder> {
+    private final Fragment fragment;
     private List<Boulder.BoulderUpdated> list;
     private List<Boulder.BoulderUpdated> originalList;
     private SelectedBoulderViewModel model;
@@ -39,6 +40,7 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     public BoulderCardAdapter(Fragment fragment) {
         list = new ArrayList<>();
         originalList = new ArrayList<>();
+        this.fragment = fragment;
         if (fragment.getActivity() != null) {
             model = new ViewModelProvider(fragment.getActivity()).get(SelectedBoulderViewModel.class);
         }
@@ -90,38 +92,17 @@ public class BoulderCardAdapter extends RecyclerView.Adapter<BoulderCardViewHold
     public void onBindViewHolder(@NonNull BoulderCardViewHolder holder, int position) {
         Boulder.BoulderUpdated item = list.get(position);
         holder.place_boulder_name_textview.setText(item.getPlaceName());
-        holder.place_user_textview.setText(item.getPlaceUser());
-        holder.place_repeats_textview.setText(String.valueOf(item.getPlaceRepeats()));
-        holder.place_grade_textview.setText(item.getPlaceGrade());
-        holder.place_rating_textview.setText(String.valueOf(item.getPlaceRating()));
+        holder.place_user_textview.setText(fragment.getString(R.string.boulderCard_tracciatoreTextView) + item.getPlaceUser());
+        holder.place_repeats_textview.setText(fragment.getString(R.string.boulderCard_repeatsTextView)+ String.valueOf(item.getPlaceRepeats()));
+        holder.place_grade_textview.setText(fragment.getString(R.string.boulderCard_gradeTextView)+ item.getPlaceGrade());
+        holder.place_rating_ratingbar.setRating(item.getPlaceRating());
+        //holder.place_rating_textview.setText(String.valueOf(item.getPlaceRating()));
         if (!item.isChecked()) {
             holder.checkBoulderImage.setVisibility(View.INVISIBLE);
         }
         if (!item.isOfficial()) {
             holder.officialBoulderImage.setVisibility(View.INVISIBLE);
         }
-
-//        layoutView.setOnClickListener(ev -> {
-//            System.out.println(position);
-//            System.out.println(((TextView)layoutView.findViewById(R.id.place_boulder_name_textview)).getText().toString());
-//            //todo:incasina la lista
-//            model.select(item);
-//
-////            NavHostFragment navHostFragment = (NavHostFragment) FragmentManager.findFragment(parent.getRootView().getRootView().findViewById(R.id.nav_host_fragment_menu));
-////            NavController navController = navHostFragment.getNavController();
-//            NavController navController = null;
-//            try{
-//                navController = Navigation.findNavController(parent);
-//            } catch (Exception ex){
-//                ex.printStackTrace();
-//            }
-//
-//            if(navController!=null){
-//                navController.navigate(R.id.action_menuFragment_to_boulderViewFragment);
-//            }
-//
-////            NavHostFragment.findNavController(FragmentManager.findFragment(parent.getRootView().findViewById(R.id.nav_host_fragment_menu))).navigate(R.id.action_menuFragment_to_boulderViewFragment);
-//        });
     }
 
     @Override

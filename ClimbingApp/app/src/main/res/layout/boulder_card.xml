@@ -48,17 +48,19 @@
                 android:id="@+id/place_boulder_name_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
                 android:text="name placeholder"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textSize="16sp" />
 
+
             <TextView
                 android:id="@+id/place_user_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
                 android:text="user placeholder"
-                android:textAlignment="textStart"
                 android:textAllCaps="false"
                 android:textSize="10sp" />
 
@@ -66,8 +68,8 @@
                 android:id="@+id/place_repeats_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
                 android:text="repeat placeholder"
-                android:textAlignment="textStart"
                 android:textAllCaps="false"
                 android:textSize="10sp" />
 
@@ -75,19 +77,21 @@
                 android:id="@+id/place_grade_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
                 android:text="grade placeholder"
-                android:textAlignment="textStart"
                 android:textAllCaps="false"
                 android:textSize="10sp" />
 
-            <TextView
-                android:id="@+id/place_rating_textview"
-                android:layout_width="match_parent"
+            <RatingBar
+                android:id="@+id/place_rating_ratingbar_boulder"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="rating placeholder"
-                android:textAlignment="textStart"
+                android:numStars="5"
+                android:stepSize="1.0"
                 android:textAllCaps="false"
-                android:textSize="10sp" />
+                android:layout_marginStart="20dp"/>
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

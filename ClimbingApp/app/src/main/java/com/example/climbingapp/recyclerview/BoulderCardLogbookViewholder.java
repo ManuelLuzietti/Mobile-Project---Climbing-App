@@ -17,8 +17,8 @@ public class BoulderCardLogbookViewholder extends RecyclerView.ViewHolder {
     TextView place_user_textview;
     TextView place_repeats_textview;
     TextView place_grade_textview;
-    TextView place_rating_textview;
-
+    RatingBar place_rating_ratingbar;
+    TextView ratingProposedLabel;
     ImageView commentImage;
     RatingBar ratingBar;
     TextView place_gradeuser;
@@ -34,7 +34,8 @@ public class BoulderCardLogbookViewholder extends RecyclerView.ViewHolder {
         place_user_textview = itemView.findViewById(R.id.place_user_textview_logbook);
         place_repeats_textview = itemView.findViewById(R.id.place_repeats_textview_logbook);
         place_grade_textview = itemView.findViewById(R.id.place_grade_textview_logbook);
-        place_rating_textview = itemView.findViewById(R.id.place_rating_textview_logbook);
+        place_rating_ratingbar = itemView.findViewById(R.id.place_rating_ratingbar_logbook);
+        ratingProposedLabel = itemView.findViewById(R.id.gradeProposed_textView_logbook);
 
         commentImage = itemView.findViewById(R.id.comment_boulder_logbook);
         ratingBar = itemView.findViewById(R.id.place_ratinguser_ratingbar_logbook);

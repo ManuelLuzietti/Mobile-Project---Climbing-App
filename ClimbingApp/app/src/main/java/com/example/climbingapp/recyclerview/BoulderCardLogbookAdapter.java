@@ -37,10 +37,11 @@ public class BoulderCardLogbookAdapter extends RecyclerView.Adapter<BoulderCardL
             throw new Exception();
         }
     }
+
     @NonNull
     @Override
     public BoulderCardLogbookViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card_logbook,parent,false);
+        layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.boulder_card_logbook, parent, false);
         return new BoulderCardLogbookViewholder(layoutView);
     }
 
@@ -55,10 +56,10 @@ public class BoulderCardLogbookAdapter extends RecyclerView.Adapter<BoulderCardL
     public void onViewAttachedToWindow(@NonNull BoulderCardLogbookViewholder holder) {
         super.onViewAttachedToWindow(holder);
         Boulder.BoulderUpdated b = list.get(holder.getAdapterPosition());
-        if(b.checked){
+        if (b.checked) {
             holder.checkBoulderImage.setVisibility(View.VISIBLE);
         }
-        if(b.isOfficial){
+        if (b.isOfficial) {
             holder.officialBoulderImage.setVisibility(View.VISIBLE);
         }
     }
@@ -68,35 +69,36 @@ public class BoulderCardLogbookAdapter extends RecyclerView.Adapter<BoulderCardL
     public void onBindViewHolder(@NonNull BoulderCardLogbookViewholder holder, int position) {
         Boulder.BoulderLogbook item = list.get(position);
         holder.place_boulder_name_textview.setText(item.getPlaceName());
-        holder.place_user_textview.setText(item.getPlaceUser());
-        holder.place_repeats_textview.setText(String.valueOf(item.getPlaceRepeats()));
-        holder.place_grade_textview.setText(item.getPlaceGrade());
-        holder.place_rating_textview.setText(String.valueOf(item.getPlaceRating()));
-        if(!item.isChecked()){
+        holder.place_user_textview.setText(fragment.getString(R.string.boulderCard_tracciatoreTextView) + item.getPlaceUser());
+        holder.place_repeats_textview.setText(fragment.getString(R.string.boulderCard_repeatsTextView) + String.valueOf(item.getPlaceRepeats()));
+        holder.place_grade_textview.setText(fragment.getString(R.string.boulderCard_repeatsTextView) + item.getPlaceGrade());
+        holder.place_rating_ratingbar.setRating(item.getPlaceRating());
+        if (!item.isChecked()) {
             holder.checkBoulderImage.setVisibility(View.INVISIBLE);
         }
-        if(!item.isOfficial()){
+        if (!item.isOfficial()) {
             holder.officialBoulderImage.setVisibility(View.INVISIBLE);
         }
 
-        if(item.getCommentText().equals("null")){
+        if (item.getCommentText().equals("null")) {
             holder.commentImage.setVisibility(View.INVISIBLE);
-        } else{
-            holder.commentImage.setOnClickListener(view ->{
+        } else {
+            holder.commentImage.setOnClickListener(view -> {
                 if (fragment.getContext() != null) {
                     new AlertDialog.Builder(fragment.getContext()).setTitle("Comment").setMessage(item.getCommentText()).show();
                 }
             });
         }
         holder.ratingBar.setRating(item.ratingUser);
-        holder.place_gradeuser.setText(item.gradeUser);
-        holder.place_triesuser.setText(Utils.numOfTriesConversion(item.getNumberOfTries()+1));//todo:converti
-        holder.place_dateuser.setText(TypeConverters.toString(item.dateCompletion));
+        holder.place_gradeuser.setText(fragment.getString(R.string.logbookCard_gradeProposed) + item.gradeUser);
+        holder.place_triesuser.setText(fragment.getString(R.string.logbookCard_numOfTries) + Utils.numOfTriesConversion(item.getNumberOfTries() + 1));
+        holder.place_dateuser.setText(fragment.getString(R.string.logbookCard_completionDate) + TypeConverters.toString(item.dateCompletion));
+        holder.ratingProposedLabel.setText(fragment.getString(R.string.logbookCard_ratingProposedLabel));
         layoutView.setOnClickListener(ev -> {
-            Boulder.BoulderUpdated boulder = new Boulder.BoulderUpdated(item.id,item.name,item.grade,item.date,item.isOfficial,item.img,item.user,item.rating,item.repeats,item.checked);
+            Boulder.BoulderUpdated boulder = new Boulder.BoulderUpdated(item.id, item.name, item.grade, item.date, item.isOfficial, item.img, item.user, item.rating, item.repeats, item.checked);
             model.select(boulder);
             if (fragment.getActivity() != null) {
-                Utils.insertFragment((AppCompatActivity) fragment.getActivity(),new BoulderViewFragment(),null,R.id.nav_host_fragment_menu);
+                Utils.insertFragment((AppCompatActivity) fragment.getActivity(), new BoulderViewFragment(), null, R.id.nav_host_fragment_menu);
             }
         });
     }

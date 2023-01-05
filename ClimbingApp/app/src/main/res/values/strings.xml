@@ -64,5 +64,12 @@
     <string name="register_button_register">Register</string>
     <string name="uppercase_pattern">[A-Z]</string>
     <string name="lowercase_pattern">[a-z]</string>
-    <string name="number_pattern">[0-9]</string>
+    <string name="number_pattern">[0–9]</string>
+    <string name="boulderCard_tracciatoreTextView">set by:</string>
+    <string name="boulderCard_repeatsTextView">"repeats: "</string>
+    <string name="boulderCard_gradeTextView">"grade: "</string>
+    <string name="logbookCard_gradeProposed">grade proposed:</string>
+    <string name="logbookCard_numOfTries">"tries: "</string>
+    <string name="logbookCard_completionDate">completed in date:</string>
+    <string name="logbookCard_ratingProposedLabel">"Rating by user: "</string>
 </resources>
