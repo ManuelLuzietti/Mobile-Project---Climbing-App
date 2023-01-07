@@ -73,6 +73,9 @@ public class MainMenuActivity extends AppCompatActivity {
         });
         NavigationUI.setupWithNavController(navView, navController);
         this.fantaModel = new ViewModelProvider(this).get(AddFantaBoulderViewModel.class);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setIcon(getDrawable(R.drawable.wave_logo));
     }
 
     @Override
