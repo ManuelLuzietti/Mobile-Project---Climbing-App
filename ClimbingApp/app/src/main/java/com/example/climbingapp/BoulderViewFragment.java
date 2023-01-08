@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -78,7 +79,7 @@ public class BoulderViewFragment extends Fragment {
         internetManager.unregisterNetworkCallback();
     }
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,17 +96,29 @@ public class BoulderViewFragment extends Fragment {
             nameTextView.setText(boulder.getPlaceName());
         });
 
+        fab.setOnClickListener(view1 -> {
+            try {
+                NavHostFragment.findNavController(FragmentManager.findFragment(view))
+                        .navigate(R.id.action_boulderViewFragment_to_addViewFragment);
+            } catch (IllegalStateException is) {
+                if (getActivity() != null) {
+                    Utils.insertFragment((AppCompatActivity) getActivity(), new AddViewFragment(), getClass().getSimpleName(), R.id.nav_host_fragment_menu);
+                }
+            }
+        });
+        NavigationBarView navView = ((NavigationBarView) view.findViewById(R.id.bottomnavview_boulderview));
+        navView.setItemIconTintList(null);
+        BottomNavigationItemView menuItem1 = navView.findViewById(R.id.bottomnav_update);
+        menuItem1.setIconSize(navView.getItemIconSize()+30);
+        BottomNavigationItemView menuItem2 = navView.findViewById(R.id.bottomnav_info);
+        menuItem2.setPadding(0, (int) (30*getContext().getResources().getDisplayMetrics().density),0,0);
+        BottomNavigationItemView menuItem3 = navView.findViewById(R.id.bottomnav_comments);
+        menuItem3.setPadding(0,(int) (30*getContext().getResources().getDisplayMetrics().density),0,0);
+
         ((NavigationBarView) view.findViewById(R.id.bottomnavview_boulderview)).setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.bottomnav_add:
-                    try {
-                        NavHostFragment.findNavController(FragmentManager.findFragment(view))
-                                .navigate(R.id.action_boulderViewFragment_to_addViewFragment);
-                    } catch (IllegalStateException is) {
-                        if (getActivity() != null) {
-                            Utils.insertFragment((AppCompatActivity) getActivity(), new AddViewFragment(), getClass().getSimpleName(), R.id.nav_host_fragment_menu);
-                        }
-                    }
+                case R.id.bottomnav_update:
+                    updateImmage();
                     break;
                 case R.id.bottomnav_comments:
                     try {
@@ -156,6 +169,25 @@ public class BoulderViewFragment extends Fragment {
                 ((ImageView) getView().findViewById(R.id.boulder_imageview)).setImageBitmap(model.getBitmap().getValue());
             }
         }
+    }
+
+    private void updateImmage(){
+        String imgName;
+        if (model.getSelected().getValue() != null) {
+            imgName = model.getSelected().getValue().getImg();
+        } else {
+            imgName = null;
+        }
+        if (imgName != null) {
+            String[] files = getContext().fileList();
+            List filesList = Arrays.asList(files);
+            if (filesList.contains(imgName)) {
+                File f = new File(this.getActivity().getFilesDir(), imgName);
+                f.delete();
+            }
+        }
+        requestImmage();
+
     }
 
     private void requestImmage() {

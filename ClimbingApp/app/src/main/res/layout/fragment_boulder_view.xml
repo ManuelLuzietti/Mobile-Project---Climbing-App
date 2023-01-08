@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BoulderViewFragment"
-    android:background="@color/white"
-
-    >
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,38 +16,42 @@
             android:id="@+id/boulder_nameTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/walter_turncoat"
             android:text="TextView"
             android:textAlignment="center"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/boulder_imageview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="47dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_baseline_autorenew_24"
-            app:layout_constraintBottom_toTopOf="@+id/bottomnavview_boulderview"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
 
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/boulder_nameTextView" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomnavview_boulderview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_navigation_menu" />
+            style="@style/Theme.ClimbingApp.BottomNavView"
+            app:menu="@menu/bottom_navigation_menu"
+
+            app:itemIconSize="30dp"
+            />
 
         <ProgressBar
             android:id="@+id/boulder_progressBar"
@@ -69,7 +71,7 @@
             android:layout_marginEnd="24dp"
             android:clickable="true"
             style="@style/MyFloatingActionButton"
-            android:src="@drawable/ic_baseline_autorenew_24"
+            android:src="@drawable/ic_baseline_add_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="SpeakableTextPresentCheck"

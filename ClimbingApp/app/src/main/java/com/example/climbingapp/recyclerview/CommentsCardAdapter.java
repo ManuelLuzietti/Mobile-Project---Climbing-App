@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.climbingapp.R;
+import com.example.climbingapp.Utils;
 import com.example.climbingapp.database.entities.Comment;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class CommentsCardAdapter extends RecyclerView.Adapter<CommentsCardViewHo
         holder.place_grade_textview.setText("grade: " + item.getGrade()+" - ");
         holder.place_rating_ratingbar.setRating(item.getRating());
         holder.place_text_textview.setText(item.getText());
-        holder.place_tries_textview.setText("# of tries: " + String.valueOf(item.getNumOfTries()));
+        holder.place_tries_textview.setText("# of tries: " + String.valueOf(Utils.numOfTriesConversion(item.getNumOfTries()+1)));
         holder.place_date_textview.setText(item.getDate());
     }
 

@@ -12,6 +12,6 @@
             android:id="@+id/userPageFragment"
             android:title="Account" />
         <item android:id="@+id/logoutItem"
-            android:title="Logout"/>
+            android:title="Logout" />
     </group>
 </menu>

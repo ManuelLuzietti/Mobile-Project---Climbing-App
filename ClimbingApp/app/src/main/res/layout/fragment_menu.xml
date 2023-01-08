@@ -39,20 +39,14 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomnavview_bouldermenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:menu="@menu/bottom_navigation_menu_bouldermenu"
-            android:background="@drawable/ic_wave"
-            android:elevation="0dp"
-            android:outlineAmbientShadowColor="@android:color/transparent"
-            android:outlineSpotShadowColor="@android:color/transparent"
-            tools:targetApi="p"
-            app:itemTextColor="@color/white"
-            app:itemIconTint="@color/white"
+            style="@style/Theme.ClimbingApp.BottomNavView"
             android:paddingTop="10dp"
             />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

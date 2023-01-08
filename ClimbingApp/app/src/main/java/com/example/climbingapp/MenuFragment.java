@@ -24,6 +24,7 @@ import com.example.climbingapp.database.entities.Boulder;
 import com.example.climbingapp.recyclerview.BoulderCardAdapter;
 import com.example.climbingapp.viewmodels.FilterViewModel;
 import com.example.climbingapp.viewmodels.SelectedBoulderViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONObject;
@@ -58,7 +59,13 @@ public class MenuFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.boulderlist_menu, menu);
+//        ViewGroup.LayoutParams lp = menu.getItem(0).getActionView().findViewById(com.google.android.material.R.id.navigation_bar_item_icon_view).getLayoutParams();
+//        lp.height = lp.height + 20;
+//        menu.getItem(1).getActionView().findViewById(com.google.android.material.R.id.navigation_bar_item_icon_view).setLayoutParams(lp);
+
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -91,6 +98,7 @@ public class MenuFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_menu, container, false);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -112,7 +120,9 @@ public class MenuFragment extends Fragment {
                 return true;
             }
         });
-        ((NavigationBarView) view.findViewById(R.id.bottomnavview_bouldermenu)).setOnItemSelectedListener(item -> {
+        NavigationBarView navView = ((NavigationBarView) view.findViewById(R.id.bottomnavview_bouldermenu));
+        navView.setItemIconTintList(null);
+        navView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.reload_boulder_list_item) {
                 if (internetManager.isNetworkConnected()) {
                     repository.updateDB();
@@ -126,7 +136,11 @@ public class MenuFragment extends Fragment {
             return true;
         });
 
-    }
+        BottomNavigationItemView item = navView.findViewById(R.id.reload_boulder_list_item);
+        item.setIconSize(navView.getItemIconSize()+30);
+
+
+        }
 
 
     public void setRecyclerView(View view) {

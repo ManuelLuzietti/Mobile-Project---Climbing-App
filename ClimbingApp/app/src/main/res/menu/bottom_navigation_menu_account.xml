@@ -2,9 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="User info"
+        android:icon="@drawable/ic_baseline_person_24"
         android:id="@+id/bottomnav_info_user"/>
     <item android:title="Logbook"
+        android:icon="@drawable/ic_baseline_assignment_24"
         android:id="@+id/bottomnav_logbook_user"/>
     <item android:title="Trofei"
+        android:icon="@drawable/ic_baseline_savings_24"
         android:id="@+id/bottomnav_trofei_user"/>
 </menu>

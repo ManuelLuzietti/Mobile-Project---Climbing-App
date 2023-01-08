@@ -129,7 +129,7 @@ public interface ClimbingDAO {
             "JOIN user u on (t.user_id = u.id) ")
     LiveData<List<Boulder.BoulderUpdated>> getBoulderUpdated(int currentUserId);
 
-    @Query("select b.*, u.username as tracciatore, " +
+    @Query("select b.*, u.username as user, " +
             "(select  " +
             " CASE " +
             " when EXISTS ( SELECT * FROM completed_boulder cb where cb.boulder_id = b.id and cb.user_id = :currentUserId) then 1  " +

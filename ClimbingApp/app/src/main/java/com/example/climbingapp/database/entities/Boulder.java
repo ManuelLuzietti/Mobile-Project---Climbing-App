@@ -246,9 +246,6 @@ public class Boulder {
             return name;
         }
 
-        public String getPlaceUser() {
-            return user;
-        }
 
         public int getPlaceRepeats() {
             return repeats;

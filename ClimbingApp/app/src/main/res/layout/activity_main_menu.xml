@@ -23,6 +23,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/main_menu_drawer"
+        app:headerLayout="@layout/header_navigationview"
 
         />
 

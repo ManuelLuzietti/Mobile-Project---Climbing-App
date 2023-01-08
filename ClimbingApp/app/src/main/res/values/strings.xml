@@ -71,5 +71,5 @@
     <string name="logbookCard_gradeProposed">grade proposed:</string>
     <string name="logbookCard_numOfTries">"tries: "</string>
     <string name="logbookCard_completionDate">completed in date:</string>
-    <string name="logbookCard_ratingProposedLabel">"Rating by user: "</string>
+    <string name="logbookCard_ratingProposedLabel">"User rating: "</string>
 </resources>
