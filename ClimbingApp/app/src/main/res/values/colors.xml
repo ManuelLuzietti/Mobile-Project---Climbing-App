@@ -16,4 +16,6 @@
     <color name="secondary_text">#757575</color>
     <color name="text_icons">#ffffff</color>
     <color name="divider_color">#bdbdbd</color>
+    <color name="transparent_white">#D9FFFFFF</color>
+
 </resources>

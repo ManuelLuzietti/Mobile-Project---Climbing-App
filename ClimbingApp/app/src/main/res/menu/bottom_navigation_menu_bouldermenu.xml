@@ -4,5 +4,7 @@
     <item
         android:id="@+id/reload_boulder_list_item"
         android:icon="@drawable/ic_baseline_autorenew_24"
-        android:title="Reload" />
+        android:title="Reload"
+
+        />
 </menu>

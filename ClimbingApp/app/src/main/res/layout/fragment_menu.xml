@@ -27,11 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/bottomnavview_bouldermenu"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_bar"
-            tools:listitem="@layout/boulder_card">
+            tools:listitem="@layout/boulder_card"
+            android:layout_marginBottom="45dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -42,7 +43,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:menu="@menu/bottom_navigation_menu_bouldermenu" />
+            app:menu="@menu/bottom_navigation_menu_bouldermenu"
+            android:background="@drawable/ic_wave"
+            android:elevation="0dp"
+            android:outlineAmbientShadowColor="@android:color/transparent"
+            android:outlineSpotShadowColor="@android:color/transparent"
+            tools:targetApi="p"
+            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/white"
+            android:paddingTop="10dp"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

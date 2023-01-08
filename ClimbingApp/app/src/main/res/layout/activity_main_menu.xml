@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".MainMenuActivity"
     tools:ignore="HardcodedText"
+    android:background="@drawable/background"
     >
 
     <include layout="@layout/main_menu_center_pane"

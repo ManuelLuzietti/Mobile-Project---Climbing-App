@@ -76,6 +76,7 @@ public class MainMenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setIcon(getDrawable(R.drawable.wave_logo));
+
     }
 
     @Override
