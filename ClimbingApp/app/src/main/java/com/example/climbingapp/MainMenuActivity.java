@@ -139,7 +139,7 @@ public class MainMenuActivity extends AppCompatActivity {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Do you wanna select the holds?");
+        builder.setTitle("Do you want to  select the holds?");
         CharSequence[] options = new CharSequence[]{"Yes", "No", "Cancel"};
         builder.setItems(options, (dialogInterface, i) -> {
             if (options[i].equals("Yes")) {
@@ -170,6 +170,7 @@ public class MainMenuActivity extends AppCompatActivity {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
             fantaModel.setBitmap(bitmap);
+            fantaModel.setImageUri(uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
