@@ -4,14 +4,14 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menuFragment"
-            android:title="Boulders" />
+            android:title="@string/boulders_mainMenu" />
         <item
             android:id="@+id/addFantaBoulderFragment"
-            android:title="Add fanta-boulder"/>
+            android:title="@string/add_fanta_boulder_mainMenu"/>
         <item
             android:id="@+id/userPageFragment"
-            android:title="Account" />
+            android:title="@string/account_mainMenu" />
         <item android:id="@+id/logoutItem"
-            android:title="Logout" />
+            android:title="@string/logout_mainMenu" />
     </group>
 </menu>

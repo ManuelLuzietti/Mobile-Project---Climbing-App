@@ -28,43 +28,43 @@
         <item>third attempt</item>
         <item>more than three</item>
     </string-array>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+    <string name="action_settings" translatable="false">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="menu_home" translatable="false">Home</string>
+    <string name="menu_gallery" translatable="false">Gallery</string>
+    <string name="menu_slideshow" translatable="false">Slideshow</string>
+    <string name="title_activity_login" translatable="false">LoginActivity</string>
+    <string name="prompt_email" translatable="false">Email</string>
+    <string name="prompt_password" translatable="false">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_main_menu" translatable="false">MainMenuActivity</string>
     <string name="nav_open">open</string>
     <string name="nav_close">close</string>
-    <string name="password_field_hint_login">Password</string>
-    <string name="username_field_hint_login">Username</string>
+    <string name="password_field_hint_login" translatable="false">Password</string>
+    <string name="username_field_hint_login" translatable="false">Username</string>
     <string name="log_in_button_text">Log in</string>
     <string name="warning_message_login">Username or password not valid</string>
     <string name="register_button_text">Register</string>
-    <string name="password_field_hint_register">Password</string>
+    <string name="password_field_hint_register" translatable="false">Password</string>
     <string name="first_name_field_hint_register">First name</string>
-    <string name="username_field_hint_register">Username</string>
+    <string name="username_field_hint_register" translatable="false">Username</string>
     <string name="last_name_field_hint_register">Last name</string>
     <string name="register_button_register">Register</string>
-    <string name="uppercase_pattern">[A-Z]</string>
-    <string name="lowercase_pattern">[a-z]</string>
-    <string name="number_pattern">[0–9]</string>
+    <string name="uppercase_pattern" translatable="false">[A-Z]</string>
+    <string name="lowercase_pattern" translatable="false">[a-z]</string>
+    <string name="number_pattern" translatable="false">[0–9]</string>
     <string name="boulderCard_tracciatoreTextView">set by:</string>
     <string name="boulderCard_repeatsTextView">"repeats: "</string>
     <string name="boulderCard_gradeTextView">"grade: "</string>
@@ -72,4 +72,51 @@
     <string name="logbookCard_numOfTries">"tries: "</string>
     <string name="logbookCard_completionDate">completed in date:</string>
     <string name="logbookCard_ratingProposedLabel">"User rating: "</string>
+    <string name="tries_commentAdapter">\"# of tries: \"</string>
+    <string name="grade_commentsCard">\"grade: \"</string>
+    <string name="userNotLogged_addView">User not logged in</string>
+    <string name="nameBoulder_infoBoulder">name:</string>
+    <string name="tracciatore_infoBoulder">set by:</string>
+    <string name="noTracciatore_infoBoulder">None</string>
+    <string name="benvenuto_nadHeader">Welcome</string>
+    <string name="boulder_image_addView">Boulder Image:</string>
+    <string name="boulder_name_addView">Boulder name:</string>
+    <string name="select_grade_addVIew">Select grade:</string>
+    <string name="add_fanta_boulder_addView">Add Fanta Boulder</string>
+    <string name="boulder_already_inserted_addView">Boulder already inserted</string>
+    <string name="comment_addView">Comment:</string>
+    <string name="grade_addView">Grade</string>
+    <string name="please_select_a_grade_addView">please select a grade</string>
+    <string name="tries_addView">Tries:</string>
+    <string name="please_select_the_number_of_tries_addView">please select the number of tries</string>
+    <string name="please_insert_a_grade_addView">please insert a grade</string>
+    <string name="add_addView">add</string>
+    <string name="grade_filter">Grade</string>
+    <string name="rating_filter">Rating</string>
+    <string name="apply_filter">Apply</string>
+    <string name="name_infoBoulder">name:</string>
+    <string name="set_by_infoBoulder">set by :</string>
+    <string name="grade_infoBoulder">grade:</string>
+    <string name="repeats_infoBoulder">repeats:</string>
+    <string name="benchmark_infoBoulder" translatable="false">benchmark</string>
+    <string name="rating_infoBoulder">Rating:</string>
+    <string name="username_personalInfo" translatable="false">Username</string>
+    <string name="real_username_personalInfo" translatable="false">real_username</string>
+    <string name="first_name_personalInfo">First Name</string>
+    <string name="real_firstname_personalInfo" translatable="false">real_firstName</string>
+    <string name="lastname_personalInfo">Lastname</string>
+    <string name="real_lastname_personalInfo" translatable="false">real_Lastname</string>
+    <string name="update_personalInfo">Update</string>
+    <string name="info_bottomNavMenu">Info</string>
+    <string name="update_bottomNavMenu">update</string>
+    <string name="comments_bottomNavMenu">comments</string>
+    <string name="user_info_accountMenu">User info</string>
+    <string name="logbook_accountMenu" translatable="false">Logbook</string>
+    <string name="trofei_accountMenu" translatable="false">Trofei</string>
+    <string name="refresh_bouldermenu">refresh</string>
+    <string name="filter_boulderlistmenu">Filter</string>
+    <string name="boulders_mainMenu">Boulders</string>
+    <string name="add_fanta_boulder_mainMenu">Add fanta-boulder</string>
+    <string name="account_mainMenu" translatable="false">Account</string>
+    <string name="logout_mainMenu" translatable="false">Logout</string>
 </resources>

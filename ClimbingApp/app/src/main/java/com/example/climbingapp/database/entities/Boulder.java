@@ -94,14 +94,6 @@ public class Boulder {
 
 
     public static class BoulderUpdated extends Boulder{
-//        public int id;
-//        public String name;
-//        public String grade;
-//        @TypeConverters(com.example.climbingapp.database.TypeConverters.class)
-//        public Date date;
-//        @ColumnInfo(name = "is_official")
-//        public boolean isOfficial;
-//        public String img;
 
         public String user;
         public int rating;

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentsCardAdapter extends RecyclerView.Adapter<CommentsCardViewHolder> {
+    private final Fragment fragment;
     private List<Comment.CommentUpdated> list;
 
-    public CommentsCardAdapter(){
+    public CommentsCardAdapter(Fragment fragment){
         list = new ArrayList<>();
+        this.fragment = fragment;
     }
     @NonNull
     @Override
@@ -32,10 +35,10 @@ public class CommentsCardAdapter extends RecyclerView.Adapter<CommentsCardViewHo
     public void onBindViewHolder(@NonNull CommentsCardViewHolder holder, int position) {
         Comment.CommentUpdated item = list.get(position);
         holder.place_user_textview.setText( item.getUsername());
-        holder.place_grade_textview.setText("grade: " + item.getGrade()+" - ");
+        holder.place_grade_textview.setText(fragment.getString(R.string.grade_commentsCard) + item.getGrade() );
         holder.place_rating_ratingbar.setRating(item.getRating());
         holder.place_text_textview.setText(item.getText());
-        holder.place_tries_textview.setText("# of tries: " + String.valueOf(Utils.numOfTriesConversion(item.getNumOfTries()+1)));
+        holder.place_tries_textview.setText(fragment.getString(R.string.tries_commentAdapter) + String.valueOf(Utils.numOfTriesConversion(item.getNumOfTries()+1)));
         holder.place_date_textview.setText(item.getDate());
     }
 

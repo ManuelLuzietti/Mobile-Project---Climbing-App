@@ -192,18 +192,18 @@ public class InfoBoulderViewFragment extends Fragment {
     }
 
     private void setInfoBoulder(ViewGroup container, Boulder.BoulderUpdated selectedBoulder){
-       ((TextView) container.findViewById(R.id.name_boulder_info_fragment)).setText("name:" + selectedBoulder.name);
+       ((TextView) container.findViewById(R.id.name_boulder_info_fragment)).setText(getString(R.string.nameBoulder_infoBoulder) + selectedBoulder.name);
        repo.getTracciatoreFromBoulder(selectedBoulder.id).observe(this,user ->{
            if(user!= null){
-               ((TextView) container.findViewById(R.id.name_tracciatore_info_fragment)).setText("set by:" + user.username);
+               ((TextView) container.findViewById(R.id.name_tracciatore_info_fragment)).setText(getString(R.string.tracciatore_infoBoulder) + user.username);
 
            } else{
-               ((TextView) container.findViewById(R.id.name_tracciatore_info_fragment)).setText("set by:" + "None");
+               ((TextView) container.findViewById(R.id.name_tracciatore_info_fragment)).setText(getString(R.string.tracciatore_infoBoulder)  + getString(R.string.noTracciatore_infoBoulder));
 
            }
        });
-        ((TextView) container.findViewById(R.id.grade_boulder_info_fragment)).setText("grade:" + selectedBoulder.grade);
-        ((TextView) container.findViewById(R.id.repeats_boulder_info_fragment)).setText("repeats:" + selectedBoulder.repeats);
+        ((TextView) container.findViewById(R.id.grade_boulder_info_fragment)).setText(getString(R.string.grade_infoBoulder) + selectedBoulder.grade);
+        ((TextView) container.findViewById(R.id.repeats_boulder_info_fragment)).setText(getString(R.string.repeats_infoBoulder) + selectedBoulder.repeats);
         if(!selectedBoulder.isOfficial()){
             container.findViewById(R.id.benchmark_boulder_info_fragment).setVisibility(View.INVISIBLE);
         }

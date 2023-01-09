@@ -89,7 +89,7 @@ public class AddViewFragment extends Fragment {
         if(user_id == -1) {
             if (getView() != null) {
                 TextView warning_message = ((TextView)getView().findViewById(R.id.warning_massage_addview));
-                warning_message.setText("User not logged in");
+                warning_message.setText(R.string.userNotLogged_addView);
                 warning_message.setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.button_add_view).setOnClickListener(null);
             }

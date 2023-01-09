@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ClimbingApp</string>
+    <string name="comment_request_addview">Inserisci un commento perfavore</string>
+    <string name="grade_request_addview">Scegli un grado</string>
+    <string name="request_tries_addview">Seleziona il numero di tentativi</string>
+    <string name="action_sign_in">Accedi o registrati</string>
+    <string name="action_sign_in_short">Accedi</string>
+    <string name="welcome">Benvenuto !</string>
+    <string name="invalid_username">Username non valido</string>
+    <string name="invalid_password">Password deve avere più di 5 caratteri</string>
+    <string name="login_failed">Login Fallito</string>
+    <string name="nav_open" translatable="false">Apri</string>
+    <string name="nav_close">Chiudi</string>
+    <string name="log_in_button_text" translatable="false">Accedi</string>
+    <string name="warning_message_login">Username o Password non validi</string>
+    <string name="register_button_text" translatable="false">Registrati</string>
+    <string name="first_name_field_hint_register">Nome</string>
+    <string name="last_name_field_hint_register">Cognome</string>
+    <string name="register_button_register">Registrati</string>
+    <string name="boulderCard_tracciatoreTextView">Tracciato da:</string>
+    <string name="boulderCard_repeatsTextView">Ripetizioni:</string>
+    <string name="boulderCard_gradeTextView">Grado:</string>
+    <string name="logbookCard_gradeProposed">Grado proposto:</string>
+    <string name="logbookCard_numOfTries">Tentativi:</string>
+    <string name="logbookCard_completionDate">Completato in data:</string>
+    <string name="logbookCard_ratingProposedLabel">Voto utente:</string>
+    <string name="tries_commentAdapter"># di tentativi:</string>
+    <string name="grade_commentsCard">grado:</string>
+    <string name="userNotLogged_addView">Utente non loggato</string>
+    <string name="nameBoulder_infoBoulder">nome:</string>
+    <string name="tracciatore_infoBoulder">tracciato da:</string>
+    <string name="noTracciatore_infoBoulder">Nessuno</string>
+    <string name="grade_infoBoulder">grado:</string>
+    <string name="repeats_infoBoulder">ripetizioni:</string>
+    <string name="benvenuto_nadHeader">Benvenuto</string>
+    <string name="boulder_image_addView">Immagine boulder:</string>
+    <string name="boulder_name_addView">"Nome Boulder: "</string>
+    <string name="select_grade_addVIew">"Seleziona un grado: "</string>
+    <string name="add_fanta_boulder_addView">Aggiungi fanta-blocco:</string>
+    <string name="boulder_already_inserted_addView">Blocco già inserito</string>
+    <string name="comment_addView">Commento:</string>
+    <string name="grade_addView">Grado:</string>
+    <string name="please_select_a_grade_addView">Perfavore seleziona un grado</string>
+    <string name="tries_addView">"Tentativi: "</string>
+    <string name="please_select_the_number_of_tries_addView">Perfavore seleziona il numero di tentativi</string>
+    <string name="please_insert_a_grade_addView">Perfavore inserisci un grado</string>
+    <string name="add_addView">Aggiungi</string>
+    <string name="grade_filter">Grado</string>
+    <string name="rating_filter">Voto</string>
+    <string name="apply_filter">Applica</string>
+    <string name="name_infoBoulder">nome:</string>
+    <string name="set_by_infoBoulder">"tracciato da: "</string>
+    <string name="rating_infoBoulder">Voto:</string>
+    <string name="first_name_personalInfo">Manuel</string>
+    <string name="lastname_personalInfo">Cognome</string>
+    <string name="update_personalInfo">Aggiorna</string>
+    <string name="info_bottomNavMenu">Info</string>
+    <string name="update_bottomNavMenu">Aggiorna</string>
+    <string name="comments_bottomNavMenu">Commenti</string>
+    <string name="user_info_accountMenu">Info utente</string>
+    <string name="refresh_bouldermenu">Aggiorna</string>
+    <string name="filter_boulderlistmenu">Filtra</string>
+    <string name="boulders_mainMenu">Blocchi</string>
+    <string name="add_fanta_boulder_mainMenu">Aggiungi fanta-blocco</string>
+</resources>

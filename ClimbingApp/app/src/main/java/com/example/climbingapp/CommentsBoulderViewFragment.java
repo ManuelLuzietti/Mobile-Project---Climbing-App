@@ -46,7 +46,7 @@ public class CommentsBoulderViewFragment extends Fragment {
 
     private void setRecyclerView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.comments_recyclerview);
-        adapter = new CommentsCardAdapter();
+        adapter = new CommentsCardAdapter(this);
         recyclerView.setAdapter(adapter);
         populateCommentList();
 

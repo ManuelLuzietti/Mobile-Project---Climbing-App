@@ -3,14 +3,14 @@
     <item
         android:id="@+id/bottomnav_info"
         android:icon="@drawable/ic_baseline_info_24"
-        android:title="info" />
+        android:title="@string/info_bottomNavMenu" />
     <item
         android:id="@+id/bottomnav_update"
         android:icon="@drawable/ic_refresh"
-        android:title="update" />
+        android:title="@string/update_bottomNavMenu" />
     <item
         android:id="@+id/bottomnav_comments"
         android:icon="@drawable/ic_baseline_comment_24"
-        android:title="comments" />
+        android:title="@string/comments_bottomNavMenu" />
 
 </menu>

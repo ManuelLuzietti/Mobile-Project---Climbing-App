@@ -22,35 +22,35 @@
                 android:id="@+id/name_boulder_info_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="name:"
+                android:text="@string/name_infoBoulder"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/name_tracciatore_info_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="set by:"
+                android:text="@string/set_by_infoBoulder"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/grade_boulder_info_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="grade:"
+                android:text="@string/grade_infoBoulder"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/repeats_boulder_info_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="repeats:"
+                android:text="@string/repeats_infoBoulder"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/benchmark_boulder_info_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="benchmark"
+                android:text="@string/benchmark_infoBoulder"
                 android:textAlignment="center" />
 
 
@@ -70,7 +70,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rating:"
+                    android:text="@string/rating_infoBoulder"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"

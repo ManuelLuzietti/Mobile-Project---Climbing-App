@@ -43,13 +43,6 @@ public class SelectedBoulderViewModel extends ViewModel {
         this.maxIndex = Math.max(list.size() - 1, 0);
     }
 
-//    public List<Boulder.BoulderUpdated> getBoulderList(){
-//        return this.boulderList;
-//    }
-//    private int getIndexOfBoulderInList(Boulder.BoulderUpdated boulder){
-//        return this.boulderList.indexOf(boulder);
-//    }
-
     public void setIndex(Boulder.BoulderUpdated boulder){
         this.boulderListIndex = this.boulderList.indexOf(boulder);
     }
@@ -62,6 +55,5 @@ public class SelectedBoulderViewModel extends ViewModel {
         this.boulderListIndex = Math.max(this.boulderListIndex -1,0);
         select(boulderList.get(boulderListIndex));
     }
-
 
 }
